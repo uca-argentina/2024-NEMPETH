@@ -10,11 +10,11 @@ Class {
 { #category : #'instance creation' }
 Box class >> on: aPosition [
 	aPosition < 0 ifTrue: [ Error signal: 'Position should be positive' ].
-	^ self new initializeOf: aPosition.
+	^ self new initializeOn: aPosition.
 ]
 
 { #category : #initialization }
-Box >> initializeOf: aPosition [ 
+Box >> initializeOn: aPosition [ 
 	position := aPosition.
 ]
 
