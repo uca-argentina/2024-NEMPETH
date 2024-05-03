@@ -14,11 +14,22 @@ SpaceshipTest >> testWhenASpaceshipIsCreatedThenPositionIsZero [
 
 { #category : #tests }
 SpaceshipTest >> testWhenASpaceshipMovesOnePositionThenReturnPositionOne [
+
 	| aSpaceship |
 	aSpaceship := Spaceship create.
 	aSpaceship move: 1.
-	
-	self assert: aSpaceship position equals: 1.
+
+	self assert: aSpaceship position equals: 1
+]
+
+{ #category : #tests }
+SpaceshipTest >> testWhenASpaceshipMovesTwoAndFivePositionsThenPositionIsSeven [
+
+	| aSpaceship |
+	aSpaceship := Spaceship create.
+	aSpaceship move: 2.
+	aSpaceship move: 5.
+	self assert: aSpaceship position equals: 7
 ]
 
 { #category : #tests }
