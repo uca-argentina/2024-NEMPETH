@@ -10,9 +10,12 @@ BoxTest >> should: anErrorBlock raise: anErrorClass withMessage: anErrorMessage 
 ]
 
 { #category : #tests }
-BoxTest >> testBanana [
+BoxTest >> testWhenABoxIsInPositionOneThenReturnOne [
 
-	self should: [ Box on: -1 ] raise: Error withMessage: 'Position should be positive'.
+	| aBox |
+	aBox := Box on: 1.
+	
+	self assert: aBox position equals: 1.
 ]
 
 { #category : #tests }
@@ -22,4 +25,10 @@ BoxTest >> testWhenABoxIsInPositionZeroThenReturnZero [
 	aBox := Box on: 0.
 	
 	self assert: aBox position equals: 0.
+]
+
+{ #category : #tests }
+BoxTest >> testWhenAPositionIsNegativeThenThrowError [
+
+	self should: [ Box on: -1 ] raise: Error withMessage: 'Position should be positive'.
 ]
