@@ -2,7 +2,6 @@ Class {
 	#name : #Die,
 	#superclass : #Object,
 	#instVars : [
-		'position',
 		'faces'
 	],
 	#category : #'IngSoft2-Model'
