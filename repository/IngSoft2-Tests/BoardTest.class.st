@@ -13,7 +13,7 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessage: anErrorMessag
 BoardTest >> testBoardCreatedWithWormholeThenReturnThePositionOfWormhole [
 
 	| aBoard |
-	aBoard := Board create: 3 withWormholeOn: 1 and: 2.
+	aBoard := Board withLength: 3 withWormholeOn: 1 and: 2.
 
 	self assert: aBoard length equals: 3.
 	self assert: aBoard wormholeStart equals: 1.
@@ -60,7 +60,7 @@ BoardTest >> testWhenABoardIsCreatedWithTwoBoxesThenTheLenghtIsTwo [
 BoardTest >> testWhenBothWormholePositionsAreGreaterThanNumberOfBoxesThenThrowError [
 
 	self
-		should: [ Board create: 2 withWormholeOn: 3 and: 5 ]
+		should: [ Board withLength: 2 withWormholeOn: 3 and: 5 ]
 		raise: Error
 		withMessage: 'The wormhole should be inside the board'
 ]
@@ -69,7 +69,7 @@ BoardTest >> testWhenBothWormholePositionsAreGreaterThanNumberOfBoxesThenThrowEr
 BoardTest >> testWhenOneWormholePositionIsGreaterThanNumberOfBoxesThenThrowError [
 
 	self
-		should: [ Board create: 2 withWormholeOn: 1 and: 5 ]
+		should: [ Board withLength: 2 withWormholeOn: 1 and: 5 ]
 		raise: Error
 		withMessage: 'The wormhole should be inside the board'
 ]
@@ -78,7 +78,7 @@ BoardTest >> testWhenOneWormholePositionIsGreaterThanNumberOfBoxesThenThrowError
 BoardTest >> testWhenWormholeEndIsLessThanOneThenThrowError [
 
 	self
-		should: [ Board create: 3 withWormholeOn: 1 and: -1 ]
+		should: [ Board withLength: 3 withWormholeOn: 1 and: -1 ]
 		raise: Error
 		withMessage: 'Both positions of the wormhole should be greater than 0 (zero)'
 ]
@@ -87,7 +87,7 @@ BoardTest >> testWhenWormholeEndIsLessThanOneThenThrowError [
 BoardTest >> testWhenWormholeStartIsGreaterThanWormholeEndThenThrowError [
 
 	self
-		should: [ Board create: 3 withWormholeOn: 2 and: 1 ]
+		should: [ Board withLength: 3 withWormholeOn: 2 and: 1 ]
 		raise: Error
 		withMessage: 'The wormhole end should be greater than the wormhole start'
 ]
@@ -96,7 +96,7 @@ BoardTest >> testWhenWormholeStartIsGreaterThanWormholeEndThenThrowError [
 BoardTest >> testWhenWormholeStartIsLessThanOneThenThrowError [
 
 	self
-		should: [ Board create: 3 withWormholeOn: -1 and: 2 ]
+		should: [ Board withLength: 3 withWormholeOn: -1 and: 2 ]
 		raise: Error
 		withMessage: 'Both positions of the wormhole should be greater than 0 (zero)'
 ]

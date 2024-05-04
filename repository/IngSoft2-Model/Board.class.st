@@ -17,24 +17,6 @@ Board class >> create: aNumberOfBoxes [
 ]
 
 { #category : #'instance creation' }
-Board class >> create: aNumberOfBoxes withWormholeOn: aWormholeStart and: aWormholeEnd [
-
-	self verifyPositiveNumberOfBoxes: aNumberOfBoxes.
-	self
-		verifyNotNegativePositionOfWormhole: aWormholeStart
-		and: aWormholeEnd.
-	self
-		verify: aWormholeStart
-		and: aWormholeEnd
-		isIn: aNumberOfBoxes.
-	self verify: aWormholeStart isGreaterThan: aWormholeEnd.
-	^ self new
-		  initializeWith: aNumberOfBoxes
-		  initializeWithWormholeOn: aWormholeStart
-		  and: aWormholeEnd
-]
-
-{ #category : #'instance creation' }
 Board class >> verify: aWormholeStart and: aWormholeEnd isIn: aNumberOfBoxes [
 
 	(aWormholeStart > aNumberOfBoxes or: [ aWormholeEnd > aNumberOfBoxes ])
@@ -62,6 +44,24 @@ Board class >> verifyPositiveNumberOfBoxes: aNumberOfBoxes [
 
 	aNumberOfBoxes < 1 ifTrue: [
 		Error signal: 'Number of boxes should be greater than 0 (zero)' ]
+]
+
+{ #category : #'instance creation' }
+Board class >> withLength: aNumberOfBoxes withWormholeOn: aWormholeStart and: aWormholeEnd [
+
+	self verifyPositiveNumberOfBoxes: aNumberOfBoxes.
+	self
+		verifyNotNegativePositionOfWormhole: aWormholeStart
+		and: aWormholeEnd.
+	self
+		verify: aWormholeStart
+		and: aWormholeEnd
+		isIn: aNumberOfBoxes.
+	self verify: aWormholeStart isGreaterThan: aWormholeEnd.
+	^ self new
+		  initializeWith: aNumberOfBoxes
+		  initializeWithWormholeOn: aWormholeStart
+		  and: aWormholeEnd
 ]
 
 { #category : #initialization }
