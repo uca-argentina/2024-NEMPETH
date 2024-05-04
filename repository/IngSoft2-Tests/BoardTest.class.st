@@ -10,6 +10,17 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessage: anErrorMessag
 ]
 
 { #category : #tests }
+BoardTest >> testBoardCreatedWithWormholeThenReturnThePositionOfWormhole [
+
+	| aBoard |
+	aBoard := Board create: 3 withWormholeOn: 1 and: 2.
+
+	self assert: aBoard length equals: 3.
+	self assert: aBoard wormholeStart equals: 1.
+	self assert: aBoard wormholeEnd equals: 2.
+]
+
+{ #category : #tests }
 BoardTest >> testWhenABoardIsCreatedWithLessThanOneBoxThenThrowError [
 
 	self
@@ -43,4 +54,22 @@ BoardTest >> testWhenABoardIsCreatedWithTwoBoxesThenTheLenghtIsTwo [
 	aBoard := Board create: 2.
 
 	self assert: aBoard length equals: 2
+]
+
+{ #category : #tests }
+BoardTest >> testWhenWormholeEndIsLessThanOneThenThrowError [
+
+	self
+		should: [ Board create: 3 withWormholeOn: 1 and: -1 ]
+		raise: Error
+		withMessage: 'Both positions of the wormhole should be greater than 0 (zero)'
+]
+
+{ #category : #tests }
+BoardTest >> testWhenWormholeStartIsLessThanOneThenThrowError [
+
+	self
+		should: [ Board create: 3 withWormholeOn: -1 and: 2 ]
+		raise: Error
+		withMessage: 'Both positions of the wormhole should be greater than 0 (zero)'
 ]
