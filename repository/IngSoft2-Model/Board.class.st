@@ -20,6 +20,9 @@ Board class >> create: aNumberOfBoxes withWormholeOn: aWormholeStart and: aWormh
 	aNumberOfBoxes < 1 ifTrue: [ Error signal: 'Number of boxes should be greater than 0 (zero)' ].
 	aWormholeStart < 1 ifTrue: [ Error signal: 'Both positions of the wormhole should be greater than 0 (zero)' ].
 	aWormholeEnd < 1 ifTrue: [ Error signal: 'Both positions of the wormhole should be greater than 0 (zero)' ].
+	aWormholeStart > aNumberOfBoxes ifTrue: [ Error signal: 'The wormhole should be inside the board' ].
+	aWormholeEnd > aNumberOfBoxes ifTrue: [ Error signal: 'The wormhole should be inside the board' ].
+	aWormholeEnd < aWormholeStart ifTrue: [ Error signal: 'The wormhole end should be greater than the wormhole start' ].
 	^ self new initializeWith: aNumberOfBoxes initializeWithWormholeOn: aWormholeStart and: aWormholeEnd 
 ]
 

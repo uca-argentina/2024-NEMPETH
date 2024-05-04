@@ -57,12 +57,39 @@ BoardTest >> testWhenABoardIsCreatedWithTwoBoxesThenTheLenghtIsTwo [
 ]
 
 { #category : #tests }
+BoardTest >> testWhenBothWormholePositionsAreGreaterThanNumberOfBoxesThenThrowError [
+
+	self
+		should: [ Board create: 2 withWormholeOn: 3 and: 5 ]
+		raise: Error
+		withMessage: 'The wormhole should be inside the board'
+]
+
+{ #category : #tests }
+BoardTest >> testWhenOneWormholePositionIsGreaterThanNumberOfBoxesThenThrowError [
+
+	self
+		should: [ Board create: 2 withWormholeOn: 1 and: 5 ]
+		raise: Error
+		withMessage: 'The wormhole should be inside the board'
+]
+
+{ #category : #tests }
 BoardTest >> testWhenWormholeEndIsLessThanOneThenThrowError [
 
 	self
 		should: [ Board create: 3 withWormholeOn: 1 and: -1 ]
 		raise: Error
 		withMessage: 'Both positions of the wormhole should be greater than 0 (zero)'
+]
+
+{ #category : #tests }
+BoardTest >> testWhenWormholeStartIsGreaterThanWormholeEndThenThrowError [
+
+	self
+		should: [ Board create: 3 withWormholeOn: 2 and: 1 ]
+		raise: Error
+		withMessage: 'The wormhole end should be greater than the wormhole start'
 ]
 
 { #category : #tests }
