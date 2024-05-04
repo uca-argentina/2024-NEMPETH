@@ -10,20 +10,58 @@ Class {
 }
 
 { #category : #'instance creation' }
-Board class >> create: aNumberOfBoxes [ 
-	aNumberOfBoxes < 1 ifTrue: [ Error signal: 'Number of boxes should be greater than 0 (zero)' ].
-	^ self new initializeWith: aNumberOfBoxes.
+Board class >> create: aNumberOfBoxes [
+
+	self verifyPositiveNumberOfBoxes: aNumberOfBoxes.
+	^ self new initializeWith: aNumberOfBoxes
 ]
 
 { #category : #'instance creation' }
 Board class >> create: aNumberOfBoxes withWormholeOn: aWormholeStart and: aWormholeEnd [
-	aNumberOfBoxes < 1 ifTrue: [ Error signal: 'Number of boxes should be greater than 0 (zero)' ].
-	aWormholeStart < 1 ifTrue: [ Error signal: 'Both positions of the wormhole should be greater than 0 (zero)' ].
-	aWormholeEnd < 1 ifTrue: [ Error signal: 'Both positions of the wormhole should be greater than 0 (zero)' ].
-	aWormholeStart > aNumberOfBoxes ifTrue: [ Error signal: 'The wormhole should be inside the board' ].
-	aWormholeEnd > aNumberOfBoxes ifTrue: [ Error signal: 'The wormhole should be inside the board' ].
-	aWormholeEnd < aWormholeStart ifTrue: [ Error signal: 'The wormhole end should be greater than the wormhole start' ].
-	^ self new initializeWith: aNumberOfBoxes initializeWithWormholeOn: aWormholeStart and: aWormholeEnd 
+
+	self verifyPositiveNumberOfBoxes: aNumberOfBoxes.
+	self
+		verifyNotNegativePositionOfWormhole: aWormholeStart
+		and: aWormholeEnd.
+	self
+		verify: aWormholeStart
+		and: aWormholeEnd
+		isIn: aNumberOfBoxes.
+	self verify: aWormholeStart isGreaterThan: aWormholeEnd.
+	^ self new
+		  initializeWith: aNumberOfBoxes
+		  initializeWithWormholeOn: aWormholeStart
+		  and: aWormholeEnd
+]
+
+{ #category : #'instance creation' }
+Board class >> verify: aWormholeStart and: aWormholeEnd isIn: aNumberOfBoxes [
+
+	(aWormholeStart > aNumberOfBoxes or: [ aWormholeEnd > aNumberOfBoxes ])
+		ifTrue: [ Error signal: 'The wormhole should be inside the board' ]
+]
+
+{ #category : #'instance creation' }
+Board class >> verify: aWormholeStart isGreaterThan: aWormholeEnd [
+
+	aWormholeEnd < aWormholeStart ifTrue: [
+		Error signal:
+			'The wormhole end should be greater than the wormhole start' ]
+]
+
+{ #category : #'instance creation' }
+Board class >> verifyNotNegativePositionOfWormhole: aWormholeStart and: aWormholeEnd [
+
+	(aWormholeStart < 1 or: [ aWormholeEnd < 1 ]) ifTrue: [
+		Error signal:
+			'Both positions of the wormhole should be greater than 0 (zero)' ]
+]
+
+{ #category : #'instance creation' }
+Board class >> verifyPositiveNumberOfBoxes: aNumberOfBoxes [
+
+	aNumberOfBoxes < 1 ifTrue: [
+		Error signal: 'Number of boxes should be greater than 0 (zero)' ]
 ]
 
 { #category : #initialization }
