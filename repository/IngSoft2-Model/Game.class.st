@@ -12,8 +12,15 @@ Class {
 { #category : #'instance creation' }
 Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices [
 
-	^ self new initializeWith: aCollectionOfSpaceships and: aCollectionOfDices.
+	aCollectionOfDices  size < 1 ifTrue: [
+		Error signal: 'Game should have a least one die' ].
+
+	aCollectionOfSpaceships size < 2 ifTrue: [
+		Error signal: 'Game should have a least two spaceships' ].
 	
+	^ self new
+		  initializeWith: aCollectionOfSpaceships
+		  and: aCollectionOfDices
 ]
 
 { #category : #accessing }
