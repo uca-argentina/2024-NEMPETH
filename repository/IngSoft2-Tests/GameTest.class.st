@@ -5,15 +5,6 @@ Class {
 }
 
 { #category : #tests }
-GameTest >> testWhenAGameEndsReturnTrue [
-
-	| aGame |
-	aGame := Game new.
-	
-	self assert: aGame end.
-]
-
-{ #category : #tests }
 GameTest >> testWhenGameIsCreatedWithOneSpaceshipAndOneDieThenReturnOneAndOne [
 
 	| aGame spaceships dices aSpaceship aDie |
