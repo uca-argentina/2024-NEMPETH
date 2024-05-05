@@ -10,10 +10,24 @@ Class {
 { #category : #'instance creation' }
 Board class >> createWith: aPath [
 
-	| wormholeCounter |
-	
+	self pathValidation: aPath.
+
+	self wormholeValidation: aPath.
+
+	^ self new initializeWith: aPath
+]
+
+{ #category : #'instance creation' }
+Board class >> pathValidation: aPath [
+
 	aPath size < 1 ifTrue: [
-		Error signal: 'Path should have a least one box' ].
+		Error signal: 'Path should have a least one box' ]
+]
+
+{ #category : #'instance creation' }
+Board class >> wormholeValidation: aPath [
+
+	| wormholeCounter |
 	
 	wormholeCounter := 0.
 	aPath do: [ :aBox |
@@ -22,8 +36,6 @@ Board class >> createWith: aPath [
 
 	wormholeCounter ~= 2 ifTrue: [
 		Error signal: 'Path should have two boxes of Wormhole' ].
-
-	^ self new initializeWith: aPath
 ]
 
 { #category : #initialization }
