@@ -44,6 +44,17 @@ Game >> amountOfSpaceships [
 	^ spaceships size.
 ]
 
+{ #category : #'as yet unclassified' }
+Game >> checkWinnerOn: aBoard [ 
+	
+	|winner| 
+	spaceships reverseDo:  [ :aSpaceship |
+		(aSpaceship position >= aBoard length)
+		ifTrue: [ winner := aSpaceship ] ].
+	
+	^ winner
+]
+
 { #category : #testing }
 Game >> hasEnded: aBoard [
 
@@ -63,10 +74,15 @@ Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices [
 { #category : #'as yet unclassified' }
 Game >> playWith: aBoard [
 
-	| sum |
 	spaceships do: [ :aSpaceship |
-		sum := 0.
-		dices  do: [ :die | sum := sum + die throw ].
+		aSpaceship move: (self throwDices) ]
+]
 
-		aSpaceship move: sum ]
+{ #category : #'as yet unclassified' }
+Game >> throwDices [
+
+	| sum |
+	sum := 0.
+	dices do: [ :die | sum := sum + die throw ].
+	^ sum
 ]

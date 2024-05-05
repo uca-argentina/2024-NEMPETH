@@ -75,6 +75,35 @@ GameTest >> testWhenGameIsCreatedWithoutDicesThenThrowError [
 ]
 
 { #category : #tests }
+GameTest >> testWhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame |
+	aDie := LoadedDie of: 3.
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aBoxOne := Box new.
+	aPath := OrderedCollection
+		         with: aWormholeOne
+		         with: aWormholeTwo
+		         with: aBoxOne.
+	aBoard := Board createWith: aPath.
+	
+	aGame := Game createWith: spaceships and: dices.
+	
+	aGame playWith: aBoard.
+
+	self assert: (aGame checkWinnerOn: aBoard) equals: aSpaceship.
+	
+]
+
+{ #category : #tests }
 GameTest >> testWhenSpaceshipsMovesThreeBoxesOnAFourBoxesBoardThenGameHasNotEnded [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo|
