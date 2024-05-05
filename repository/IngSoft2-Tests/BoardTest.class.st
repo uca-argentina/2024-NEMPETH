@@ -10,6 +10,23 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessage: anErrorMessag
 ]
 
 { #category : #tests }
+BoardTest >> testBanana [
+
+	|aBoard aPath aWormhole anotherWormhole aBox anotherBox|
+	
+	aWormhole := Wormhole new.
+	anotherWormhole := Wormhole new.
+	aBox := Box new.
+	anotherBox := Box new.
+	aPath := OrderedCollection with: aWormhole with: aBox with: anotherWormhole with: anotherBox.
+	aBoard := Board createWith: aPath. 
+	
+	self assert: aBoard length equals: 4.
+	
+	
+]
+
+{ #category : #tests }
 BoardTest >> testWhenBoardDoesNotHaveBoxesThenThrowError [
 
 	|aPath|
@@ -46,6 +63,38 @@ BoardTest >> testWhenBoardHasTwoBoxThenLengthIsTwo [
 	aBox := Box new.
 	anotherBox := Box new.
 	aPath := OrderedCollection with: aBox with: anotherBox.
+	aBoard := Board createWith: aPath. 
+	
+	self assert: aBoard length equals: 2.
+	
+	
+]
+
+{ #category : #tests }
+BoardTest >> testWhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
+
+	|aBoard aPath aWormhole anotherWormhole aBox anotherBox|
+	
+	aWormhole := Wormhole new.
+	anotherWormhole := Wormhole new.
+	aBox := Box new.
+	anotherBox := Box new.
+	aPath := OrderedCollection with: aWormhole with: aBox with: anotherWormhole with: anotherBox.
+	aBoard := Board createWith: aPath. 
+	
+	self assert: aBoard length equals: 4.
+	
+	
+]
+
+{ #category : #tests }
+BoardTest >> testWhenBoardIsCreatedWithWormholeThenLengthIsTwo [
+
+	|aBoard aPath aWormhole anotherWormhole|
+	
+	aWormhole := Wormhole new.
+	anotherWormhole := Wormhole new.
+	aPath := OrderedCollection with: aWormhole with: anotherWormhole.
 	aBoard := Board createWith: aPath. 
 	
 	self assert: aBoard length equals: 2.
