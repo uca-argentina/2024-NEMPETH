@@ -111,6 +111,35 @@ GameTest >> testWhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionOne 
 ]
 
 { #category : #tests }
+GameTest >> testWhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame |
+	aDie := LoadedDie of: 3.
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aBoxOne := Box new.
+	aPath := OrderedCollection
+		         with: aWormholeOne
+		         with: aWormholeTwo
+		         with: aBoxOne.
+	aBoard := Board createWith: aPath.
+	
+	aGame := Game createWith: spaceships and: dices.
+	
+	aGame playWith: aBoard.
+
+	self assert: (aSpaceship position) equals: 3. 
+	self assert: (anotherSpaceship position) equals: 0.
+]
+
+{ #category : #tests }
 GameTest >> testWhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 
 	| spaceships dices aDie |
