@@ -10,6 +10,107 @@ GameTest >> should: anErrorBlock raise: anErrorClass withMessage: anErrorMessage
 ]
 
 { #category : #tests }
+GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFive [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo aBoxThree |
+	aDie := LoadedDie of: 3.
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aBoxOne := Box new.
+	aBoxTwo := Box new.
+	aBoxThree := Box new.
+
+	aPath := OrderedCollection
+		         with: aBoxOne
+		         with: aBoxTwo
+		         with: aWormholeOne
+		         with: aBoxThree
+		         with: aWormholeTwo.
+	aBoard := Board createWith: aPath.
+
+	aGame := Game createWith: spaceships and: dices.
+
+	aGame playWith: aBoard.
+
+	self assert: aSpaceship position equals: 5
+]
+
+{ #category : #tests }
+GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionThree [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo aBoxThree |
+	
+	aDie := LoadedDie of: 3.
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aBoxOne := Box new.
+	aBoxTwo := Box new.
+	aBoxThree := Box new.
+	
+	aPath := OrderedCollection
+					with: aBoxOne
+					with: aBoxTwo
+		         with: aWormholeOne
+		         with: aWormholeTwo
+		         with: aBoxThree.
+	aBoard := Board createWith: aPath.
+	
+	aGame := Game createWith: spaceships and: dices.
+	
+	aGame playWith: aBoard.
+
+	self assert: (aSpaceship position) equals: 4.
+]
+
+{ #category : #tests }
+GameTest >> testWhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionOne [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo aBoxThree |
+	aDie := LoadedDie of: 3.
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aBoxOne := Box new.
+	aBoxTwo := Box new.
+	aBoxThree := Box new.
+
+	aPath := OrderedCollection
+		         with: aWormholeTwo
+		         with: aBoxOne
+		         with: aWormholeOne
+		         with: aBoxTwo
+		         with: aBoxThree.
+
+	aBoard := Board createWith: aPath.
+
+	aGame := Game createWith: spaceships and: dices.
+
+	aGame playWith: aBoard.
+
+	self assert: aSpaceship position equals: 1
+]
+
+{ #category : #tests }
 GameTest >> testWhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 
 	| spaceships dices aDie |

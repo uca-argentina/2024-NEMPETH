@@ -49,3 +49,17 @@ Board >> length [
 	
 	^ path size.
 ]
+
+{ #category : #'as yet unclassified' }
+Board >> verifyBoxOf: aSpaceship [
+
+	| positionToMove |
+	positionToMove := 0.
+
+	((path at: aSpaceship position) isKindOf: Wormhole) ifTrue: [
+		path withIndexDo: [ :box :index |
+			(box isKindOf: Wormhole) & (aSpaceship position ~= index) ifTrue: [
+				positionToMove := index - aSpaceship position ] ] ].
+
+	aSpaceship move: positionToMove
+]

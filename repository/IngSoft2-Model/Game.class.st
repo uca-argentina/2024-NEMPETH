@@ -73,9 +73,11 @@ Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices [
 
 { #category : #'as yet unclassified' }
 Game >> playWith: aBoard [
-
+	
 	spaceships do: [ :aSpaceship |
-		aSpaceship move: (self throwDices) ]
+		aSpaceship move: (self throwDices). 
+		aBoard verifyBoxOf: aSpaceship.
+		]
 ]
 
 { #category : #'as yet unclassified' }
