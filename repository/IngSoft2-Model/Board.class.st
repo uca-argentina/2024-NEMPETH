@@ -2,91 +2,65 @@ Class {
 	#name : #Board,
 	#superclass : #Object,
 	#instVars : [
-		'numberOfBoxes',
-		'wormholeStart',
-		'wormholeEnd'
+		'path'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
-Board class >> create: aNumberOfBoxes [
+Board class >> createWith: aPath [
 
-	self verifyPositiveNumberOfBoxes: aNumberOfBoxes.
-	^ self new initializeWith: aNumberOfBoxes
+	self pathValidation: aPath.
+
+	self wormholeValidation: aPath.
+
+	^ self new initializeWith: aPath
 ]
 
 { #category : #'instance creation' }
-Board class >> verify: aWormholeStart and: aWormholeEnd isIn: aNumberOfBoxes [
+Board class >> pathValidation: aPath [
 
-	(aWormholeStart > aNumberOfBoxes or: [ aWormholeEnd > aNumberOfBoxes ])
-		ifTrue: [ Error signal: 'The wormhole should be inside the board' ]
+	aPath size < 1 ifTrue: [
+		Error signal: 'Path should have a least one box' ]
 ]
 
 { #category : #'instance creation' }
-Board class >> verify: aWormholeStart isGreaterThan: aWormholeEnd [
+Board class >> wormholeValidation: aPath [
 
-	aWormholeEnd < aWormholeStart ifTrue: [
-		Error signal:
-			'The wormhole end should be greater than the wormhole start' ]
-]
+	| wormholeCounter |
+	
+	wormholeCounter := 0.
+	aPath do: [ :aBox |
+		(aBox isKindOf: Wormhole) ifTrue: [
+			wormholeCounter := wormholeCounter + 1 ] ].
 
-{ #category : #'instance creation' }
-Board class >> verifyNotNegativePositionOfWormhole: aWormholeStart and: aWormholeEnd [
-
-	(aWormholeStart < 1 or: [ aWormholeEnd < 1 ]) ifTrue: [
-		Error signal:
-			'Both positions of the wormhole should be greater than 0 (zero)' ]
-]
-
-{ #category : #'instance creation' }
-Board class >> verifyPositiveNumberOfBoxes: aNumberOfBoxes [
-
-	aNumberOfBoxes < 1 ifTrue: [
-		Error signal: 'Number of boxes should be greater than 0 (zero)' ]
-]
-
-{ #category : #'instance creation' }
-Board class >> withLength: aNumberOfBoxes withWormholeOn: aWormholeStart and: aWormholeEnd [
-
-	self verifyPositiveNumberOfBoxes: aNumberOfBoxes.
-	self
-		verifyNotNegativePositionOfWormhole: aWormholeStart
-		and: aWormholeEnd.
-	self
-		verify: aWormholeStart
-		and: aWormholeEnd
-		isIn: aNumberOfBoxes.
-	self verify: aWormholeStart isGreaterThan: aWormholeEnd.
-	^ self new
-		  initializeWith: aNumberOfBoxes
-		  initializeWithWormholeOn: aWormholeStart
-		  and: aWormholeEnd
+	wormholeCounter ~= 2 ifTrue: [
+		Error signal: 'Path should have two boxes of Wormhole' ].
 ]
 
 { #category : #initialization }
-Board >> initializeWith: aNumberOfBoxes [
-	numberOfBoxes := aNumberOfBoxes.
-]
-
-{ #category : #initialization }
-Board >> initializeWith: aNumberOfBoxes initializeWithWormholeOn: aWormholeStart and: aWormholeEnd [ 
-	numberOfBoxes := aNumberOfBoxes.
-	wormholeStart := aWormholeStart.
-	wormholeEnd := aWormholeEnd.	
+Board >> initializeWith: aPath [ 
+	
+	path := aPath.
 ]
 
 { #category : #accessing }
 Board >> length [
-	^ numberOfBoxes.
+	
+	^ path size.
 ]
 
-{ #category : #accessing }
-Board >> wormholeEnd [
-	^ wormholeEnd
-]
+{ #category : #'as yet unclassified' }
+Board >> verifyBoxOf: aSpaceship [
 
-{ #category : #accessing }
-Board >> wormholeStart [
-	^ wormholeStart
+	| positionToMove |
+	positionToMove := 0.
+	
+	(aSpaceship position < self length ) ifTrue: [ 
+	((path at: aSpaceship position) isKindOf: Wormhole) ifTrue: [
+		path withIndexDo: [ :box :index |
+			(box isKindOf: Wormhole) & (aSpaceship position ~= index) ifTrue: [
+				positionToMove := index - aSpaceship position ] ] ] ].
+
+	aSpaceship move: positionToMove
 ]
