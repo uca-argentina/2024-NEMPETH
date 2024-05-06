@@ -45,10 +45,8 @@ GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFive 
 { #category : #tests }
 GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionThree [
 
-	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo aBoxThree |
+	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree |
 	
-	aDie := LoadedDie of: 3.
-	dices := OrderedCollection with: aDie.
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
 
@@ -69,9 +67,8 @@ GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionThree
 		         with: aBoxThree.
 	aBoard := Board createWith: aPath.
 	
-	aGame := Game createWith: spaceships and: dices.
-	
-	aGame playWith: aBoard.
+	aSpaceship move: 3.
+	aBoard verifyBoxOf: aSpaceship.
 
 	self assert: (aSpaceship position) equals: 4.
 ]
@@ -79,9 +76,8 @@ GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionThree
 { #category : #tests }
 GameTest >> testWhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionOne [
 
-	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo aBoxThree |
-	aDie := LoadedDie of: 3.
-	dices := OrderedCollection with: aDie.
+	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree |
+	
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
 
@@ -102,10 +98,9 @@ GameTest >> testWhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionOne 
 		         with: aBoxThree.
 
 	aBoard := Board createWith: aPath.
-
-	aGame := Game createWith: spaceships and: dices.
-
-	aGame playWith: aBoard.
+	
+	aSpaceship move: 3.
+	aBoard verifyBoxOf: aSpaceship.
 
 	self assert: aSpaceship position equals: 1
 ]
