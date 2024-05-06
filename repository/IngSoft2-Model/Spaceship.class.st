@@ -26,3 +26,9 @@ Spaceship >> move: positionsToMove [
 Spaceship >> position [
 	^ position.
 ]
+
+{ #category : #accessing }
+Spaceship >> position: anObject [
+
+	position := anObject
+]

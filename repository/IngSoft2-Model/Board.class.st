@@ -55,11 +55,12 @@ Board >> verifyBoxOf: aSpaceship [
 
 	| positionToMove |
 	positionToMove := 0.
-
+	
+	(aSpaceship position < self length ) ifTrue: [ 
 	((path at: aSpaceship position) isKindOf: Wormhole) ifTrue: [
 		path withIndexDo: [ :box :index |
 			(box isKindOf: Wormhole) & (aSpaceship position ~= index) ifTrue: [
-				positionToMove := index - aSpaceship position ] ] ].
+				positionToMove := index - aSpaceship position ] ] ] ].
 
 	aSpaceship move: positionToMove
 ]

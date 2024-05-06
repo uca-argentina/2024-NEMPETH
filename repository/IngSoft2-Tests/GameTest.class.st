@@ -140,6 +140,40 @@ GameTest >> testWhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
 ]
 
 { #category : #tests }
+GameTest >> testWhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo aBoxThree |
+	aDie := LoadedDie of: 3.
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aBoxOne := Box new.
+	aBoxTwo := Box new.
+	aBoxThree := Box new.
+
+	aPath := OrderedCollection
+		         with: aBoxOne
+					with: aWormholeOne
+		         with: aBoxTwo
+					with: aWormholeTwo
+		         with: aBoxThree.
+		         
+	aBoard := Board createWith: aPath.
+
+	aGame := Game createWith: spaceships and: dices.
+
+	aGame playWith: aBoard.
+	
+	self assert: (aGame checkPositionsIn: aBoard) equals: (OrderedCollection with: 5 with: 3).
+]
+
+{ #category : #tests }
 GameTest >> testWhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 
 	| spaceships dices aDie |
@@ -230,38 +264,6 @@ GameTest >> testWhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 	aGame playWith: aBoard.
 
 	self assert: (aGame checkWinnerOn: aBoard) equals: aSpaceship.
-	
-]
-
-{ #category : #tests }
-GameTest >> testWhenSpaceshipsMovesThreeBoxesOnAFourBoxesBoardThenGameHasNotEnded [
-
-	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo|
-	aDie := LoadedDie of: 3.
-	dices := OrderedCollection with: aDie.
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
-
-	spaceships := OrderedCollection
-		              with: aSpaceship
-		              with: anotherSpaceship.
-	aWormholeOne := Wormhole new.
-	aWormholeTwo := Wormhole new.
-	aBoxOne := Box new.
-	aBoxTwo := Box new.
-	aPath := OrderedCollection
-		         with: aWormholeOne
-		         with: aWormholeTwo
-		         with: aBoxOne
-					with: aBoxTwo.
-	
-	aBoard := Board createWith: aPath.
-	
-	aGame := Game createWith: spaceships and: dices.
-	
-	aGame playWith: aBoard.
-
-	self deny: (aGame hasEnded: aBoard). 
 	
 ]
 

@@ -45,6 +45,19 @@ Game >> amountOfSpaceships [
 ]
 
 { #category : #'as yet unclassified' }
+Game >> checkPositionsIn: aBoard [
+
+	| positions |
+	positions := OrderedCollection new.
+	spaceships do: [ :aSpaceship |
+		aSpaceship position > aBoard length
+			ifTrue: [ positions add: aBoard length ]
+			ifFalse: [ positions add: aSpaceship position ] ].
+
+	^ positions
+]
+
+{ #category : #'as yet unclassified' }
 Game >> checkWinnerOn: aBoard [ 
 	
 	|winner| 
@@ -74,17 +87,17 @@ Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices [
 Game >> playWith: aBoard [
 
 	| aSpaceship |
-	(turn > spaceships size) ifTrue: [ turn := 1 ].
-
+	turn > spaceships size ifTrue: [ turn := 1 ].
 	aSpaceship := spaceships at: turn.
 	aSpaceship move: self throwDices.
+	aBoard verifyBoxOf: aSpaceship.
 
-
-	(self hasEnded: aBoard)
-		ifTrue: [ ]
-		ifFalse: [
-			aBoard verifyBoxOf: aSpaceship.
-			turn := turn + 1 ]
+	(self hasEnded: aBoard) 
+	ifTrue: [ 
+		aSpaceship position: aBoard length.
+		^ self ].
+	turn := turn + 1.
+	self playWith: aBoard
 ]
 
 { #category : #'as yet unclassified' }
