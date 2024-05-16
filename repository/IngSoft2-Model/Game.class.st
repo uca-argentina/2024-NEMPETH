@@ -92,9 +92,8 @@ Game >> playWith: aBoard [
 	aSpaceship move: self throwDices.
 	aBoard verifyBoxOf: aSpaceship.
 
-	(self hasEnded: aBoard) 
-	ifTrue: [ 
-		aSpaceship position: aBoard length.
+	(self hasEnded: aBoard) ifTrue: [
+		aSpaceship move: aBoard length - aSpaceship position.
 		^ self ].
 	turn := turn + 1.
 	self playWith: aBoard
