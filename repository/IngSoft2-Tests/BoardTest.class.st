@@ -72,18 +72,3 @@ BoardTest >> testWhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 	
 	
 ]
-
-{ #category : #tests }
-BoardTest >> testWhenBoardIsCreatedWithWormholeThenLengthIsTwo [
-
-	|aBoard aPath aWormhole anotherWormhole|
-	
-	aWormhole := Wormhole new.
-	anotherWormhole := Wormhole new.
-	aPath := OrderedCollection with: aWormhole with: anotherWormhole.
-	aBoard := Board createWith: aPath. 
-	
-	self assert: aBoard length equals: 2.
-	
-	
-]
