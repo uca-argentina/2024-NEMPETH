@@ -34,16 +34,6 @@ Game class >> spaceshipsValidation: aCollectionOfSpaceships [
 		Error signal: 'Game should have a least two spaceships' ]
 ]
 
-{ #category : #accessing }
-Game >> amountOfDices [
-	^ dices size.
-]
-
-{ #category : #accessing }
-Game >> amountOfSpaceships [
-	^ spaceships size.
-]
-
 { #category : #'as yet unclassified' }
 Game >> checkPositionsIn: aBoard [
 
@@ -92,9 +82,8 @@ Game >> playWith: aBoard [
 	aSpaceship move: self throwDices.
 	aBoard verifyBoxOf: aSpaceship.
 
-	(self hasEnded: aBoard) 
-	ifTrue: [ 
-		aSpaceship position: aBoard length.
+	(self hasEnded: aBoard) ifTrue: [
+		aSpaceship move: aBoard length - aSpaceship position.
 		^ self ].
 	turn := turn + 1.
 	self playWith: aBoard
