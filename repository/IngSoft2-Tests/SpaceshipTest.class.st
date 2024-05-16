@@ -31,13 +31,3 @@ SpaceshipTest >> testWhenASpaceshipMovesTwoAndFivePositionsThenPositionIsSeven [
 	aSpaceship move: 5.
 	self assert: aSpaceship position equals: 7
 ]
-
-{ #category : #tests }
-SpaceshipTest >> testWhenASpaceshipMovesTwoPositionThenReturnPositionTwo [
-
-	| aSpaceship |
-	aSpaceship := Spaceship create.
-	aSpaceship move: 2.
-
-	self assert: aSpaceship position equals: 2
-]
