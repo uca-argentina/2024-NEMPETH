@@ -77,14 +77,6 @@ Game >> checkWinnerOn: aBoard [
 ]
 
 { #category : #initialization }
-Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices [
-
-	turn := 1.
-	spaceships := aCollectionOfSpaceships.
-	dices := aCollectionOfDices
-]
-
-{ #category : #initialization }
 Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
 
 	turn := 1.

@@ -119,7 +119,7 @@ GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFive 
 		         with: aWormholeTwo.
 	aBoard := Board createWith: aPath.
 
-	aGame := Game createWith: spaceships and: dices.
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 
 	aGame playWith: aBoard.
 
@@ -221,7 +221,7 @@ GameTest >> testWhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
 		         with: aBoxOne.
 	aBoard := Board createWith: aPath.
 	
-	aGame := Game createWith: spaceships and: dices.
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 
@@ -253,17 +253,17 @@ GameTest >> testWhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 	aPath := OrderedCollection
 		         with: aBoxOne
 					with: aWormholeOne
-		         with: aBoxTwo
-					with: aWormholeTwo
+					with: aWormholeTwo         
+					with: aBoxTwo
 		         with: aBoxThree.
 		         
 	aBoard := Board createWith: aPath.
 
-	aGame := Game createWith: spaceships and: dices.
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
 
 	aGame playWith: aBoard.
 	
-	self assert: (aGame checkPositionsIn: aBoard) equals: (OrderedCollection with: 5 with: 2).
+	self assert: (aGame checkPositionsIn: aBoard) equals: (OrderedCollection with: 5 with: 3).
 ]
 
 { #category : #tests }
@@ -317,7 +317,7 @@ GameTest >> testWhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 		         with: aBoxOne.
 	aBoard := Board createWith: aPath.
 	
-	aGame := Game createWith: spaceships and: dices.
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 
@@ -346,7 +346,7 @@ GameTest >> testWhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardThenGameHasEnded 
 		         with: aBoxOne.
 	aBoard := Board createWith: aPath.
 	
-	aGame := Game createWith: spaceships and: dices.
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 
