@@ -92,7 +92,7 @@ GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpa
 ]
 
 { #category : #tests }
-GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFive [
+GameTest >> test004WhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFive [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo aBoxThree |
 	aDie := LoadedDie of: 3.
@@ -127,7 +127,7 @@ GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFive 
 ]
 
 { #category : #tests }
-GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionThree [
+GameTest >> test005WhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionThree [
 
 	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree boxToCheck positionsToMoveWithEffect |
 	
@@ -164,7 +164,7 @@ GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionThree
 ]
 
 { #category : #tests }
-GameTest >> testWhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionOne [
+GameTest >> test006WhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionOne [
 
 	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree boxToCheck positionsToMoveWithEffect |
 	
@@ -201,7 +201,7 @@ GameTest >> testWhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionOne 
 ]
 
 { #category : #tests }
-GameTest >> testWhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
+GameTest >> test007WhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
@@ -230,7 +230,7 @@ GameTest >> testWhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
 ]
 
 { #category : #tests }
-GameTest >> testWhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
+GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo aBoxThree |
 	aDie := LoadedDie of: 3.
@@ -267,7 +267,7 @@ GameTest >> testWhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 ]
 
 { #category : #tests }
-GameTest >> testWhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
+GameTest >> test009WhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 
 	| spaceships dices aDie |
 	aDie := Die of: 4.
@@ -282,7 +282,7 @@ GameTest >> testWhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 ]
 
 { #category : #tests }
-GameTest >> testWhenGameIsCreatedWithoutDicesThenThrowError [
+GameTest >> test010WhenGameIsCreatedWithoutDicesThenThrowError [
 
 	| spaceships dices aSpaceship |
 	aSpaceship := Spaceship create.
@@ -297,7 +297,7 @@ GameTest >> testWhenGameIsCreatedWithoutDicesThenThrowError [
 ]
 
 { #category : #tests }
-GameTest >> testWhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
+GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
@@ -326,7 +326,7 @@ GameTest >> testWhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 ]
 
 { #category : #tests }
-GameTest >> testWhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardThenGameHasEnded [
+GameTest >> test013WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardThenGameHasEnded [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
