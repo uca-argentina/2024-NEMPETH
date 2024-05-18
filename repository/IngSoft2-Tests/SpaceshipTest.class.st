@@ -9,7 +9,7 @@ SpaceshipTest >> testWhenASpaceshipIsCreatedThenPositionIsZero [
 	| aSpaceship |
 	aSpaceship := Spaceship create.
 	
-	self assert: aSpaceship position equals: 0.
+	self assert: aSpaceship position equals: 1.
 ]
 
 { #category : #tests }
@@ -19,7 +19,7 @@ SpaceshipTest >> testWhenASpaceshipMovesOnePositionThenReturnPositionOne [
 	aSpaceship := Spaceship create.
 	aSpaceship move: 1.
 
-	self assert: aSpaceship position equals: 1
+	self assert: aSpaceship position equals: 2
 ]
 
 { #category : #tests }
@@ -29,5 +29,5 @@ SpaceshipTest >> testWhenASpaceshipMovesTwoAndFivePositionsThenPositionIsSeven [
 	aSpaceship := Spaceship create.
 	aSpaceship move: 2.
 	aSpaceship move: 5.
-	self assert: aSpaceship position equals: 7
+	self assert: aSpaceship position equals: 8
 ]

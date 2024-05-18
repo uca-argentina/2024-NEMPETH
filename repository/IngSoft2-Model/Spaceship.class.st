@@ -2,7 +2,9 @@ Class {
 	#name : #Spaceship,
 	#superclass : #Object,
 	#instVars : [
-		'position'
+		'position',
+		'shield',
+		'lap'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -16,7 +18,9 @@ Spaceship class >> create [
 { #category : #initialization }
 Spaceship >> initializeOn [
 
-	position := 0
+	position := 1.
+	shield := 3.
+	lap := 1
 ]
 
 { #category : #accessing }
