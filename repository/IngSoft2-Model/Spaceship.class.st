@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'position',
 		'shield',
-		'lap'
+		'lapsCompleted'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -15,12 +15,22 @@ Spaceship class >> create [
 	^ self new initializeOn
 ]
 
+{ #category : #adding }
+Spaceship >> addLap [
+	lapsCompleted := lapsCompleted + 1
+]
+
 { #category : #initialization }
 Spaceship >> initializeOn [
 
 	position := 1.
 	shield := 3.
-	lap := 1
+	lapsCompleted := 0
+]
+
+{ #category : #accessing }
+Spaceship >> lapsCompleted [
+	^ lapsCompleted
 ]
 
 { #category : #accessing }

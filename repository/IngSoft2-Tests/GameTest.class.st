@@ -10,6 +10,88 @@ GameTest >> should: anErrorBlock raise: anErrorClass withMessage: anErrorMessage
 ]
 
 { #category : #tests }
+GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWinThenTheSpaceshipWins [
+
+| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aWormholeOne aWormholeTwo aPath aBoard aGame |
+	aDie := LoadedDie of: 3.
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+	
+	aBoxOne := Box new.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aPath := OrderedCollection
+			      with: aWormholeOne
+		         with: aWormholeTwo
+		         with: aBoxOne.
+	aBoard := Board createWith: aPath.
+	
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	
+	aGame playWith: aBoard.
+
+	self assert: (aGame checkWinnerOn: aBoard) equals: aSpaceship. 
+	
+]
+
+{ #category : #tests }
+GameTest >> test002WhenGameIsCreatedWithLessThanOneLapToWinThenThrowError [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship |
+	aDie := Die of: 4.
+	dices := OrderedCollection with: aDie.
+
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+
+	self
+		should: [ Game createWith: spaceships and: dices andLapsToWin: 0 ]
+		raise: Error
+		withMessage: 'Laps to win should be greater than zero'
+]
+
+{ #category : #tests }
+GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpaceshipWins [
+
+| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame |
+	aDie := LoadedDie of: 3.
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+	
+	aBoxOne := Box new.
+	aBoxTwo := Box new.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aPath := OrderedCollection
+			      with: aWormholeOne
+		         with: aWormholeTwo
+		         with: aBoxOne
+				   with: aBoxTwo.
+	aBoard := Board createWith: aPath.
+	
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
+	
+	aGame playWith: aBoard.
+
+	self assert: (aGame checkWinnerOn: aBoard) equals: aSpaceship. 
+	
+]
+
+{ #category : #tests }
 GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFive [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo aBoxThree |

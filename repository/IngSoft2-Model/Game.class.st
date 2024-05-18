@@ -4,10 +4,18 @@ Class {
 	#instVars : [
 		'turn',
 		'spaceships',
-		'dices'
+		'dices',
+		'lapsToWin'
 	],
 	#category : #'IngSoft2-Model'
 }
+
+{ #category : #'instance creation' }
+Game class >> amountOfLapsToWinValidation: amountOfLapsToWin [
+
+	amountOfLapsToWin < 1 ifTrue: [
+		Error signal: 'Laps to win should be greater than zero' ]
+]
 
 { #category : #'instance creation' }
 Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices [
@@ -18,6 +26,19 @@ Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices [
 	^ self new
 		  initializeWith: aCollectionOfSpaceships
 		  and: aCollectionOfDices
+]
+
+{ #category : #'instance creation' }
+Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
+
+	self dicesValidation: aCollectionOfDices.
+	self spaceshipsValidation: aCollectionOfSpaceships.
+	self amountOfLapsToWinValidation: amountOfLapsToWin.
+
+	^ self new
+		  initializeWith: aCollectionOfSpaceships
+		  and: aCollectionOfDices
+		  andLapsToWin: amountOfLapsToWin
 ]
 
 { #category : #'instance creation' }
@@ -51,7 +72,7 @@ Game >> checkPositionsIn: aBoard [
 Game >> checkWinnerOn: aBoard [
 
 	^ spaceships
-		  detect: [ :aSpaceship | aSpaceship position >= aBoard length ]
+		  detect: [ :aSpaceship | aSpaceship lapsCompleted == lapsToWin ]
 		  ifNone: [ nil ]
 ]
 
@@ -63,6 +84,15 @@ Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices [
 	dices := aCollectionOfDices
 ]
 
+{ #category : #initialization }
+Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
+
+	turn := 1.
+	spaceships := aCollectionOfSpaceships.
+	dices := aCollectionOfDices.
+	lapsToWin := amountOfLapsToWin
+]
+
 { #category : #'as yet unclassified' }
 Game >> playWith: aBoard [
 
@@ -71,7 +101,8 @@ Game >> playWith: aBoard [
 	aSpaceship := spaceships at: turn.
 	aSpaceship move: self throwDices.
 
-
+	aBoard normalize: aSpaceship.
+	
 	(self checkWinnerOn: aBoard) ifNotNil: [
 		aSpaceship move: aBoard length - aSpaceship position.
 		^ self ].
