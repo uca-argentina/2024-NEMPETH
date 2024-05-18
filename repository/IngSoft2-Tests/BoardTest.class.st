@@ -63,12 +63,15 @@ BoardTest >> testWhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 	
 	aWormhole := Wormhole new.
 	anotherWormhole := Wormhole new.
+	
+	aWormhole associateWith: anotherWormhole.
+	anotherWormhole associateWith: aWormhole.
+	
 	aBox := Box new.
 	anotherBox := Box new.
 	aPath := OrderedCollection with: aWormhole with: aBox with: anotherWormhole with: anotherBox.
 	aBoard := Board createWith: aPath. 
 	
 	self assert: aBoard length equals: 4.
-	
-	
+	self assert: (aPath at: 1) position equals: 1.
 ]

@@ -23,6 +23,8 @@ GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFive 
 		              with: anotherSpaceship.
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
+	aWormholeOne associateWith: aWormholeTwo.
+	aWormholeTwo associateWith: aWormholeOne.
 	aBoxOne := Box new.
 	aBoxTwo := Box new.
 	aBoxThree := Box new.
@@ -151,7 +153,10 @@ GameTest >> testWhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 	aBoxOne := Box new.
 	aBoxTwo := Box new.
 	aBoxThree := Box new.
-
+	
+	aWormholeOne associateWith: aWormholeTwo.
+	aWormholeTwo associateWith: aWormholeOne.
+	
 	aPath := OrderedCollection
 		         with: aBoxOne
 					with: aWormholeOne
