@@ -38,10 +38,18 @@ Board class >> wormholeValidation: aPath [
 		Error signal: 'Path should have two boxes of Wormhole' ].
 ]
 
+{ #category : #'as yet unclassified' }
+Board >> findBoxIn: aPosition [
+	^ path at: aPosition.
+]
+
 { #category : #initialization }
 Board >> initializeWith: aPath [ 
 	
 	path := aPath.
+	
+	path withIndexDo: [ :box :index |
+			box position: index ]
 ]
 
 { #category : #accessing }
