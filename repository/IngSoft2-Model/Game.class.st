@@ -48,20 +48,9 @@ Game >> checkPositionsIn: aBoard [
 ]
 
 { #category : #'as yet unclassified' }
-Game >> checkWinnerOn: aBoard [ 
-	
-	|winner| 
-	spaceships do:  [ :aSpaceship |
-		(aSpaceship position >= aBoard length)
-		ifTrue: [ winner := aSpaceship ] ].
-	
-	^ winner
-]
+Game >> checkWinnerOn: aBoard [
+    ^ spaceships detect: [ :aSpaceship | aSpaceship position >= aBoard length ] ifNone: [ nil ]
 
-{ #category : #testing }
-Game >> hasEnded: aBoard [
-
-	^ (spaceships at: turn) position >= aBoard length
 ]
 
 { #category : #initialization }

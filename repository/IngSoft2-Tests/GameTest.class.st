@@ -257,6 +257,6 @@ GameTest >> testWhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardThenGameHasEnded 
 	
 	aGame playWith: aBoard.
 
-	self assert: (aGame hasEnded: aBoard). 
+	self assert: (aGame checkWinnerOn: aBoard) equals: aSpaceship. 
 	
 ]
