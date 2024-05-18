@@ -48,20 +48,11 @@ Game >> checkPositionsIn: aBoard [
 ]
 
 { #category : #'as yet unclassified' }
-Game >> checkWinnerOn: aBoard [ 
-	
-	|winner| 
-	spaceships do:  [ :aSpaceship |
-		(aSpaceship position >= aBoard length)
-		ifTrue: [ winner := aSpaceship ] ].
-	
-	^ winner
-]
+Game >> checkWinnerOn: aBoard [
 
-{ #category : #testing }
-Game >> hasEnded: aBoard [
-
-	^ (spaceships at: turn) position >= aBoard length
+	^ spaceships
+		  detect: [ :aSpaceship | aSpaceship position >= aBoard length ]
+		  ifNone: [ nil ]
 ]
 
 { #category : #initialization }
@@ -69,8 +60,7 @@ Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices [
 
 	turn := 1.
 	spaceships := aCollectionOfSpaceships.
-	dices := aCollectionOfDices.
-
+	dices := aCollectionOfDices
 ]
 
 { #category : #'as yet unclassified' }
@@ -80,16 +70,16 @@ Game >> playWith: aBoard [
 	turn > spaceships size ifTrue: [ turn := 1 ].
 	aSpaceship := spaceships at: turn.
 	aSpaceship move: self throwDices.
-	"aBoard verifyBoxOf: aSpaceship."
-	
-	(self hasEnded: aBoard) ifTrue: [
+
+
+	(self checkWinnerOn: aBoard) ifNotNil: [
 		aSpaceship move: aBoard length - aSpaceship position.
 		^ self ].
-	
-	boxToCheck := aBoard findBoxIn: (aSpaceship position).
+
+	boxToCheck := aBoard findBoxIn: aSpaceship position.
 	positionsToMoveWithEffect := boxToCheck applyEffect.
 	aSpaceship move: positionsToMoveWithEffect.
-	
+
 	turn := turn + 1.
 	self playWith: aBoard
 ]

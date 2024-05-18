@@ -28,47 +28,31 @@ Board class >> pathValidation: aPath [
 Board class >> wormholeValidation: aPath [
 
 	| wormholeCounter |
-	
 	wormholeCounter := 0.
 	aPath do: [ :aBox |
-		(aBox isKindOf: Wormhole) ifTrue: [
+		(aBox isWormhole) ifTrue: [
 			wormholeCounter := wormholeCounter + 1 ] ].
 
 	wormholeCounter ~= 2 ifTrue: [
-		Error signal: 'Path should have two boxes of Wormhole' ].
+		Error signal: 'Path should have two boxes of Wormhole' ]
 ]
 
 { #category : #'as yet unclassified' }
 Board >> findBoxIn: aPosition [
-	^ path at: aPosition.
+
+	^ path at: aPosition
 ]
 
 { #category : #initialization }
-Board >> initializeWith: aPath [ 
-	
+Board >> initializeWith: aPath [
+
 	path := aPath.
-	
-	path withIndexDo: [ :box :index |
-			box position: index ]
+
+	path withIndexDo: [ :box :index | box position: index ]
 ]
 
 { #category : #accessing }
 Board >> length [
 	
 	^ path size.
-]
-
-{ #category : #'as yet unclassified' }
-Board >> verifyBoxOf: aSpaceship [
-
-	| positionToMove |
-	positionToMove := 0.
-	
-	(aSpaceship position < self length ) ifTrue: [ 
-	((path at: aSpaceship position) isKindOf: Wormhole) ifTrue: [
-		path withIndexDo: [ :box :index |
-			(box isKindOf: Wormhole) & (aSpaceship position ~= index) ifTrue: [
-				positionToMove := index - aSpaceship position ] ] ] ].
-
-	aSpaceship move: positionToMove
 ]
