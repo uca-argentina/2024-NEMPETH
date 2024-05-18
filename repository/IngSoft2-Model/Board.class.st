@@ -28,14 +28,13 @@ Board class >> pathValidation: aPath [
 Board class >> wormholeValidation: aPath [
 
 	| wormholeCounter |
-	
 	wormholeCounter := 0.
 	aPath do: [ :aBox |
-		(aBox isKindOf: Wormhole) ifTrue: [
+		(aBox isWormhole) ifTrue: [
 			wormholeCounter := wormholeCounter + 1 ] ].
 
 	wormholeCounter ~= 2 ifTrue: [
-		Error signal: 'Path should have two boxes of Wormhole' ].
+		Error signal: 'Path should have two boxes of Wormhole' ]
 ]
 
 { #category : #'as yet unclassified' }

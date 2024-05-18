@@ -18,3 +18,8 @@ Wormhole >> associateWith: aWormhole [
 
 	wormholeEnd := aWormhole
 ]
+
+{ #category : #'as yet unclassified' }
+Wormhole >> isWormhole [
+	^ true
+]

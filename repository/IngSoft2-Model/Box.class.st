@@ -14,6 +14,11 @@ Box >> applyEffect [
 ]
 
 { #category : #accessing }
+Box >> isWormhole [
+	^ false
+]
+
+{ #category : #accessing }
 Box >> position [
 
 	^ position
