@@ -9,15 +9,18 @@ Class {
 
 { #category : #accessing }
 Box >> applyEffect [
-	^ 0.
+
+	^ 0
 ]
 
 { #category : #accessing }
 Box >> position [
+
 	^ position
 ]
 
 { #category : #accessing }
 Box >> position: aPosition [
-	position := aPosition.
+
+	position := aPosition
 ]

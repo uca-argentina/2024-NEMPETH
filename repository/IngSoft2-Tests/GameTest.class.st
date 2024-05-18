@@ -47,7 +47,7 @@ GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFive 
 { #category : #tests }
 GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionThree [
 
-	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree |
+	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree boxToCheck positionsToMoveWithEffect |
 	
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
@@ -61,6 +61,9 @@ GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionThree
 	aBoxTwo := Box new.
 	aBoxThree := Box new.
 	
+	aWormholeOne associateWith: aWormholeTwo.
+	aWormholeTwo associateWith: aWormholeOne.
+	
 	aPath := OrderedCollection
 					with: aBoxOne
 					with: aBoxTwo
@@ -70,7 +73,10 @@ GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionThree
 	aBoard := Board createWith: aPath.
 	
 	aSpaceship move: 3.
-	aBoard verifyBoxOf: aSpaceship.
+	boxToCheck := aBoard findBoxIn: (aSpaceship position).
+	positionsToMoveWithEffect := boxToCheck applyEffect.
+	aSpaceship move: positionsToMoveWithEffect.
+	
 
 	self assert: (aSpaceship position) equals: 4.
 ]

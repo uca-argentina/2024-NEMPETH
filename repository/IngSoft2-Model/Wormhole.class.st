@@ -9,10 +9,12 @@ Class {
 
 { #category : #accessing }
 Wormhole >> applyEffect [
-	^ (wormholeEnd position) - (self position).
+
+	^ wormholeEnd position - self position
 ]
 
 { #category : #'as yet unclassified' }
-Wormhole >> associateWith: aWormhole [ 
-	wormholeEnd := aWormhole.
+Wormhole >> associateWith: aWormhole [
+
+	wormholeEnd := aWormhole
 ]

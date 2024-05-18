@@ -8,9 +8,11 @@ Class {
 }
 
 { #category : #'instance creation' }
-Die class >> of: aNumberOfFaces [ 
-	aNumberOfFaces < 3 ifTrue: [ Error signal: 'Faces should be more than 2' ].
-	^ self new initializeOf: aNumberOfFaces.
+Die class >> of: aNumberOfFaces [
+
+	aNumberOfFaces < 3 ifTrue: [
+		Error signal: 'Faces should be more than 2' ].
+	^ self new initializeOf: aNumberOfFaces
 ]
 
 { #category : #initialization }
@@ -20,5 +22,6 @@ Die >> initializeOf: aNumberOfFaces [
 
 { #category : #accessing }
 Die >> throw [
-	^ faces atRandom. 
+
+	^ faces atRandom
 ]

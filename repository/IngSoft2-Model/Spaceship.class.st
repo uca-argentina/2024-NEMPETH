@@ -9,20 +9,24 @@ Class {
 
 { #category : #operations }
 Spaceship class >> create [
-	^ self new initializeOn.
+
+	^ self new initializeOn
 ]
 
 { #category : #initialization }
 Spaceship >> initializeOn [
-	position := 0.
+
+	position := 0
 ]
 
 { #category : #accessing }
-Spaceship >> move: positionsToMove [ 
-	position := position + positionsToMove.
+Spaceship >> move: positionsToMove [
+
+	position := position + positionsToMove
 ]
 
 { #category : #accessing }
 Spaceship >> position [
-	^ position.
+
+	^ position
 ]
