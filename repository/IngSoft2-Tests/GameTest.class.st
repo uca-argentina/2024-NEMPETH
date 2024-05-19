@@ -14,6 +14,7 @@ GameTest >> testWhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFive 
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo aBoxThree |
 	aDie := LoadedDie of: 3.
+	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
@@ -123,6 +124,7 @@ GameTest >> testWhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
+	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
@@ -152,6 +154,7 @@ GameTest >> testWhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo aBoxThree |
 	aDie := LoadedDie of: 3.
+	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
@@ -219,6 +222,7 @@ GameTest >> testWhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
+	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
@@ -248,6 +252,7 @@ GameTest >> testWhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardThenGameHasEnded 
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
+	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
