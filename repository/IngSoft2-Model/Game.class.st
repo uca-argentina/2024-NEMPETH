@@ -132,9 +132,9 @@ Game >> verifyBattleAt: position [
 
 	diceRolls first > diceRolls second
 		ifTrue: [
-			spaceshipsFight first move: -1 * position.
+			spaceshipsFight first move: (-1 * position) + 1.
 			spaceshipsFight first updateShield: -1 ]
 		ifFalse: [
-			spaceshipsFight second move: -1 * position.
+			spaceshipsFight second move: (-1 * position) + 1.
 			spaceshipsFight second updateShield: -1 ]
 ]

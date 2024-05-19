@@ -355,7 +355,7 @@ GameTest >> test013WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardThenGameHasEnd
 ]
 
 { #category : #tests }
-GameTest >> test014WhenSpaceshipMoveOnePositionThenHisShieldDontBeAffected [
+GameTest >> test014WhenSpaceshipMoveToAPositionWhereThereIsNotAnotherSpaceshipThenTheShieldIsNotAffected [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
@@ -389,7 +389,7 @@ GameTest >> test014WhenSpaceshipMoveOnePositionThenHisShieldDontBeAffected [
 ]
 
 { #category : #tests }
-GameTest >> test015WhenBothSpaceshipsAreInTheSameBoxThenTheSecondSpaceshipLoseOneShieldAndRestartPositionToZero [
+GameTest >> test015WhenBothSpaceshipsAreInTheSameBoxThenTheSecondSpaceshipLoseOneShieldAndRestartPositionOne [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
@@ -416,11 +416,13 @@ GameTest >> test015WhenBothSpaceshipsAreInTheSameBoxThenTheSecondSpaceshipLoseOn
 	aBoard := Board createWith: aPath.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
+	aSpaceship move: 1.
+	anotherSpaceship move: 1.
 	aGame verifyBattleAt: aSpaceship position.
 	
 	self assert: aSpaceship shield equals: 3.
-	self assert: aSpaceship position equals: 1.
-	self assert: anotherSpaceship shield equals: 3.
+	self assert: aSpaceship position equals: 2.
+	self assert: anotherSpaceship shield equals: 2.
 	self assert: anotherSpaceship position equals: 1.
 ]
 
