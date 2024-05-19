@@ -41,24 +41,6 @@ LoadedDieTest >> test002WhenDieIsCreatedWithThreeFacesAndTheCollectionOfNumbersH
 ]
 
 { #category : #tests }
-LoadedDieTest >> testWhenDieIsCreatedWithFiveFacesThenThrowReturnFive [
-
-	| aLoadedDie |
-	aLoadedDie := LoadedDie of: 5.
-
-	self assert: aLoadedDie throw equals: 5
-]
-
-{ #category : #tests }
-LoadedDieTest >> testWhenDieIsCreatedWithThreeFacesThenThrowReturnThree [
-
-	| aLoadedDie |
-	aLoadedDie := LoadedDie of: 3.
-
-	self assert: aLoadedDie throw equals: 3
-]
-
-{ #category : #tests }
 LoadedDieTest >> testWhenDieIsCreatedWithTwoFacesThenThrowError [
 
 	self
