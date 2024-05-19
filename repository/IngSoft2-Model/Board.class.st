@@ -56,3 +56,11 @@ Board >> length [
 	
 	^ path size.
 ]
+
+{ #category : #private }
+Board >> normalize: aSpaceship [
+
+	aSpaceship position > self length ifFalse: [ ^ self ].
+	aSpaceship move: -1 * self length.
+	aSpaceship addLap
+]

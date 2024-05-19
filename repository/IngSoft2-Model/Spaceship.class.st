@@ -2,7 +2,9 @@ Class {
 	#name : #Spaceship,
 	#superclass : #Object,
 	#instVars : [
-		'position'
+		'position',
+		'shield',
+		'lapsCompleted'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -13,10 +15,22 @@ Spaceship class >> create [
 	^ self new initializeOn
 ]
 
+{ #category : #adding }
+Spaceship >> addLap [
+	lapsCompleted := lapsCompleted + 1
+]
+
 { #category : #initialization }
 Spaceship >> initializeOn [
 
-	position := 0
+	position := 1.
+	shield := 3.
+	lapsCompleted := 0
+]
+
+{ #category : #accessing }
+Spaceship >> lapsCompleted [
+	^ lapsCompleted
 ]
 
 { #category : #accessing }
@@ -29,4 +43,14 @@ Spaceship >> move: positionsToMove [
 Spaceship >> position [
 
 	^ position
+]
+
+{ #category : #accessing }
+Spaceship >> shield [
+	^ shield
+]
+
+{ #category : #'as yet unclassified' }
+Spaceship >> updateShield: amount [
+	shield := shield + amount.
 ]

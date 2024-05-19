@@ -4,10 +4,18 @@ Class {
 	#instVars : [
 		'turn',
 		'spaceships',
-		'dices'
+		'dices',
+		'lapsToWin'
 	],
 	#category : #'IngSoft2-Model'
 }
+
+{ #category : #'instance creation' }
+Game class >> amountOfLapsToWinValidation: amountOfLapsToWin [
+
+	amountOfLapsToWin < 1 ifTrue: [
+		Error signal: 'Laps to win should be greater than zero' ]
+]
 
 { #category : #'instance creation' }
 Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices [
@@ -18,6 +26,19 @@ Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices [
 	^ self new
 		  initializeWith: aCollectionOfSpaceships
 		  and: aCollectionOfDices
+]
+
+{ #category : #'instance creation' }
+Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
+
+	self dicesValidation: aCollectionOfDices.
+	self spaceshipsValidation: aCollectionOfSpaceships.
+	self amountOfLapsToWinValidation: amountOfLapsToWin.
+
+	^ self new
+		  initializeWith: aCollectionOfSpaceships
+		  and: aCollectionOfDices
+		  andLapsToWin: amountOfLapsToWin
 ]
 
 { #category : #'instance creation' }
@@ -51,16 +72,17 @@ Game >> checkPositionsIn: aBoard [
 Game >> checkWinnerOn: aBoard [
 
 	^ spaceships
-		  detect: [ :aSpaceship | aSpaceship position >= aBoard length ]
+		  detect: [ :aSpaceship | aSpaceship lapsCompleted == lapsToWin ]
 		  ifNone: [ nil ]
 ]
 
 { #category : #initialization }
-Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices [
+Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
 
 	turn := 1.
 	spaceships := aCollectionOfSpaceships.
-	dices := aCollectionOfDices
+	dices := aCollectionOfDices.
+	lapsToWin := amountOfLapsToWin
 ]
 
 { #category : #'as yet unclassified' }
@@ -71,7 +93,8 @@ Game >> playWith: aBoard [
 	aSpaceship := spaceships at: turn.
 	aSpaceship move: self throwDices.
 
-
+	aBoard normalize: aSpaceship.
+	
 	(self checkWinnerOn: aBoard) ifNotNil: [
 		aSpaceship move: aBoard length - aSpaceship position.
 		^ self ].
@@ -91,4 +114,27 @@ Game >> throwDices [
 	sum := 0.
 	dices do: [ :die | sum := sum + die throw ].
 	^ sum
+]
+
+{ #category : #accessing }
+Game >> verifyBattleAt: position [
+
+	| spaceshipsFight diceRolls |
+	
+	position = 1 ifTrue: [ ^ self ].
+
+	spaceshipsFight := spaceships select: [ :spaceship |
+		                   spaceship position = position ].
+
+	spaceshipsFight size = 2 ifFalse: [ ^ self ].
+
+	diceRolls := spaceshipsFight collect: [ :spaceship | self throwDices ].
+
+	diceRolls first > diceRolls second
+		ifTrue: [
+			spaceshipsFight first move: (-1 * position) + 1.
+			spaceshipsFight first updateShield: -1 ]
+		ifFalse: [
+			spaceshipsFight second move: (-1 * position) + 1.
+			spaceshipsFight second updateShield: -1 ]
 ]
