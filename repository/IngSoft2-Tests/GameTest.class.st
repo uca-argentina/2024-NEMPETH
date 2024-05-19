@@ -353,3 +353,109 @@ GameTest >> test013WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardThenGameHasEnd
 	self assert: (aGame checkWinnerOn: aBoard) equals: aSpaceship. 
 	
 ]
+
+{ #category : #tests }
+GameTest >> test014WhenSpaceshipMoveOnePositionThenHisShieldDontBeAffected [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
+	aDie := LoadedDie of: 3.
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+
+	aBoxOne := Box new.
+	aBoxTwo := Box new.
+	aBoxThree := Box new.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aPath := OrderedCollection
+					with: aBoxOne
+					with: aBoxTwo
+		         with: aWormholeOne
+		         with: aWormholeTwo
+					with: aBoxThree.
+					 
+	aBoard := Board createWith: aPath.
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	
+	aSpaceship move: 1.
+	aGame verifyBattleAt: aSpaceship position.
+	
+	self assert: aSpaceship shield equals: 3.
+]
+
+{ #category : #tests }
+GameTest >> test015WhenBothSpaceshipsAreInTheSameBoxThenTheSecondSpaceshipLoseOneShieldAndRestartPositionToZero [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
+	aDie := LoadedDie of: 3.
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+
+	aBoxOne := Box new.
+	aBoxTwo := Box new.
+	aBoxThree := Box new.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aPath := OrderedCollection
+					with: aBoxOne
+					with: aBoxTwo
+		         with: aWormholeOne
+		         with: aWormholeTwo
+					with: aBoxThree.
+					 
+	aBoard := Board createWith: aPath.
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	
+	aGame verifyBattleAt: aSpaceship position.
+	
+	self assert: aSpaceship shield equals: 3.
+	self assert: aSpaceship position equals: 1.
+	self assert: anotherSpaceship shield equals: 3.
+	self assert: anotherSpaceship position equals: 1.
+]
+
+{ #category : #tests }
+GameTest >> test016WhenBothSpaceshipsAreInPositionOneThenTheSpaceshipsAreNotAffectedThisIsASafeZone [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
+	aDie := LoadedDie of: 3.
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+
+	aBoxOne := Box new.
+	aBoxTwo := Box new.
+	aBoxThree := Box new.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aPath := OrderedCollection
+					with: aBoxOne
+					with: aBoxTwo
+		         with: aWormholeOne
+		         with: aWormholeTwo
+					with: aBoxThree.
+					 
+	aBoard := Board createWith: aPath.
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	
+	aGame verifyBattleAt: aSpaceship position.
+	
+	self assert: aSpaceship shield equals: 3.
+	self assert: aSpaceship position equals: 1.
+	self assert: anotherSpaceship shield equals: 3.
+	self assert: anotherSpaceship position equals: 1.
+]

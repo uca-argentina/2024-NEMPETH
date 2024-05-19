@@ -115,3 +115,26 @@ Game >> throwDices [
 	dices do: [ :die | sum := sum + die throw ].
 	^ sum
 ]
+
+{ #category : #accessing }
+Game >> verifyBattleAt: position [
+
+	| spaceshipsFight diceRolls |
+	
+	position = 1 ifTrue: [ ^ self ].
+
+	spaceshipsFight := spaceships select: [ :spaceship |
+		                   spaceship position = position ].
+
+	spaceshipsFight size = 2 ifFalse: [ ^ self ].
+
+	diceRolls := spaceshipsFight collect: [ :spaceship | self throwDices ].
+
+	diceRolls first > diceRolls second
+		ifTrue: [
+			spaceshipsFight first move: -1 * position.
+			spaceshipsFight first updateShield: -1 ]
+		ifFalse: [
+			spaceshipsFight second move: -1 * position.
+			spaceshipsFight second updateShield: -1 ]
+]

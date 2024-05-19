@@ -44,3 +44,13 @@ Spaceship >> position [
 
 	^ position
 ]
+
+{ #category : #accessing }
+Spaceship >> shield [
+	^ shield
+]
+
+{ #category : #'as yet unclassified' }
+Spaceship >> updateShield: amount [
+	shield := shield + amount.
+]
