@@ -88,7 +88,7 @@ Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsT
 { #category : #'as yet unclassified' }
 Game >> playWith: aBoard [
 
-	| aSpaceship boxToCheck positionsToMoveWithEffect |
+	| aSpaceship boxToCheck |
 	turn > spaceships size ifTrue: [ turn := 1 ].
 	aSpaceship := spaceships at: turn.
 	aSpaceship move: self throwDices.
@@ -100,8 +100,8 @@ Game >> playWith: aBoard [
 		^ self ].
 
 	boxToCheck := aBoard findBoxIn: aSpaceship position.
-	positionsToMoveWithEffect := boxToCheck applyEffect.
-	aSpaceship move: positionsToMoveWithEffect.
+	boxToCheck applyEffect: spaceships and: turn.
+	
 
 	turn := turn + 1.
 	self playWith: aBoard

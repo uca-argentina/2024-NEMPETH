@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #accessing }
-Box >> applyEffect [
+Box >> applyEffect: spaceships and: turn [
 
-	^ 0
+	^ self
 ]
 
 { #category : #accessing }

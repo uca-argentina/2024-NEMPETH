@@ -132,7 +132,7 @@ GameTest >> test004WhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFi
 { #category : #tests }
 GameTest >> test005WhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionThree [
 
-	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree boxToCheck positionsToMoveWithEffect |
+	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree boxToCheck |
 	
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
@@ -159,8 +159,7 @@ GameTest >> test005WhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionTh
 	
 	aSpaceship move: 2.
 	boxToCheck := aBoard findBoxIn: (aSpaceship position).
-	positionsToMoveWithEffect := boxToCheck applyEffect.
-	aSpaceship move: positionsToMoveWithEffect.
+	boxToCheck applyEffect: spaceships and: 1.
 	
 
 	self assert: (aSpaceship position) equals: 4.
@@ -169,7 +168,7 @@ GameTest >> test005WhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionTh
 { #category : #tests }
 GameTest >> test006WhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionOne [
 
-	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree boxToCheck positionsToMoveWithEffect |
+	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree boxToCheck |
 	
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
@@ -197,8 +196,7 @@ GameTest >> test006WhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionO
 	
 	aSpaceship move: 2.
 	boxToCheck := aBoard findBoxIn: (aSpaceship position).
-	positionsToMoveWithEffect := boxToCheck applyEffect.
-	aSpaceship move: positionsToMoveWithEffect.
+	boxToCheck applyEffect: spaceships and: 1.
 
 	self assert: aSpaceship position equals: 1
 ]
