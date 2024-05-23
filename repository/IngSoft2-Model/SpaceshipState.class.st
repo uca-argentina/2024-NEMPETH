@@ -7,5 +7,5 @@ Class {
 { #category : #operations }
 SpaceshipState class >> create [
 
-	^ self new
+	self subclassResponsibility
 ]
