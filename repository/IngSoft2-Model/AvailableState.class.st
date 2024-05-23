@@ -17,5 +17,5 @@ AvailableState >> playTurn: aSpaceship [
 		ifTrue: [ ^ true ]
 		ifFalse: [
 			aSpaceship changeTo: UnavailableState create.
-			aSpaceship playTurn ]
+			^ aSpaceship playTurn ]
 ]

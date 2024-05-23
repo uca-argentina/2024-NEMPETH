@@ -23,10 +23,10 @@ UnavailableState >> initializeState [
 UnavailableState >> playTurn: aSpaceship [
 
 	turnsToWait := turnsToWait - 1.
-	turnsToWait > 1
+	turnsToWait > 0
 		ifTrue: [ ^ false ]
 		ifFalse: [
 			aSpaceship changeTo: AvailableState create.
 			aSpaceship updateShield: -1 * aSpaceship shield + 3.
-			aSpaceship playTurn ]
+			^ aSpaceship playTurn ]
 ]
