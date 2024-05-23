@@ -509,18 +509,7 @@ GameTest >> test017WhenPassTurnThenTheSpaceshipRecoverAllShields [
 	aGame passTurnOn: aBoard.
 	
 	self assert: aSpaceship shield equals: 3.
-	
-	
-	"aGame playWith: aBoard.
-	aGame playWith: aBoard.
-	aGame playWith: aBoard.
-	aGame passTurnOn: aBoard.
-	aGame playWith: aBoard.
-	
-	self assert: aSpaceship shield equals: 3.
-	self assert: aSpaceship position equals: 1.
-	self assert: anotherSpaceship shield equals: 3.
-	self assert: anotherSpaceship position equals: 1."
+
 ]
 
 { #category : #tests }
