@@ -86,6 +86,17 @@ Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsT
 ]
 
 { #category : #'as yet unclassified' }
+Game >> passTurnOn: aBoard [
+
+	| aSpaceship |
+	turn > spaceships size ifTrue: [ turn := 1 ].
+	aSpaceship := spaceships at: turn.
+	aSpaceship recoverShields.
+
+	turn := turn + 1
+]
+
+{ #category : #'as yet unclassified' }
 Game >> playWith: aBoard [
 
 	| aSpaceship boxToCheck |
@@ -104,7 +115,7 @@ Game >> playWith: aBoard [
 	
 
 	turn := turn + 1.
-	self playWith: aBoard
+
 ]
 
 { #category : #'as yet unclassified' }

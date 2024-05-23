@@ -58,6 +58,12 @@ Spaceship >> position [
 	^ position
 ]
 
+{ #category : #'as yet unclassified' }
+Spaceship >> recoverShields [
+
+	shield := 3
+]
+
 { #category : #accessing }
 Spaceship >> shield [
 	^ shield

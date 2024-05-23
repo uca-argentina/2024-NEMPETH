@@ -437,6 +437,7 @@ GameTest >> test016WhenBothSpaceshipsAreInPositionOneThenTheSpaceshipsAreNotAffe
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
+	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
@@ -466,4 +467,97 @@ GameTest >> test016WhenBothSpaceshipsAreInPositionOneThenTheSpaceshipsAreNotAffe
 	self assert: aSpaceship position equals: 1.
 	self assert: anotherSpaceship shield equals: 3.
 	self assert: anotherSpaceship position equals: 1.
+]
+
+{ #category : #tests }
+GameTest >> test017WhenPassTurnThenTheSpaceshipRecoverAllShields [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 1 with: 3 with: 1 with: 1).
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+
+	aBoxOne := Box new.
+	aBoxTwo := Box new.
+	aBoxThree := Box new.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aPath := OrderedCollection
+					with: aBoxOne
+					with: aBoxTwo
+		         with: aWormholeOne
+		         with: aWormholeTwo
+					with: aBoxThree.
+					 
+	aBoard := Board createWith: aPath.
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	
+	aSpaceship updateShield: -2.
+	
+	aGame passTurnOn: aBoard.
+	
+	self assert: aSpaceship shield equals: 3.
+	
+	
+	"aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame passTurnOn: aBoard.
+	aGame playWith: aBoard.
+	
+	self assert: aSpaceship shield equals: 3.
+	self assert: aSpaceship position equals: 1.
+	self assert: anotherSpaceship shield equals: 3.
+	self assert: anotherSpaceship position equals: 1."
+]
+
+{ #category : #tests }
+GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 1 with: 3 with: 1 with: 1).
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+
+	aBoxOne := Box new.
+	aBoxTwo := Box new.
+	aBoxThree := Box new.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aWormholeOne associateWith: aWormholeTwo.
+	aWormholeTwo associateWith: aWormholeOne.
+	aPath := OrderedCollection
+					with: aBoxOne
+					with: aBoxTwo
+		         with: aWormholeOne
+		         with: aWormholeTwo
+					with: aBoxThree.
+					 
+	aBoard := Board createWith: aPath.
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+		
+	aGame playWith: aBoard.
+	self assert: aSpaceship position equals: 2.
+	aGame playWith: aBoard.
+	self assert: anotherSpaceship position equals: 3.
+	aGame playWith: aBoard.
+	self assert: aSpaceship position equals: 4.
+	aGame passTurnOn: aBoard.
+	self assert: anotherSpaceship position equals: 3.
+	aGame playWith: aBoard.
+	self assert: aSpaceship position equals: 5.
+	
+	
 ]
