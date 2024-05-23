@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'position',
 		'shield',
-		'lapsCompleted'
+		'lapsCompleted',
+		'state'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -20,12 +21,18 @@ Spaceship >> addLap [
 	lapsCompleted := lapsCompleted + 1
 ]
 
+{ #category : #'as yet unclassified' }
+Spaceship >> changeTo: anState [ 
+	state := anState.
+]
+
 { #category : #initialization }
 Spaceship >> initializeOn [
 
 	position := 1.
 	shield := 3.
-	lapsCompleted := 0
+	lapsCompleted := 0.
+	state:= AvailableState create.
 ]
 
 { #category : #accessing }
@@ -39,6 +46,12 @@ Spaceship >> move: positionsToMove [
 	position := position + positionsToMove
 ]
 
+{ #category : #'as yet unclassified' }
+Spaceship >> playTurn [
+
+	^ state playTurn: self
+]
+
 { #category : #accessing }
 Spaceship >> position [
 
@@ -48,6 +61,11 @@ Spaceship >> position [
 { #category : #accessing }
 Spaceship >> shield [
 	^ shield
+]
+
+{ #category : #accessing }
+Spaceship >> state [
+	^ state
 ]
 
 { #category : #'as yet unclassified' }
