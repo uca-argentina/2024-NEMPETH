@@ -394,7 +394,7 @@ GameTest >> test014WhenSpaceshipMoveToAPositionWhereThereIsNotAnotherSpaceshipTh
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aSpaceship move: 1.
-	aGame verifyBattleAt: aSpaceship position.
+	aGame verifyBattleWith: aSpaceship.
 	
 	self assert: aSpaceship shield equals: 3.
 ]
@@ -430,7 +430,7 @@ GameTest >> test015WhenBothSpaceshipsAreInTheSameBoxThenTheSecondSpaceshipLoseOn
 	
 	aSpaceship move: 1.
 	anotherSpaceship move: 1.
-	aGame verifyBattleAt: aSpaceship position.
+	aGame verifyBattleWith: aSpaceship.
 	
 	self assert: aSpaceship shield equals: 3.
 	self assert: aSpaceship position equals: 2.
@@ -467,7 +467,7 @@ GameTest >> test016WhenBothSpaceshipsAreInPositionOneThenTheSpaceshipsAreNotAffe
 	aBoard := Board createWith: aPath.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
-	aGame verifyBattleAt: aSpaceship position.
+	aGame verifyBattleWith: aSpaceship.
 	
 	self assert: aSpaceship shield equals: 3.
 	self assert: aSpaceship position equals: 1.
