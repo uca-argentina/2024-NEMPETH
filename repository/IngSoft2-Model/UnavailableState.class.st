@@ -22,9 +22,10 @@ UnavailableState >> initializeState [
 { #category : #'as yet unclassified' }
 UnavailableState >> playTurn: aSpaceship [
 
-	turnsToWait := turnsToWait - 1.
 	turnsToWait > 0
-		ifTrue: [ ^ false ]
+		ifTrue: [
+			turnsToWait := turnsToWait - 1.
+			^ false ]
 		ifFalse: [
 			aSpaceship changeTo: AvailableState create.
 			aSpaceship updateShield: -1 * aSpaceship shield + 3.

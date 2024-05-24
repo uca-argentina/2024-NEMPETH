@@ -53,3 +53,17 @@ SpaceshipTest >> test005WhenSpaceshipHasZeroShieldsThenChangeToUnavailableState 
 	self deny: aSpaceship playTurn.
 	self assert: (aSpaceship state isKindOf: UnavailableState)
 ]
+
+{ #category : #tests }
+SpaceshipTest >> test006WhenSpaceshipIsUnavaliablePlayTwoTurnsThenSpaceshipIsAvalibleToPlay [
+
+	| aSpaceship |
+	aSpaceship := Spaceship create.
+	aSpaceship updateShield: -3.
+	
+	aSpaceship playTurn.
+	aSpaceship playTurn.
+
+	self assert: aSpaceship playTurn.
+	self assert: (aSpaceship state isKindOf: AvailableState)
+]

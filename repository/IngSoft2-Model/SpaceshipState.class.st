@@ -9,3 +9,9 @@ SpaceshipState class >> create [
 
 	self subclassResponsibility
 ]
+
+{ #category : #'as yet unclassified' }
+SpaceshipState >> playTurn: aSpaceship [
+
+	self subclassResponsibility.
+]
