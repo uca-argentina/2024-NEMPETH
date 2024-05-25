@@ -75,6 +75,12 @@ Spaceship >> state [
 ]
 
 { #category : #'as yet unclassified' }
+Spaceship >> subtractLap [
+
+	lapsCompleted := lapsCompleted - 1
+]
+
+{ #category : #'as yet unclassified' }
 Spaceship >> updateShield: amount [
 	shield := shield + amount.
 ]

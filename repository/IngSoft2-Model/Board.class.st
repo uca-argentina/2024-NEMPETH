@@ -60,6 +60,26 @@ Board >> length [
 { #category : #'as yet unclassified' }
 Board >> normalizeAll: spaceships [
 
+	self normalizeForwards: spaceships.
+	self normalizeFirstBox: spaceships.
+
+	spaceships do: [ :aSpaceship |
+		aSpaceship position < 1 ifTrue: [
+			aSpaceship move: aSpaceship position + self length.
+			aSpaceship subtractLap ] ]
+]
+
+{ #category : #'as yet unclassified' }
+Board >> normalizeFirstBox: spaceships [
+
+	spaceships do: [ :aSpaceship |
+		(aSpaceship lapsCompleted = 0 and: aSpaceship position < 1) ifTrue: [
+			aSpaceship move: -1 * aSpaceship position + 1 ] ]
+]
+
+{ #category : #'as yet unclassified' }
+Board >> normalizeForwards: spaceships [
+
 	spaceships do: [ :aSpaceship |
 		aSpaceship position > self length ifTrue: [
 			aSpaceship move: -1 * self length.
