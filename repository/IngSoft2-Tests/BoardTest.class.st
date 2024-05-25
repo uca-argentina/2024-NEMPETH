@@ -77,7 +77,7 @@ BoardTest >> test004WhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 ]
 
 { #category : #tests }
-BoardTest >> test005WhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship [
+BoardTest >> test005ForLoadedBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship [
 
 	| aSpaceship aBoard aPath aWormhole anotherWormhole aBox anotherBox |
 	aSpaceship := Spaceship create.
@@ -107,7 +107,7 @@ BoardTest >> test005WhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship 
 ]
 
 { #category : #tests }
-BoardTest >> test006WhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAddALapToASpaceship [
+BoardTest >> test006ForLoadedBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAddALapToASpaceship [
 	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
@@ -144,7 +144,7 @@ BoardTest >> test006WhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAd
 ]
 
 { #category : #tests }
-BoardTest >> test007CanNotGoBackBeyondFirstBoxOnFirstLap [
+BoardTest >> test007ForLoadedBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
@@ -298,4 +298,100 @@ BoardTest >> test012WhenBoardIsCreatedWithIncorrectNumberOfBoxesThenThrowError [
 		raise: Error
 		withMessage:
 		'Board length should be multiple of 50 and greater than 0'
+]
+
+{ #category : #tests }
+BoardTest >> test013ForBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship [
+
+		| aSpaceship aBoard |
+		
+	aSpaceship := Spaceship create.
+
+	aBoard := Board createWith: 50.
+	
+	aSpaceship move: 50.
+		
+	aBoard normalizeOne: aSpaceship.
+	
+	self assert: aSpaceship position equals: 1. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+]
+
+{ #category : #tests }
+BoardTest >> test014ForBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAddALapToASpaceship [
+	| aSpaceship anotherSpaceship spaceships aBoard |
+	
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+		
+	aBoard := Board createWith: 50.
+	
+	aSpaceship move: 50.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 1. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+	self assert: anotherSpaceship position equals: 1.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
+]
+
+{ #category : #tests }
+BoardTest >> test015ForBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
+	| aSpaceship anotherSpaceship spaceships aBoard |
+	
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+		
+	aBoard := Board createWith: 50.
+	
+	aSpaceship move: 50.
+	anotherSpaceship move: -3.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 1. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+	self assert: anotherSpaceship position equals: 1.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
+]
+
+{ #category : #tests }
+BoardTest >> test016ForBoardWhenASpaceshipMovesBackThroughFirstBoxThenSubtractOneLapCompleted [
+	| aSpaceship anotherSpaceship spaceships aBoard |
+	
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+		
+	aBoard := Board createWith: 50.
+	
+	aSpaceship move: 50.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 1. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+	self assert: anotherSpaceship position equals: 1.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
+	
+	aSpaceship move: -50.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 1. 
+	self assert: aSpaceship lapsCompleted equals: 0.
+	self assert: anotherSpaceship position equals: 1.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
 ]
