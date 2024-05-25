@@ -10,7 +10,7 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessage: anErrorMessag
 ]
 
 { #category : #tests }
-BoardTest >> testWhenBoardDoesNotHaveBoxesThenThrowError [
+BoardTest >> test001WhenBoardDoesNotHaveBoxesThenThrowError [
 
 	|aPath|
 	
@@ -25,7 +25,7 @@ BoardTest >> testWhenBoardDoesNotHaveBoxesThenThrowError [
 ]
 
 { #category : #tests }
-BoardTest >> testWhenBoardHasThreeBoxesThenLengthIsThree [
+BoardTest >> test002WhenBoardHasThreeBoxesThenLengthIsThree [
 
 	|aBoard aPath aBox aWormhole anotherWormhole |
 	
@@ -41,7 +41,7 @@ BoardTest >> testWhenBoardHasThreeBoxesThenLengthIsThree [
 ]
 
 { #category : #tests }
-BoardTest >> testWhenBoardIsCreatedWithIncorrectNumberOfWormholesThenThrowError [
+BoardTest >> test003WhenBoardIsCreatedWithIncorrectNumberOfWormholesThenThrowError [
 	|aPath aWormhole aBox anotherBox|
 	
 	aWormhole := Wormhole new.
@@ -57,7 +57,7 @@ BoardTest >> testWhenBoardIsCreatedWithIncorrectNumberOfWormholesThenThrowError 
 ]
 
 { #category : #tests }
-BoardTest >> testWhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
+BoardTest >> test004WhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 
 	|aBoard aPath aWormhole anotherWormhole aBox anotherBox|
 	
