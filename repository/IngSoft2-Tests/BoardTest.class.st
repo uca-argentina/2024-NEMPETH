@@ -17,7 +17,7 @@ BoardTest >> test001WhenBoardDoesNotHaveBoxesThenThrowError [
 	aPath := OrderedCollection new.
 	
 	self
-		should: [ Board createWith: aPath. ]
+		should: [ LoadedBoard createWith: aPath. ]
 		raise: Error
 		withMessage: 'Path should have a least one box'
 	
@@ -33,7 +33,7 @@ BoardTest >> test002WhenBoardHasThreeBoxesThenLengthIsThree [
 	aWormhole := Wormhole new.
 	anotherWormhole := Wormhole new.
 	aPath := OrderedCollection with: aBox with: aWormhole with: anotherWormhole.
-	aBoard := Board createWith: aPath. 
+	aBoard := LoadedBoard createWith: aPath. 
 	
 	self assert: aBoard length equals: 3.
 	
@@ -50,7 +50,7 @@ BoardTest >> test003WhenBoardIsCreatedWithIncorrectNumberOfWormholesThenThrowErr
 	aPath := OrderedCollection with: aWormhole with: aBox with: anotherBox.
 	
 	self
-		should: [ Board createWith: aPath. ]
+		should: [ LoadedBoard createWith: aPath. ]
 		raise: Error
 		withMessage: 'Path should have two boxes of Wormhole'
 
@@ -70,7 +70,7 @@ BoardTest >> test004WhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 	aBox := Box new.
 	anotherBox := Box new.
 	aPath := OrderedCollection with: aWormhole with: aBox with: anotherWormhole with: anotherBox.
-	aBoard := Board createWith: aPath. 
+	aBoard := LoadedBoard createWith: aPath. 
 	
 	self assert: aBoard length equals: 4.
 	self assert: (aPath at: 1) position equals: 1.
@@ -95,7 +95,7 @@ BoardTest >> test005WhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship 
 		         with: aBox
 		         with: anotherWormhole
 		         with: anotherBox.
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	
 	aSpaceship move: 6.
 		
@@ -129,7 +129,7 @@ BoardTest >> test006WhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAd
 		         with: aBox
 		         with: anotherWormhole
 		         with: anotherBox.
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	
 	aSpaceship move: 6.
 	anotherSpaceship move: 3.
@@ -166,7 +166,7 @@ BoardTest >> test007CanNotGoBackBeyondFirstBoxOnFirstLap [
 		         with: aBox
 		         with: anotherWormhole
 		         with: anotherBox.
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	
 	aSpaceship move: 6.
 	anotherSpaceship move: -3.
@@ -203,7 +203,7 @@ BoardTest >> test008WhenASpaceshipMovesBackThroughFirstBoxThenSubtractOneLapComp
 		         with: aBox
 		         with: anotherWormhole
 		         with: anotherBox.
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	
 	aSpaceship move: 6.
 	anotherSpaceship move: 1.
@@ -225,4 +225,12 @@ BoardTest >> test008WhenASpaceshipMovesBackThroughFirstBoxThenSubtractOneLapComp
 	self assert: anotherSpaceship position equals: 1.
 	self assert: anotherSpaceship lapsCompleted equals: 0.
 
+]
+
+{ #category : #tests }
+BoardTest >> test009CheckLengthWhenBoardIsCreated [
+	| aBoard |
+	aBoard := Board createWith: 50.
+
+	self assert: aBoard length equals: 50.
 ]

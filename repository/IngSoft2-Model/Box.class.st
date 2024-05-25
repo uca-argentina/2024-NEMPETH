@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 Box >> applyEffect: spaceships and: turn [
 
-	^ self
+	self subclassResponsibility.
 ]
 
 { #category : #accessing }

@@ -30,7 +30,7 @@ GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWi
 			      with: aWormholeOne
 		         with: aWormholeTwo
 		         with: aBoxOne.
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
@@ -63,7 +63,7 @@ GameTest >> test002WhenGameIsCreatedWithLessThanOneLapToWinThenThrowError [
 { #category : #tests }
 GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpaceshipWins [
 
-| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame |
+| spaceships dices aDie aSpaceship anotherSpaceship aNormalBoxOne aNormalBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 5.
 	aDie add: (OrderedCollection with: 4 with: 3 with: 3).
 	dices := OrderedCollection with: aDie.
@@ -74,8 +74,8 @@ GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpa
 		              with: aSpaceship
 		              with: anotherSpaceship.
 	
-	aBoxOne := Box new.
-	aBoxTwo := Box new.
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
 	aWormholeOne associateWith: aWormholeTwo.
@@ -83,9 +83,9 @@ GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpa
 	aPath := OrderedCollection
 			      with: aWormholeOne
 		         with: aWormholeTwo
-		         with: aBoxOne
-				   with: aBoxTwo.
-	aBoard := Board createWith: aPath.
+		         with: aNormalBoxOne
+				   with: aNormalBoxTwo.
+	aBoard := LoadedBoard createWith: aPath.
 	
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
 	
@@ -123,7 +123,7 @@ GameTest >> test004WhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFi
 		         with: aWormholeOne
 		         with: aBoxThree
 		         with: aWormholeTwo.
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 
@@ -158,7 +158,7 @@ GameTest >> test005WhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionTh
 		         with: aWormholeOne
 		         with: aWormholeTwo
 		         with: aBoxThree.
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	
 	aSpaceship move: 2.
 	boxToCheck := aBoard findBoxIn: (aSpaceship position).
@@ -195,7 +195,7 @@ GameTest >> test006WhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionO
 		         with: aBoxTwo
 		         with: aBoxThree.
 
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	
 	aSpaceship move: 2.
 	boxToCheck := aBoard findBoxIn: (aSpaceship position).
@@ -224,7 +224,7 @@ GameTest >> test007WhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
 		         with: aWormholeOne
 		         with: aWormholeTwo
 		         with: aBoxOne.
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
@@ -237,7 +237,7 @@ GameTest >> test007WhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
 { #category : #tests }
 GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 
-	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame aBoxTwo aBoxThree |
+	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aNormalBoxOne aPath aBoard aGame aNormalBoxTwo aNormalBoxThree |
 	aDie := LoadedDie of: 5.
 	aDie add: (OrderedCollection with: 4 with: 3 with: 4 with: 2 with: 2).
 	dices := OrderedCollection with: aDie.
@@ -249,21 +249,21 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 		              with: anotherSpaceship.
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
-	aBoxOne := Box new.
-	aBoxTwo := Box new.
-	aBoxThree := Box new.
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
 	
 	aWormholeOne associateWith: aWormholeTwo.
 	aWormholeTwo associateWith: aWormholeOne.
 	
 	aPath := OrderedCollection
-		         with: aBoxOne
+		         with: aNormalBoxOne
 					with: aWormholeOne
 					with: aWormholeTwo         
-					with: aBoxTwo
-		         with: aBoxThree.
+					with: aNormalBoxTwo
+		         with: aNormalBoxThree.
 		         
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
 
@@ -325,7 +325,7 @@ GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 		         with: aWormholeOne
 		         with: aWormholeTwo
 		         with: aBoxOne.
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
@@ -355,7 +355,7 @@ GameTest >> test013WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardThenGameHasEnd
 		         with: aWormholeOne
 		         with: aWormholeTwo
 		         with: aBoxOne.
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
@@ -390,7 +390,7 @@ GameTest >> test014WhenSpaceshipMoveToAPositionWhereThereIsNotAnotherSpaceshipTh
 		         with: aWormholeTwo
 					with: aBoxThree.
 					 
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aSpaceship move: 1.
@@ -425,7 +425,7 @@ GameTest >> test015WhenBothSpaceshipsAreInTheSameBoxThenTheSecondSpaceshipLoseOn
 		         with: aWormholeTwo
 					with: aBoxThree.
 					 
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aSpaceship move: 1.
@@ -464,7 +464,7 @@ GameTest >> test016WhenBothSpaceshipsAreInPositionOneThenTheSpaceshipsAreNotAffe
 		         with: aWormholeTwo
 					with: aBoxThree.
 					 
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aGame verifyBattleWith: aSpaceship.
@@ -501,7 +501,7 @@ GameTest >> test017WhenPassTurnThenTheSpaceshipRecoverAllShields [
 		         with: aWormholeTwo
 					with: aBoxThree.
 					 
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aSpaceship updateShield: -2.
@@ -515,7 +515,7 @@ GameTest >> test017WhenPassTurnThenTheSpaceshipRecoverAllShields [
 { #category : #tests }
 GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 
-	| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
+	| spaceships dices aDie aSpaceship anotherSpaceship aNormalBoxOne aNormalBoxTwo aNormalBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 10.
 	aDie add: (OrderedCollection with: 1 with: 3 with: 1 with: 1).
 	dices := OrderedCollection with: aDie.
@@ -526,21 +526,21 @@ GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 		              with: aSpaceship
 		              with: anotherSpaceship.
 
-	aBoxOne := Box new.
-	aBoxTwo := Box new.
-	aBoxThree := Box new.
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
 	aWormholeOne associateWith: aWormholeTwo.
 	aWormholeTwo associateWith: aWormholeOne.
 	aPath := OrderedCollection
-					with: aBoxOne
-					with: aBoxTwo
+					with: aNormalBoxOne
+					with: aNormalBoxTwo
 		         with: aWormholeOne
 		         with: aWormholeTwo
-					with: aBoxThree.
+					with: aNormalBoxThree.
 					 
-	aBoard := Board createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 		
 	aGame playWith: aBoard.
@@ -560,7 +560,7 @@ GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 { #category : #tests }
 GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 
-	| spaceships dices aDie spaceshipOne spaceshipTwo spaceshipThree aBoxOne aBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame |
+	| spaceships dices aDie spaceshipOne spaceshipTwo spaceshipThree aNormalBoxOne aNormalBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 5.
 	aDie add: (OrderedCollection
 			 with: 1
@@ -578,8 +578,8 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 		              with: spaceshipTwo
 		              with: spaceshipThree.
 
-	aBoxOne := Box new.
-	aBoxTwo := Box new.
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
 	aWormholeOne associateWith: aWormholeTwo.
@@ -587,9 +587,9 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 	aPath := OrderedCollection
 		         with: aWormholeOne
 		         with: aWormholeTwo
-		         with: aBoxOne
-		         with: aBoxTwo.
-	aBoard := Board createWith: aPath.
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo.
+	aBoard := LoadedBoard createWith: aPath.
 
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
 
