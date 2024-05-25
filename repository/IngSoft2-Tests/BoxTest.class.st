@@ -53,7 +53,7 @@ BoxTest >> test002WhenSpaceshipIsOnHyperSpaceJumpBoxThenSpaceshipMovesFourBoxesA
 ]
 
 { #category : #tests }
-BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMovesToPositionOneAndLosesOneShield [
+BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMovesToPositionOneAndLosesOneShieldExceptForSpaceshipsOnSafeZone [
 	
 	|spaceshipOne spaceshipTwo spaceshipThree spaceships aAtomicBomb|
 	
@@ -83,12 +83,12 @@ BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMovesToPositionO
 	self assert: spaceshipTwo position equals: 1.
 	self assert: spaceshipTwo shield equals: 2.
 	self assert: spaceshipThree position equals: 1.
-	self assert: spaceshipThree shield equals: 2.
+	self assert: spaceshipThree shield equals: 3.
 	
 ]
 
 { #category : #tests }
-BoxTest >> test004WhenSpaceshipIsOnMoonWalkThenTheOtherSpaceshipsMovesBackTwoPositions [
+BoxTest >> test004WhenSpaceshipIsOnMoonWalkThenTheOtherSpaceshipsMovesBackTwoPositionsExceptForTheOnesOnTheSafeZone [
 	
 	|spaceshipOne spaceshipTwo spaceshipThree spaceships aMoonWalk|
 	
@@ -103,17 +103,16 @@ BoxTest >> test004WhenSpaceshipIsOnMoonWalkThenTheOtherSpaceshipsMovesBackTwoPos
 	
 	spaceshipOne move: 4.
 	spaceshipTwo move: 2.
-	spaceshipThree move: 6.
 	
 	self assert: spaceshipOne position equals: 5.
 	self assert: spaceshipTwo position equals: 3.
-	self assert: spaceshipThree position equals: 7.
+	self assert: spaceshipThree position equals: 1.
 
 	aMoonWalk applyEffect: spaceships and: 1.
 	
 	self assert: spaceshipOne position equals: 5.
 	self assert: spaceshipTwo position equals: 1.
-	self assert: spaceshipThree position equals: 5.
+	self assert: spaceshipThree position equals: 1.
 	
 ]
 

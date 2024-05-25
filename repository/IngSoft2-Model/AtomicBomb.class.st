@@ -7,7 +7,10 @@ Class {
 { #category : #accessing }
 AtomicBomb >> applyEffect: spaceships and: turn [
 
-	spaceships do: [ :aSpaceship |
+	| affectedSpaceships |
+	affectedSpaceships := spaceships select: [ :aSpaceship |
+		                      aSpaceship position ~= 1 ].
+	affectedSpaceships do: [ :aSpaceship |
 		aSpaceship move: -1 * aSpaceship position + 1.
 		aSpaceship updateShield: -1 ]
 ]
