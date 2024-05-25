@@ -105,3 +105,40 @@ BoardTest >> test005WhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship 
 	self assert: aSpaceship lapsCompleted equals: 1.
 
 ]
+
+{ #category : #tests }
+BoardTest >> test006WhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAddALapToASpaceshipAndNotToAnotherSpaceship [ 
+	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+
+	aWormhole := Wormhole new.
+	anotherWormhole := Wormhole new.
+
+	aWormhole associateWith: anotherWormhole.
+	anotherWormhole associateWith: aWormhole.
+
+	aBox := Box new.
+	anotherBox := Box new.
+	aPath := OrderedCollection
+		         with: aWormhole
+		         with: aBox
+		         with: anotherWormhole
+		         with: anotherBox.
+	aBoard := Board createWith: aPath.
+	
+	aSpaceship move: 6.
+	anotherSpaceship move: 3.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 3. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+	self assert: anotherSpaceship position equals: 4.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
+
+]
