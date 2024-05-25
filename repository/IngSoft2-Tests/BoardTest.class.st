@@ -234,3 +234,68 @@ BoardTest >> test009CheckLengthWhenBoardIsCreated [
 
 	self assert: aBoard length equals: 50.
 ]
+
+{ #category : #tests }
+BoardTest >> test010TheFirstBoxOfTheBoardIsANormalBox [
+
+	| aBoard |
+	aBoard := Board createWith: 50.
+
+	self assert: ((aBoard findBoxIn: 1 ) isKindOf: NormalBox)
+]
+
+{ #category : #tests }
+BoardTest >> test011VerifyCorrectDistributionsOfBoxes [
+
+	| aBoard pathOfTheBoard normalBoxes hyperSpaceJumpBoxes moonwalkBoxes hyperJumpBoxes atomicBombBoxes wormHolesBoxes blackHoleBoxes |
+	aBoard := Board createWith: 50.
+	pathOfTheBoard := aBoard path.
+
+	normalBoxes := pathOfTheBoard select: [ :box |
+		               box isKindOf: NormalBox ].
+
+	self assert: normalBoxes size equals: aBoard length * 0.2.
+
+
+	hyperSpaceJumpBoxes := pathOfTheBoard select: [ :box |
+		                       box isKindOf: HyperSpaceJump ].
+
+	self assert: hyperSpaceJumpBoxes size equals: aBoard length * 0.2.
+
+
+	moonwalkBoxes := pathOfTheBoard select: [ :box |
+		                 box isKindOf: MoonWalk ].
+
+	self assert: moonwalkBoxes size equals: aBoard length * 0.1.
+
+	hyperJumpBoxes := pathOfTheBoard select: [ :box |
+		                  box isKindOf: HyperJump ].
+
+	self assert: hyperJumpBoxes size equals: aBoard length * 0.08.
+
+
+	atomicBombBoxes := pathOfTheBoard select: [ :box |
+		                   box isKindOf: AtomicBomb ].
+
+	self assert: atomicBombBoxes size equals: aBoard length * 0.02.
+
+	wormHolesBoxes := pathOfTheBoard select: [ :box |
+		                  box isKindOf: Wormhole ].
+
+	self assert: wormHolesBoxes size equals: aBoard length * 0.2.
+	
+	blackHoleBoxes := pathOfTheBoard select: [ :box |
+		                  box isKindOf: Wormhole ].
+
+	self assert: blackHoleBoxes size equals: aBoard length * 0.2.
+]
+
+{ #category : #tests }
+BoardTest >> test012WhenBoardIsCreatedWithIncorrectNumberOfBoxesThenThrowError [
+
+	self
+		should: [ Board createWith: -30 ]
+		raise: Error
+		withMessage:
+		'Board length should be multiple of 50 and greater than 0'
+]
