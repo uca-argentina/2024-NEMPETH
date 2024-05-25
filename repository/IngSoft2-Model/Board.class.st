@@ -62,6 +62,11 @@ Board >> normalizeAll: spaceships [
 
 	self normalizeForwards: spaceships.
 	self normalizeFirstBox: spaceships.
+	self normalizeBackwards: spaceships
+]
+
+{ #category : #'as yet unclassified' }
+Board >> normalizeBackwards: spaceships [
 
 	spaceships do: [ :aSpaceship |
 		aSpaceship position < 1 ifTrue: [
