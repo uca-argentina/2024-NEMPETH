@@ -16,6 +16,17 @@ Spaceship class >> create [
 	^ self new initializeOn
 ]
 
+{ #category : #comparing }
+Spaceship >> > aSpaceship [
+
+	^ self lapsCompleted > aSpaceship lapsCompleted
+		  ifTrue: [ true ]
+		  ifFalse: [
+			  self lapsCompleted = aSpaceship lapsCompleted
+				  ifTrue: [ self position > aSpaceship position ]
+				  ifFalse: [ false ] ]
+]
+
 { #category : #adding }
 Spaceship >> addLap [
 	lapsCompleted := lapsCompleted + 1

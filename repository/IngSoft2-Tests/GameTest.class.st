@@ -556,3 +556,54 @@ GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 	
 	
 ]
+
+{ #category : #tests }
+GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
+
+	| spaceships dices aDie spaceshipOne spaceshipTwo spaceshipThree aBoxOne aBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame |
+	aDie := LoadedDie of: 5.
+	aDie add: (OrderedCollection
+			 with: 1
+			 with: 3
+			 with: 2
+			 with: 1
+			 with: 5).
+	dices := OrderedCollection with: aDie.
+	spaceshipOne := Spaceship create.
+	spaceshipTwo := Spaceship create.
+	spaceshipThree := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: spaceshipOne
+		              with: spaceshipTwo
+		              with: spaceshipThree.
+
+	aBoxOne := Box new.
+	aBoxTwo := Box new.
+	aWormholeOne := Wormhole new.
+	aWormholeTwo := Wormhole new.
+	aWormholeOne associateWith: aWormholeTwo.
+	aWormholeTwo associateWith: aWormholeOne.
+	aPath := OrderedCollection
+		         with: aWormholeOne
+		         with: aWormholeTwo
+		         with: aBoxOne
+		         with: aBoxTwo.
+	aBoard := Board createWith: aPath.
+
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
+
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+
+	self assert: (aGame checkWinnerOn: aBoard) equals: spaceshipTwo.
+	self
+		assert: (aGame checkRankingOn: aBoard)
+		equals: (OrderedCollection
+				 with: spaceshipTwo
+				 with: spaceshipThree
+				 with: spaceshipOne)
+]

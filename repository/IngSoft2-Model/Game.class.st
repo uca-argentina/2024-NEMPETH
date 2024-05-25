@@ -69,6 +69,12 @@ Game >> checkPositionsIn: aBoard [
 ]
 
 { #category : #'as yet unclassified' }
+Game >> checkRankingOn: aBoard [
+
+	^ spaceships sort: [ :a :b | a > b ]
+]
+
+{ #category : #'as yet unclassified' }
 Game >> checkWinnerOn: aBoard [
 
 	^ spaceships

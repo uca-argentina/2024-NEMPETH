@@ -86,7 +86,7 @@ Board >> normalizeFirstBox: spaceships [
 Board >> normalizeForwards: spaceships [
 
 	spaceships do: [ :aSpaceship |
-		aSpaceship position > self length ifTrue: [
+		[ aSpaceship position > self length ] whileTrue: [
 			aSpaceship move: -1 * self length.
 			aSpaceship addLap ] ]
 ]
@@ -94,7 +94,7 @@ Board >> normalizeForwards: spaceships [
 { #category : #private }
 Board >> normalizeOne: aSpaceship [
 
-	aSpaceship position > self length ifFalse: [ ^ self ].
-	aSpaceship move: -1 * self length.
-	aSpaceship addLap
+	[ aSpaceship position > self length ] whileTrue: [
+        aSpaceship move: -1 * self length.
+        aSpaceship addLap ].
 ]
