@@ -30,17 +30,23 @@ HyperJump >> applyEffect: spaceships and: turn [
 { #category : #initialization }
 HyperJump >> initializeWith: boardLength [
 
-	| maxPosibleLengthCollectionOfParsecs maxPosibleValueCollectionOfParsecs |
+	| maxPosibleLengthCollectionOfParsecs maxPosibleValueCollectionOfParsecs uniqueValuesSet setLength|
 	index := 1.
 	collectionOfParsecs := OrderedCollection new.
 
 	maxPosibleLengthCollectionOfParsecs := (boardLength * 0.25) rounded.
-	maxPosibleValueCollectionOfParsecs := (boardLength * 0.5) rounded.
-
-	1 to: maxPosibleLengthCollectionOfParsecs atRandom do: [ :i |
-		collectionOfParsecs add: maxPosibleValueCollectionOfParsecs atRandom ].
+	setLength := maxPosibleLengthCollectionOfParsecs atRandom. 
+	maxPosibleValueCollectionOfParsecs := (boardLength * 0.5) rounded. 
 	
+    uniqueValuesSet := Set new.
+    [ uniqueValuesSet size < setLength ] whileTrue: [
+        uniqueValuesSet add: (maxPosibleValueCollectionOfParsecs atRandom).
+    ].
+	
+	collectionOfParsecs := uniqueValuesSet asOrderedCollection.
 	collectionOfParsecs sort: [ :a :b | a > b ].
+	
+
 ]
 
 { #category : #'as yet unclassified' }

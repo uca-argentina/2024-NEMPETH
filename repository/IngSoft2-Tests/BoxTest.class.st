@@ -192,3 +192,20 @@ BoxTest >> test007VerifyCorrectCreationOfHyperJumpBox [
 
 	self assert: aHyperJump parsecs equals: sortedColletion.
 ]
+
+{ #category : #tests }
+BoxTest >> test008WhenHyperJumpApplyEffectThenSpaceshipIsMoveBetweenOneAndTwentyBoxes [
+
+	| aHyperJump spaceships aSpaceship anotherSpaceship |
+	
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+	spaceships := OrderedCollection with: aSpaceship with: anotherSpaceship.
+	
+	aHyperJump := HyperJump createWith: 40.
+	
+	aHyperJump applyEffect: spaceships and: 1. 
+
+	self assert: ((aSpaceship position) between: 2 and: 21).
+	self assert: anotherSpaceship position equals: 1.	
+]
