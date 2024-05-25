@@ -75,3 +75,33 @@ BoardTest >> test004WhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 	self assert: aBoard length equals: 4.
 	self assert: (aPath at: 1) position equals: 1.
 ]
+
+{ #category : #tests }
+BoardTest >> test005WhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship [
+
+	| aSpaceship aBoard aPath aWormhole anotherWormhole aBox anotherBox |
+	aSpaceship := Spaceship create.
+
+	aWormhole := Wormhole new.
+	anotherWormhole := Wormhole new.
+
+	aWormhole associateWith: anotherWormhole.
+	anotherWormhole associateWith: aWormhole.
+
+	aBox := Box new.
+	anotherBox := Box new.
+	aPath := OrderedCollection
+		         with: aWormhole
+		         with: aBox
+		         with: anotherWormhole
+		         with: anotherBox.
+	aBoard := Board createWith: aPath.
+	
+	aSpaceship move: 6.
+		
+	aBoard normalizeOne: aSpaceship.
+	
+	self assert: aSpaceship position equals: 3. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+
+]

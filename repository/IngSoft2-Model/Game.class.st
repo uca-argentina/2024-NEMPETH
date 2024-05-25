@@ -104,7 +104,7 @@ Game >> playWith: aBoard [
 	aSpaceship := spaceships at: turn.
 	aSpaceship move: self throwDices.
 
-	aBoard normalize: aSpaceship.
+	aBoard normalizeOne: aSpaceship.
 	
 	(self checkWinnerOn: aBoard) ifNotNil: [
 		aSpaceship move: aBoard length - aSpaceship position.

@@ -57,8 +57,17 @@ Board >> length [
 	^ path size.
 ]
 
+{ #category : #'as yet unclassified' }
+Board >> normalizeAll: spaceships [
+
+	spaceships do: [ :aSpaceship |
+		aSpaceship position > self length ifTrue: [
+			aSpaceship move: -1 * self length.
+			aSpaceship addLap ] ]
+]
+
 { #category : #private }
-Board >> normalize: aSpaceship [
+Board >> normalizeOne: aSpaceship [
 
 	aSpaceship position > self length ifFalse: [ ^ self ].
 	aSpaceship move: -1 * self length.
