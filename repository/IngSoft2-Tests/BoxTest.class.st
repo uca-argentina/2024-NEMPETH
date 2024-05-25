@@ -116,3 +116,79 @@ BoxTest >> test004WhenSpaceshipIsOnMoonWalkThenTheOtherSpaceshipsMovesBackTwoPos
 	self assert: spaceshipThree position equals: 5.
 	
 ]
+
+{ #category : #tests }
+BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOfParsecs [
+	
+	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump|
+	
+	spaceshipOne := Spaceship create.
+	spaceshipTwo := Spaceship create.
+	spaceshipThree := Spaceship create.
+	
+	spaceships := OrderedCollection new.
+	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
+
+	aHyperJump := LoadedHyperJump createWith: 3.
+	aHyperJump addParsecs: (OrderedCollection with: 5 with: 4 with: 3).
+
+	spaceshipOne move: 4.
+	spaceshipTwo move: 2.
+	
+	self assert: spaceshipOne position equals: 5.
+	self assert: spaceshipTwo position equals: 3.
+
+	aHyperJump applyEffect: spaceships and: 1.
+	aHyperJump applyEffect: spaceships and: 2.
+
+	self assert: spaceshipOne position equals: 10.
+	self assert: spaceshipTwo position equals: 7.
+]
+
+{ #category : #tests }
+BoxTest >> test006WhenAmountOfEffectsAppliedAreMoreThanCollectionOfParsecsThenStartFromBeginning [
+	
+	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump|
+	
+	spaceshipOne := Spaceship create.
+	spaceshipTwo := Spaceship create.
+	spaceshipThree := Spaceship create.
+	
+	spaceships := OrderedCollection new.
+	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
+
+	aHyperJump := LoadedHyperJump createWith: 2.
+	aHyperJump addParsecs: (OrderedCollection with: 2 with: 1).
+
+	spaceshipOne move: 1.
+	spaceshipTwo move: 1.
+	spaceshipThree move: 1.
+	
+	self assert: spaceshipOne position equals: 2.
+	self assert: spaceshipTwo position equals: 2.
+	self assert: spaceshipThree position equals: 2.
+
+	aHyperJump applyEffect: spaceships and: 1.
+	aHyperJump applyEffect: spaceships and: 2.
+	aHyperJump applyEffect: spaceships and: 3.
+	
+	self assert: spaceshipOne position equals: 4.
+	self assert: spaceshipTwo position equals: 3.
+	self assert: spaceshipThree position equals: 4.
+	
+]
+
+{ #category : #tests }
+BoxTest >> test007VerifyCorrectCreationOfHyperJumpBox [
+
+	| aHyperJump sortedColletion |
+	
+	aHyperJump := HyperJump createWith: 40.
+
+	self assert: aHyperJump parsecs size <= 10.
+	self assert: (aHyperJump parsecs anySatisfy: [ :each | each <= 20 ]).
+
+	sortedColletion := aHyperJump parsecs sort: [ :a :b | a > b ].
+
+	self assert: aHyperJump parsecs equals: sortedColletion.
+]
