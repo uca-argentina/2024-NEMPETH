@@ -181,7 +181,7 @@ BoardTest >> test007ForLoadedBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 ]
 
 { #category : #tests }
-BoardTest >> test008WhenASpaceshipMovesBackThroughFirstBoxThenSubtractOneLapCompleted [
+BoardTest >> test008ForLoaded8WhenASpaceshipMovesBackThroughFirstBoxThenSubtractOneLapCompleted [
 	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.

@@ -70,7 +70,7 @@ LoadedBoard >> normalizeBackwards: spaceships [
 
 	spaceships do: [ :aSpaceship |
 		aSpaceship position < 1 ifTrue: [
-			aSpaceship move: aSpaceship position + self length.
+			aSpaceship move: self length.
 			aSpaceship subtractLap ] ]
 ]
 
