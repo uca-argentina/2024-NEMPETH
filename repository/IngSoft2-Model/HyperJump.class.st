@@ -3,15 +3,16 @@ Class {
 	#superclass : #Box,
 	#instVars : [
 		'collectionOfParsecs',
-		'index'
+		'index',
+		'parsecsToBoxesRatio'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
-HyperJump class >> createWith: listLength [
+HyperJump class >> createWith: listLength andParsecsToBoxesRatio: aRatio [ 
 
-	^ self new initializeWith: listLength
+	^ self new initializeWith: listLength and: aRatio.
 ]
 
 { #category : #accessing }
@@ -28,11 +29,12 @@ HyperJump >> applyEffect: spaceships and: turn [
 ]
 
 { #category : #initialization }
-HyperJump >> initializeWith: boardLength [
+HyperJump >> initializeWith: boardLength and: aRatio [ 
 
 	| maxPosibleLengthCollectionOfParsecs maxPosibleValueCollectionOfParsecs uniqueValuesSet setLength|
 	index := 1.
 	collectionOfParsecs := OrderedCollection new.
+	parsecsToBoxesRatio := aRatio.
 
 	maxPosibleLengthCollectionOfParsecs := (boardLength * 0.25) rounded.
 	setLength := maxPosibleLengthCollectionOfParsecs atRandom. 
@@ -45,8 +47,6 @@ HyperJump >> initializeWith: boardLength [
 	
 	collectionOfParsecs := uniqueValuesSet asOrderedCollection.
 	collectionOfParsecs sort: [ :a :b | a > b ].
-	
-
 ]
 
 { #category : #'as yet unclassified' }

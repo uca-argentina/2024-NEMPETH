@@ -10,12 +10,6 @@ Class {
 }
 
 { #category : #'instance creation' }
-LoadedHyperJump class >> createWith: listLength [
-
-	^ self new initializeWith: listLength
-]
-
-{ #category : #'instance creation' }
 LoadedHyperJump class >> createWith: listLength andParsecsToBoxesRatio: aRatio [
 
 	^ self new initializeWith: listLength and: aRatio
@@ -38,14 +32,6 @@ LoadedHyperJump >> applyEffect: spaceships and: turn [
 		index := 0 ].
 	
 	index := index + 1
-]
-
-{ #category : #initialization }
-LoadedHyperJump >> initializeWith: listLength [
-
-	index := 1.
-	collectionOfParsecs := OrderedCollection new.
-
 ]
 
 { #category : #initialization }

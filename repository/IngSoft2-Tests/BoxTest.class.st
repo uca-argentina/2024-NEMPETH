@@ -182,7 +182,7 @@ BoxTest >> test007VerifyCorrectCreationOfHyperJumpBox [
 
 	| aHyperJump sortedColletion |
 	
-	aHyperJump := HyperJump createWith: 40.
+	aHyperJump := HyperJump createWith: 40 andParsecsToBoxesRatio: 2.
 
 	self assert: aHyperJump parsecs size <= 10.
 	self assert: (aHyperJump parsecs anySatisfy: [ :each | each <= 20 ]).
@@ -201,7 +201,7 @@ BoxTest >> test008WhenHyperJumpApplyEffectThenSpaceshipIsMoveBetweenOneAndTwenty
 	anotherSpaceship := Spaceship create.
 	spaceships := OrderedCollection with: aSpaceship with: anotherSpaceship.
 	
-	aHyperJump := HyperJump createWith: 40.
+	aHyperJump := HyperJump createWith: 40 andParsecsToBoxesRatio: 2.
 	
 	aHyperJump applyEffect: spaceships and: 1. 
 
