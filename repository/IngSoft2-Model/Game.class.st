@@ -18,17 +18,6 @@ Game class >> amountOfLapsToWinValidation: amountOfLapsToWin [
 ]
 
 { #category : #'instance creation' }
-Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices [
-
-	self dicesValidation: aCollectionOfDices.
-	self spaceshipsValidation: aCollectionOfSpaceships.
-
-	^ self new
-		  initializeWith: aCollectionOfSpaceships
-		  and: aCollectionOfDices
-]
-
-{ #category : #'instance creation' }
 Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
 
 	self dicesValidation: aCollectionOfDices.

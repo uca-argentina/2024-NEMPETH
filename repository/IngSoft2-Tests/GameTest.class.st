@@ -285,7 +285,7 @@ GameTest >> test009WhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 	spaceships := OrderedCollection new.
 
 	self
-		should: [ Game createWith: spaceships and: dices ]
+		should: [ Game createWith: spaceships and: dices andLapsToWin: 1 ]
 		raise: Error
 		withMessage: 'Game should have a least two spaceships'
 ]
@@ -300,7 +300,7 @@ GameTest >> test010WhenGameIsCreatedWithoutDicesThenThrowError [
 	dices := OrderedCollection new.
 
 	self
-		should: [ Game createWith: spaceships and: dices ]
+		should: [ Game createWith: spaceships and: dices andLapsToWin: 1 ]
 		raise: Error
 		withMessage: 'Game should have a least one die'
 ]
