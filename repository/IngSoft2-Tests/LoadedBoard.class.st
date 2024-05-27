@@ -2,17 +2,18 @@ Class {
 	#name : #LoadedBoard,
 	#superclass : #Object,
 	#instVars : [
-		'path'
+		'path',
+		'parsecsToBoxesRatio'
 	],
 	#category : #'IngSoft2-Tests'
 }
 
 { #category : #'instance creation' }
-LoadedBoard class >> createWith: aPath [
+LoadedBoard class >> createWith: aPath andParsecsToBoxesRatio: aRatio [
 
 	self pathValidation: aPath.
 
-	^ self new initializeWith: aPath
+	^ self new initializeWith: aPath and: aRatio
 ]
 
 { #category : #'instance creation' }
@@ -29,9 +30,10 @@ LoadedBoard >> findBoxIn: aPosition [
 ]
 
 { #category : #initialization }
-LoadedBoard >> initializeWith: aPath [
+LoadedBoard >> initializeWith: aPath and: aRatio [
 
 	path := aPath.
+	parsecsToBoxesRatio := aRatio.
 
 	path withIndexDo: [ :box :index | box position: index ]
 ]

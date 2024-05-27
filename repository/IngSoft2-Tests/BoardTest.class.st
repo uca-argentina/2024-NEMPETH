@@ -17,7 +17,7 @@ BoardTest >> test001WhenBoardDoesNotHaveBoxesThenThrowError [
 	aPath := OrderedCollection new.
 	
 	self
-		should: [ LoadedBoard createWith: aPath. ]
+		should: [ LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2. ]
 		raise: Error
 		withMessage: 'Path should have a least one box'
 	
@@ -33,7 +33,7 @@ BoardTest >> test002WhenBoardHasThreeBoxesThenLengthIsThree [
 	aWormhole := Wormhole new.
 	anotherWormhole := Wormhole new.
 	aPath := OrderedCollection with: aBox with: aWormhole with: anotherWormhole.
-	aBoard := LoadedBoard createWith: aPath. 
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2. 
 	
 	self assert: aBoard length equals: 3.
 	
@@ -54,7 +54,7 @@ BoardTest >> test004WhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 	aBox := Box new.
 	anotherBox := Box new.
 	aPath := OrderedCollection with: aWormhole with: aBox with: anotherWormhole with: anotherBox.
-	aBoard := LoadedBoard createWith: aPath. 
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2. 
 	
 	self assert: aBoard length equals: 4.
 	self assert: (aPath at: 1) position equals: 1.
@@ -79,7 +79,7 @@ BoardTest >> test005ForLoadedBoardWhenASpaceshipPassTheLastBoxThenAddALapComplet
 		         with: aBox
 		         with: anotherWormhole
 		         with: anotherBox.
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
 	aSpaceship move: 6.
 		
@@ -113,7 +113,7 @@ BoardTest >> test006ForLoadedBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshi
 		         with: aBox
 		         with: anotherWormhole
 		         with: anotherBox.
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
 	aSpaceship move: 6.
 	anotherSpaceship move: 3.
@@ -150,7 +150,7 @@ BoardTest >> test007ForLoadedBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 		         with: aBox
 		         with: anotherWormhole
 		         with: anotherBox.
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
 	aSpaceship move: 6.
 	anotherSpaceship move: -3.
@@ -187,7 +187,7 @@ BoardTest >> test008ForLoaded8WhenASpaceshipMovesBackThroughFirstBoxThenSubtract
 		         with: aBox
 		         with: anotherWormhole
 		         with: anotherBox.
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
 	aSpaceship move: 6.
 	anotherSpaceship move: 1.

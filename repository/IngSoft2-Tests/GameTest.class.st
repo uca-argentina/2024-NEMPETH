@@ -33,7 +33,7 @@ GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWi
 			      with: aWormholeOne
 		         with: aWormholeTwo
 		         with: aBoxOne.
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
@@ -88,7 +88,7 @@ GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpa
 		         with: aWormholeTwo
 		         with: aNormalBoxOne
 				   with: aNormalBoxTwo.
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
 	
@@ -126,7 +126,7 @@ GameTest >> test004WhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionFi
 		         with: aWormholeOne
 		         with: aBoxThree
 		         with: aWormholeTwo.
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 
@@ -161,7 +161,7 @@ GameTest >> test005WhenASpaceshipIsOnFirstWormholeThenSpaceshipMovesToPositionTh
 		         with: aWormholeOne
 		         with: aWormholeTwo
 		         with: aBoxThree.
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
 	aSpaceship move: 2.
 	boxToCheck := aBoard findBoxIn: (aSpaceship position).
@@ -198,7 +198,7 @@ GameTest >> test006WhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionO
 		         with: aBoxTwo
 		         with: aBoxThree.
 
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
 	aSpaceship move: 2.
 	boxToCheck := aBoard findBoxIn: (aSpaceship position).
@@ -229,7 +229,7 @@ GameTest >> test007WhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
 		         with: aWormholeOne
 		         with: aWormholeTwo
 		         with: aBoxOne.
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
@@ -271,7 +271,7 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 					with: aNormalBoxTwo
 		         with: aNormalBoxThree.
 		         
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
 
@@ -336,7 +336,7 @@ GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 		         with: aWormholeOne
 		         with: aWormholeTwo
 		         with: aBoxOne.
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
@@ -371,7 +371,7 @@ GameTest >> test014WhenSpaceshipMoveToAPositionWhereThereIsNotAnotherSpaceshipTh
 		         with: aWormholeTwo
 					with: aBoxThree.
 					 
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aSpaceship move: 1.
@@ -406,7 +406,7 @@ GameTest >> test015WhenTwoSpaceshipsBattleIfThereIsATieThenTheSecondSpaceshipLos
 		         with: aWormholeTwo
 					with: aBoxThree.
 					 
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aSpaceship move: 1.
@@ -445,7 +445,7 @@ GameTest >> test016WhenBothSpaceshipsAreInPositionOneThenTheSpaceshipsAreNotAffe
 		         with: aWormholeTwo
 					with: aBoxThree.
 					 
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aGame verifyBattleWith: aSpaceship.
@@ -482,7 +482,7 @@ GameTest >> test017WhenPassTurnThenTheSpaceshipRecoverAllShields [
 		         with: aWormholeTwo
 					with: aBoxThree.
 					 
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aSpaceship updateShield: -2.
@@ -521,7 +521,7 @@ GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 		         with: aWormholeTwo
 					with: aNormalBoxThree.
 					 
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 		
 	aGame playWith: aBoard.
@@ -570,7 +570,7 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 		         with: aWormholeTwo
 		         with: aNormalBoxOne
 		         with: aNormalBoxTwo.
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
 
@@ -613,7 +613,7 @@ GameTest >> test020CanNotBattleAfterASpaceshipHasWon [
 					with: aNormalBoxThree
 					with: aNormalBoxFour.
 					 
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 		
 	aGame playWith: aBoard.
@@ -651,7 +651,7 @@ GameTest >> test021WhenOnABattleTheSpaceshipsThrowTheSameThenTheOneWhichArrivedL
 					with: aNormalBoxThree
 					with: aNormalBoxFour.
 					 
-	aBoard := LoadedBoard createWith: aPath.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 		
 	aGame playWith: aBoard.
