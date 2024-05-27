@@ -26,6 +26,9 @@ GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWi
 	aBoxOne := Box new.
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
+	aWormholeOne associateWith: aWormholeTwo.
+	aWormholeTwo associateWith: aWormholeOne.
+	
 	aPath := OrderedCollection
 			      with: aWormholeOne
 		         with: aWormholeTwo
@@ -219,6 +222,8 @@ GameTest >> test007WhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
 		              with: anotherSpaceship.
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
+	aWormholeOne associateWith: aWormholeTwo.
+	aWormholeTwo associateWith: aWormholeOne.
 	aBoxOne := Box new.
 	aPath := OrderedCollection
 		         with: aWormholeOne
@@ -229,8 +234,11 @@ GameTest >> test007WhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
 
-	self assert: (aSpaceship position) equals: 3. 
+	self assert: (aSpaceship position) equals: 1. 
 	self assert: (anotherSpaceship position) equals: 1.
 ]
 
@@ -272,7 +280,8 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 	aGame playWith: aBoard.	
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.	
-	self assert: (aGame checkPositionsIn: aBoard) equals: (OrderedCollection with: 5 with: 1).
+		
+	self assert: (aGame checkPositionsIn: aBoard) equals: (OrderedCollection with: 1 with: 1).
 ]
 
 { #category : #tests }
@@ -320,6 +329,8 @@ GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 		              with: anotherSpaceship.
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
+	aWormholeOne associateWith: aWormholeTwo.
+	aWormholeTwo associateWith: aWormholeOne.
 	aBoxOne := Box new.
 	aPath := OrderedCollection
 		         with: aWormholeOne

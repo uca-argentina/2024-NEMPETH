@@ -254,7 +254,7 @@ BoardTest >> test011VerifyCorrectDistributionsOfBoxes [
 	normalBoxes := pathOfTheBoard select: [ :box |
 		               box isKindOf: NormalBox ].
 
-	self assert: normalBoxes size equals: aBoard length * 0.2.
+	self assert: normalBoxes size equals: (aBoard length * 0.4 - 2).
 
 
 	hyperSpaceJumpBoxes := pathOfTheBoard select: [ :box |
@@ -282,10 +282,10 @@ BoardTest >> test011VerifyCorrectDistributionsOfBoxes [
 	wormHolesBoxes := pathOfTheBoard select: [ :box |
 		                  box isKindOf: Wormhole ].
 
-	self assert: wormHolesBoxes size equals: aBoard length * 0.2.
+	self assert: wormHolesBoxes size equals: 2.
 	
 	blackHoleBoxes := pathOfTheBoard select: [ :box |
-		                  box isKindOf: Wormhole ].
+		                  box isKindOf: BlackHole  ].
 
 	self assert: blackHoleBoxes size equals: aBoard length * 0.2.
 ]

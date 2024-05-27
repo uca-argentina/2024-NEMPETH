@@ -94,16 +94,20 @@ Game >> passTurnOn: aBoard [
 { #category : #'as yet unclassified' }
 Game >> playWith: aBoard [
 
-	| aSpaceship boxToCheck |
+	| aSpaceship boxToCheck winner |
 	turn > spaceships size ifTrue: [ turn := 1 ].
 	aSpaceship := spaceships at: turn.
+	
+	winner := self checkWinnerOn: aBoard.
+	winner ifNotNil: [
+		winner move: 1 - winner position .
+		^ self ].
+	
 	aSpaceship move: self throwDices.
 
 	aBoard normalizeOne: aSpaceship.
 
-	(self checkWinnerOn: aBoard) ifNotNil: [
-		aSpaceship move: aBoard length - aSpaceship position.
-		^ self ].
+	
 
 	boxToCheck := aBoard findBoxIn: aSpaceship position.
 	boxToCheck applyEffect: spaceships and: turn.

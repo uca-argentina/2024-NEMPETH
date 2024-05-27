@@ -52,8 +52,8 @@ Board >> initializeWith: aLength [
 	1 to: 0.1 * aLength do: [ :i | path add: (MoonWalk createWith: aLength atRandom) ].
 	1 to: 0.08 * aLength do: [ :i | path add: (HyperJump createWith: aLength) ].
 	1 to: 0.02 * aLength do: [ :i | path add: AtomicBomb new ].
-	1 to: ((0.2 * aLength) - 1) do: [ :i | path add: NormalBox new ].
-	1 to: (0.1 * aLength) do: [ :i | path addAll: self createWormhole ].
+	1 to: ((0.4 * aLength) - 3) do: [ :i | path add: NormalBox new ].
+	path addAll: self createWormhole.
 	
 	path := path shuffled.
 	path addFirst: NormalBox new. 
