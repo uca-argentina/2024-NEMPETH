@@ -8,16 +8,10 @@ Class {
 }
 
 { #category : #'instance creation' }
-Board class >> createWith: aLength [
-
-	self lengthValidation: aLength.
-	^ self new initializeWith: aLength
-]
-
-{ #category : #'instance creation' }
 Board class >> createWith: aLength andParsecsToBoxesRatio: aRatio [
 
 	self lengthValidation: aLength.
+	self parsecToBoxesRatioValidation: aRatio.
 	^ self new initializeWith: aLength and: aRatio
 ]
 
@@ -27,6 +21,13 @@ Board class >> lengthValidation: aLength [
 	(aLength < 0 or: aLength \\ 50 ~= 0) ifTrue: [
 		Error signal:
 			'Board length should be multiple of 50 and greater than 0' ]
+]
+
+{ #category : #'instance creation' }
+Board class >> parsecToBoxesRatioValidation: aRatio [
+
+	aRatio <= 0 ifTrue: [
+		Error signal: 'Parsecs to boxes ratio should be greater than 0' ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -47,28 +48,6 @@ Board >> createWormhole [
 Board >> findBoxIn:  aPosition [
 
 	^ path at: aPosition
-]
-
-{ #category : #initialization }
-Board >> initializeWith: aLength [
-
-	path := OrderedCollection new.
-
-	1 to: 0.2 * aLength do: [ :i | path add: HyperSpaceJump new ].
-	1 to: 0.2 * aLength do: [ :i | path add: BlackHole new ].
-	1 to: 0.1 * aLength do: [ :i | path add: (MoonWalk createWith: aLength atRandom) ].
-	1 to: 0.08 * aLength do: [ :i | path add: (HyperJump createWith: aLength) ].
-	1 to: 0.02 * aLength do: [ :i | path add: AtomicBomb new ].
-	1 to: ((0.4 * aLength) - 3) do: [ :i | path add: NormalBox new ].
-	path addAll: self createWormhole.
-	
-	path := path shuffled.
-	path addFirst: NormalBox new. 
-	
-	path withIndexDo: [ :box :index | box position: index ]
-
-
-	
 ]
 
 { #category : #initialization }

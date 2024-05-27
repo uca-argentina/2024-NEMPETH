@@ -20,7 +20,7 @@ HyperJump >> applyEffect: spaceships and: turn [
 
 	| affectedSpaceship |
 	affectedSpaceship := spaceships at: turn.
-	affectedSpaceship move: (collectionOfParsecs at: index).
+	affectedSpaceship move: (collectionOfParsecs at: index) // parsecsToBoxesRatio .
 	
 	index = collectionOfParsecs size ifTrue: [
 		index := 0 ].
@@ -38,7 +38,7 @@ HyperJump >> initializeWith: boardLength and: aRatio [
 
 	maxPosibleLengthCollectionOfParsecs := (boardLength * 0.25) rounded.
 	setLength := maxPosibleLengthCollectionOfParsecs atRandom. 
-	maxPosibleValueCollectionOfParsecs := (boardLength * 0.5) rounded. 
+	maxPosibleValueCollectionOfParsecs := (boardLength * 0.8) rounded. 
 	
     uniqueValuesSet := Set new.
     [ uniqueValuesSet size < setLength ] whileTrue: [

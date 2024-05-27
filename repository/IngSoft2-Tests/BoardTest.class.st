@@ -278,7 +278,7 @@ BoardTest >> test011VerifyCorrectDistributionsOfBoxes [
 BoardTest >> test012WhenBoardIsCreatedWithIncorrectNumberOfBoxesThenThrowError [
 
 	self
-		should: [ Board createWith: -30 ]
+		should: [ Board createWith: -30 andParsecsToBoxesRatio: 2 ]
 		raise: Error
 		withMessage:
 		'Board length should be multiple of 50 and greater than 0'
@@ -378,4 +378,14 @@ BoardTest >> test016ForBoardWhenASpaceshipMovesBackThroughFirstBoxThenSubtractOn
 	self assert: aSpaceship lapsCompleted equals: 0.
 	self assert: anotherSpaceship position equals: 1.
 	self assert: anotherSpaceship lapsCompleted equals: 0.
+]
+
+{ #category : #tests }
+BoardTest >> test017WhenBoardIsCreatedWithIncorrectParsecToBoxesRatioThenThrowError [
+
+	self
+		should: [ Board createWith: 50 andParsecsToBoxesRatio: 0 ]
+		raise: Error
+		withMessage:
+		'Parsecs to boxes ratio should be greater than 0'
 ]
