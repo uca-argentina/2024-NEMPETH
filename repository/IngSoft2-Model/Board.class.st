@@ -15,6 +15,13 @@ Board class >> createWith: aLength [
 ]
 
 { #category : #'instance creation' }
+Board class >> createWith: aLength andParsecsToBoxesRatio: aRatio [
+
+	self lengthValidation: aLength.
+	^ self new initializeWith: aLength and: aRatio
+]
+
+{ #category : #'instance creation' }
 Board class >> lengthValidation: aLength [
 
 	(aLength < 0 or: aLength \\ 50 ~= 0) ifTrue: [
@@ -62,6 +69,25 @@ Board >> initializeWith: aLength [
 
 
 	
+]
+
+{ #category : #initialization }
+Board >> initializeWith: aLength and: aRatio [ 
+
+	path := OrderedCollection new.
+
+	1 to: 0.2 * aLength do: [ :i | path add: HyperSpaceJump new ].
+	1 to: 0.2 * aLength do: [ :i | path add: BlackHole new ].
+	1 to: 0.1 * aLength do: [ :i | path add: (MoonWalk createWith: aLength atRandom) ].
+	1 to: 0.08 * aLength do: [ :i | path add: (HyperJump createWith: aLength andParsecsToBoxesRatio: aRatio  ) ].
+	1 to: 0.02 * aLength do: [ :i | path add: AtomicBomb new ].
+	1 to: ((0.4 * aLength) - 3) do: [ :i | path add: NormalBox new ].
+	path addAll: self createWormhole.
+	
+	path := path shuffled.
+	path addFirst: NormalBox new. 
+	
+	path withIndexDo: [ :box :index | box position: index ]
 ]
 
 { #category : #accessing }

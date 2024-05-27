@@ -214,7 +214,7 @@ BoardTest >> test008ForLoaded8WhenASpaceshipMovesBackThroughFirstBoxThenSubtract
 { #category : #tests }
 BoardTest >> test009CheckLengthWhenBoardIsCreated [
 	| aBoard |
-	aBoard := Board createWith: 50.
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
 
 	self assert: aBoard length equals: 50.
 ]
@@ -223,7 +223,7 @@ BoardTest >> test009CheckLengthWhenBoardIsCreated [
 BoardTest >> test010TheFirstBoxOfTheBoardIsANormalBox [
 
 	| aBoard |
-	aBoard := Board createWith: 50.
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2..
 
 	self assert: ((aBoard findBoxIn: 1 ) isKindOf: NormalBox)
 ]
@@ -232,7 +232,7 @@ BoardTest >> test010TheFirstBoxOfTheBoardIsANormalBox [
 BoardTest >> test011VerifyCorrectDistributionsOfBoxes [
 
 	| aBoard pathOfTheBoard normalBoxes hyperSpaceJumpBoxes moonwalkBoxes hyperJumpBoxes atomicBombBoxes wormHolesBoxes blackHoleBoxes |
-	aBoard := Board createWith: 50.
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
 	pathOfTheBoard := aBoard path.
 
 	normalBoxes := pathOfTheBoard select: [ :box |
@@ -291,7 +291,7 @@ BoardTest >> test013ForBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSp
 		
 	aSpaceship := Spaceship create.
 
-	aBoard := Board createWith: 50.
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
 	
 	aSpaceship move: 50.
 		
@@ -312,7 +312,7 @@ BoardTest >> test014ForBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesN
 		              with: aSpaceship
 		              with: anotherSpaceship.
 		
-	aBoard := Board createWith: 50.
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
 	
 	aSpaceship move: 50.
 		
@@ -335,7 +335,7 @@ BoardTest >> test015ForBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 		              with: aSpaceship
 		              with: anotherSpaceship.
 		
-	aBoard := Board createWith: 50.
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
 	
 	aSpaceship move: 50.
 	anotherSpaceship move: -3.
@@ -359,7 +359,7 @@ BoardTest >> test016ForBoardWhenASpaceshipMovesBackThroughFirstBoxThenSubtractOn
 		              with: aSpaceship
 		              with: anotherSpaceship.
 		
-	aBoard := Board createWith: 50.
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
 	
 	aSpaceship move: 50.
 		
