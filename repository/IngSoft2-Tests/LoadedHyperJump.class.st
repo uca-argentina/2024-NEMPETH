@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'index',
-		'collectionOfParsecs'
+		'collectionOfParsecs',
+		'parsecsToBoxesRatio'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -12,6 +13,12 @@ Class {
 LoadedHyperJump class >> createWith: listLength [
 
 	^ self new initializeWith: listLength
+]
+
+{ #category : #'instance creation' }
+LoadedHyperJump class >> createWith: listLength andParsecsToBoxesRatio: aRatio [
+
+	^ self new initializeWith: listLength and: aRatio
 ]
 
 { #category : #adding }
@@ -25,7 +32,7 @@ LoadedHyperJump >> applyEffect: spaceships and: turn [
 
 	| affectedSpaceship |
 	affectedSpaceship := spaceships at: turn.
-	affectedSpaceship move: (collectionOfParsecs at: index).
+	affectedSpaceship move: (collectionOfParsecs at: index) // parsecsToBoxesRatio .
 	
 	index = collectionOfParsecs size ifTrue: [
 		index := 0 ].
@@ -39,4 +46,12 @@ LoadedHyperJump >> initializeWith: listLength [
 	index := 1.
 	collectionOfParsecs := OrderedCollection new.
 
+]
+
+{ #category : #initialization }
+LoadedHyperJump >> initializeWith: listLength and: aRatio [
+
+	index := 1.
+	collectionOfParsecs := OrderedCollection new.
+	parsecsToBoxesRatio := aRatio
 ]

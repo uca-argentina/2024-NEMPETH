@@ -128,8 +128,8 @@ BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOf
 	spaceships := OrderedCollection new.
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
 
-	aHyperJump := LoadedHyperJump createWith: 3.
-	aHyperJump addParsecs: (OrderedCollection with: 5 with: 4 with: 3).
+	aHyperJump := LoadedHyperJump createWith: 3 andParsecsToBoxesRatio: 2.
+	aHyperJump addParsecs: (OrderedCollection with: 6 with: 4 with: 3).
 
 	spaceshipOne move: 4.
 	spaceshipTwo move: 2.
@@ -140,8 +140,8 @@ BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOf
 	aHyperJump applyEffect: spaceships and: 1.
 	aHyperJump applyEffect: spaceships and: 2.
 
-	self assert: spaceshipOne position equals: 10.
-	self assert: spaceshipTwo position equals: 7.
+	self assert: spaceshipOne position equals: 8.
+	self assert: spaceshipTwo position equals: 5.
 ]
 
 { #category : #tests }
@@ -156,8 +156,8 @@ BoxTest >> test006WhenAmountOfEffectsAppliedAreMoreThanCollectionOfParsecsThenSt
 	spaceships := OrderedCollection new.
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
 
-	aHyperJump := LoadedHyperJump createWith: 2.
-	aHyperJump addParsecs: (OrderedCollection with: 2 with: 1).
+	aHyperJump := LoadedHyperJump createWith: 2 andParsecsToBoxesRatio: 2.
+	aHyperJump addParsecs: (OrderedCollection with: 4 with: 2).
 
 	spaceshipOne move: 1.
 	spaceshipTwo move: 1.
