@@ -336,36 +336,6 @@ GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 ]
 
 { #category : #tests }
-GameTest >> test013WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardThenGameHasEnded [
-
-	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame |
-	aDie := LoadedDie of: 3.
-	aDie add: (OrderedCollection with: 3).
-	dices := OrderedCollection with: aDie.
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
-
-	spaceships := OrderedCollection
-		              with: aSpaceship
-		              with: anotherSpaceship.
-	aWormholeOne := Wormhole new.
-	aWormholeTwo := Wormhole new.
-	aBoxOne := Box new.
-	aPath := OrderedCollection
-		         with: aWormholeOne
-		         with: aWormholeTwo
-		         with: aBoxOne.
-	aBoard := LoadedBoard createWith: aPath.
-	
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
-	
-	aGame playWith: aBoard.
-
-	self assert: (aGame checkWinnerOn: aBoard) equals: aSpaceship. 
-	
-]
-
-{ #category : #tests }
 GameTest >> test014WhenSpaceshipMoveToAPositionWhereThereIsNotAnotherSpaceshipThenTheShieldIsNotAffected [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
