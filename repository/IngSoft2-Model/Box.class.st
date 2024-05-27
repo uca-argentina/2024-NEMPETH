@@ -14,11 +14,6 @@ Box >> applyEffect: spaceships and: turn [
 ]
 
 { #category : #accessing }
-Box >> isWormhole [
-	^ false
-]
-
-{ #category : #accessing }
 Box >> position [
 
 	^ position

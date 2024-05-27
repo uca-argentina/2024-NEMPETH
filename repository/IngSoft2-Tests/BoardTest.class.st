@@ -41,22 +41,6 @@ BoardTest >> test002WhenBoardHasThreeBoxesThenLengthIsThree [
 ]
 
 { #category : #tests }
-BoardTest >> test003WhenBoardIsCreatedWithIncorrectNumberOfWormholesThenThrowError [
-	|aPath aWormhole aBox anotherBox|
-	
-	aWormhole := Wormhole new.
-	aBox := Box new.
-	anotherBox := Box new.
-	aPath := OrderedCollection with: aWormhole with: aBox with: anotherBox.
-	
-	self
-		should: [ LoadedBoard createWith: aPath. ]
-		raise: Error
-		withMessage: 'Path should have two boxes of Wormhole'
-
-]
-
-{ #category : #tests }
 BoardTest >> test004WhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 
 	|aBoard aPath aWormhole anotherWormhole aBox anotherBox|

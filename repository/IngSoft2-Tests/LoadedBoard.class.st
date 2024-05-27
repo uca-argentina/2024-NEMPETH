@@ -12,8 +12,6 @@ LoadedBoard class >> createWith: aPath [
 
 	self pathValidation: aPath.
 
-	self wormholeValidation: aPath.
-
 	^ self new initializeWith: aPath
 ]
 
@@ -22,19 +20,6 @@ LoadedBoard class >> pathValidation: aPath [
 
 	aPath size < 1 ifTrue: [
 		Error signal: 'Path should have a least one box' ]
-]
-
-{ #category : #'instance creation' }
-LoadedBoard class >> wormholeValidation: aPath [
-
-	| wormholeCounter |
-	wormholeCounter := 0.
-	aPath do: [ :aBox |
-		(aBox isWormhole) ifTrue: [
-			wormholeCounter := wormholeCounter + 1 ] ].
-
-	wormholeCounter ~= 2 ifTrue: [
-		Error signal: 'Path should have two boxes of Wormhole' ]
 ]
 
 { #category : #'as yet unclassified' }
