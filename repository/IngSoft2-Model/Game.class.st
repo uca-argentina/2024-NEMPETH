@@ -97,23 +97,25 @@ Game >> playWith: aBoard [
 	| aSpaceship boxToCheck winner |
 	turn > spaceships size ifTrue: [ turn := 1 ].
 	aSpaceship := spaceships at: turn.
-	
+
 	winner := self checkWinnerOn: aBoard.
 	winner ifNotNil: [
-		winner move: 1 - winner position .
+		winner move: 1 - winner position.
 		^ self ].
-	
+
 	aSpaceship move: self throwDices.
-
 	aBoard normalizeOne: aSpaceship.
-
-	
 
 	boxToCheck := aBoard findBoxIn: aSpaceship position.
 	boxToCheck applyEffect: spaceships and: turn.
 	aBoard normalizeAll: spaceships.
+	
+	winner := self checkWinnerOn: aBoard.
+	winner ifNotNil: [
+		winner move: 1 - winner position.
+		^ self ].
 
-
+	self verifyBattleWith: aSpaceship.
 	turn := turn + 1
 ]
 
@@ -144,11 +146,11 @@ Game >> verifyBattleWith: actualSpaceship [
 
 	diceRolls first >= diceRolls second
 		ifTrue: [
-			spaceshipsFight first move: (-1 * actualSpaceship position) + 1.
-			spaceshipsFight first updateShield: -1 ]
-		ifFalse: [
 			spaceshipsFight second move: (-1 * actualSpaceship position) + 1.
 			spaceshipsFight second updateShield: -1 ]
+		ifFalse: [
+			spaceshipsFight first move: (-1 * actualSpaceship position) + 1.
+			spaceshipsFight first updateShield: -1 ]
 
 
 ]

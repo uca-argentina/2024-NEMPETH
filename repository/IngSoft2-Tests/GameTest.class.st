@@ -588,3 +588,79 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 				 with: spaceshipThree
 				 with: spaceshipOne)
 ]
+
+{ #category : #tests }
+GameTest >> test020CanNotBattleAfterASpaceshipHasWon [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 1 with: 3).
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+					with: aNormalBoxOne
+					with: aNormalBoxTwo
+					with: aNormalBoxThree
+					with: aNormalBoxFour.
+					 
+	aBoard := LoadedBoard createWith: aPath.
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+		
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+
+	self assert: aSpaceship position equals: 3.
+	self assert: anotherSpaceship position equals: 1.
+	
+	
+]
+
+{ #category : #tests }
+GameTest >> test021WhenOnABattleTheSpaceshipsThrowTheSameThenTheOneWhichArrivedLastLose [
+
+	| spaceships dices aDie aSpaceship anotherSpaceship aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 2 with: 2 with: 3 with: 3).
+	dices := OrderedCollection with: aDie.
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+					with: aNormalBoxOne
+					with: aNormalBoxTwo
+					with: aNormalBoxThree
+					with: aNormalBoxFour.
+					 
+	aBoard := LoadedBoard createWith: aPath.
+	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+		
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+
+	self assert: aSpaceship position equals: 3.
+	self assert: aSpaceship shield equals: 3.
+	self assert: anotherSpaceship position equals: 1.
+	self assert: anotherSpaceship shield equals: 2.
+	
+	
+]
