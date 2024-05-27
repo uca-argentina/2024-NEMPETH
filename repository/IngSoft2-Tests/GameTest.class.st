@@ -247,7 +247,7 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aNormalBoxOne aPath aBoard aGame aNormalBoxTwo aNormalBoxThree |
 	aDie := LoadedDie of: 5.
-	aDie add: (OrderedCollection with: 4 with: 3 with: 4 with: 2 with: 2).
+	aDie add: (OrderedCollection with: 4 with: 3 with: 3 with: 3 with: 5).
 	dices := OrderedCollection with: aDie.
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
@@ -281,7 +281,7 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.	
 		
-	self assert: (aGame checkPositionsIn: aBoard) equals: (OrderedCollection with: 1 with: 1).
+	self assert: (aGame checkPositionsIn: aBoard) equals: (OrderedCollection with: 1 with: 3).
 ]
 
 { #category : #tests }
@@ -381,7 +381,7 @@ GameTest >> test014WhenSpaceshipMoveToAPositionWhereThereIsNotAnotherSpaceshipTh
 ]
 
 { #category : #tests }
-GameTest >> test015WhenBothSpaceshipsAreInTheSameBoxThenTheSecondSpaceshipLoseOneShieldAndRestartPositionOne [
+GameTest >> test015WhenTwoSpaceshipsBattleIfThereIsATieThenTheSecondSpaceshipLoseOneShieldAndRestartPositionOne [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
@@ -411,7 +411,7 @@ GameTest >> test015WhenBothSpaceshipsAreInTheSameBoxThenTheSecondSpaceshipLoseOn
 	
 	aSpaceship move: 1.
 	anotherSpaceship move: 1.
-	aGame verifyBattleWith: aSpaceship.
+	aGame verifyBattleWith: anotherSpaceship.
 	
 	self assert: aSpaceship shield equals: 3.
 	self assert: aSpaceship position equals: 2.
