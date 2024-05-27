@@ -67,7 +67,7 @@ Game >> checkRankingOn: aBoard [
 Game >> checkWinnerOn: aBoard [
 
 	^ spaceships
-		  detect: [ :aSpaceship | aSpaceship lapsCompleted == lapsToWin ]
+		  detect: [ :aSpaceship | aSpaceship lapsCompleted >= lapsToWin ]
 		  ifNone: [ nil ]
 ]
 
