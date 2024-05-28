@@ -98,24 +98,25 @@ Game >> playWith: aBoard [
 	turn > spaceships size ifTrue: [ turn := 1 ].
 	aSpaceship := spaceships at: turn.
 
-	winner := self checkWinnerOn: aBoard.
-	winner ifNotNil: [
-		winner move: 1 - winner position.
-		^ self ].
+	aSpaceship playTurn ifTrue: [
+		winner := self checkWinnerOn: aBoard.
+		winner ifNotNil: [
+			winner move: 1 - winner position.
+			^ self ].
 
-	aSpaceship move: self throwDices.
-	aBoard normalizeOne: aSpaceship.
+		aSpaceship move: self throwDices.
+		aBoard normalizeOne: aSpaceship.
 
-	boxToCheck := aBoard findBoxIn: aSpaceship position.
-	boxToCheck applyEffect: spaceships and: turn.
-	aBoard normalizeAll: spaceships.
-	
-	winner := self checkWinnerOn: aBoard.
-	winner ifNotNil: [
-		winner move: 1 - winner position.
-		^ self ].
+		boxToCheck := aBoard findBoxIn: aSpaceship position.
+		boxToCheck applyEffect: spaceships and: turn.
+		aBoard normalizeAll: spaceships.
 
-	self verifyBattleWith: aSpaceship.
+		winner := self checkWinnerOn: aBoard.
+		winner ifNotNil: [
+			winner move: 1 - winner position.
+			^ self ].
+
+		self verifyBattleWith: aSpaceship ].
 	turn := turn + 1
 ]
 
