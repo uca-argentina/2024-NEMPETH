@@ -4,20 +4,30 @@ Class {
 	#instVars : [
 		'turn',
 		'spaceships',
-		'dices'
+		'dices',
+		'lapsToWin'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
-Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices [
+Game class >> amountOfLapsToWinValidation: amountOfLapsToWin [
+
+	amountOfLapsToWin < 1 ifTrue: [
+		Error signal: 'Laps to win should be greater than zero' ]
+]
+
+{ #category : #'instance creation' }
+Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
 
 	self dicesValidation: aCollectionOfDices.
 	self spaceshipsValidation: aCollectionOfSpaceships.
+	self amountOfLapsToWinValidation: amountOfLapsToWin.
 
 	^ self new
 		  initializeWith: aCollectionOfSpaceships
 		  and: aCollectionOfDices
+		  andLapsToWin: amountOfLapsToWin
 ]
 
 { #category : #'instance creation' }
@@ -48,40 +58,66 @@ Game >> checkPositionsIn: aBoard [
 ]
 
 { #category : #'as yet unclassified' }
+Game >> checkRankingOn: aBoard [
+
+	^ spaceships sort: [ :a :b | a > b ]
+]
+
+{ #category : #'as yet unclassified' }
 Game >> checkWinnerOn: aBoard [
 
 	^ spaceships
-		  detect: [ :aSpaceship | aSpaceship position >= aBoard length ]
+		  detect: [ :aSpaceship | aSpaceship lapsCompleted >= lapsToWin ]
 		  ifNone: [ nil ]
 ]
 
 { #category : #initialization }
-Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices [
+Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
 
 	turn := 1.
 	spaceships := aCollectionOfSpaceships.
-	dices := aCollectionOfDices
+	dices := aCollectionOfDices.
+	lapsToWin := amountOfLapsToWin
+]
+
+{ #category : #'as yet unclassified' }
+Game >> passTurnOn: aBoard [
+
+	| aSpaceship |
+	turn > spaceships size ifTrue: [ turn := 1 ].
+	aSpaceship := spaceships at: turn.
+	aSpaceship recoverShields.
+
+	turn := turn + 1
 ]
 
 { #category : #'as yet unclassified' }
 Game >> playWith: aBoard [
 
-	| aSpaceship boxToCheck positionsToMoveWithEffect |
+	| aSpaceship boxToCheck winner |
 	turn > spaceships size ifTrue: [ turn := 1 ].
 	aSpaceship := spaceships at: turn.
-	aSpaceship move: self throwDices.
 
+	aSpaceship playTurn ifTrue: [
+		winner := self checkWinnerOn: aBoard.
+		winner ifNotNil: [
+			winner move: 1 - winner position.
+			^ self ].
 
-	(self checkWinnerOn: aBoard) ifNotNil: [
-		aSpaceship move: aBoard length - aSpaceship position.
-		^ self ].
+		aSpaceship move: self throwDices.
+		aBoard normalizeOne: aSpaceship.
 
-	boxToCheck := aBoard findBoxIn: aSpaceship position.
-	positionsToMoveWithEffect := boxToCheck applyEffect.
-	aSpaceship move: positionsToMoveWithEffect.
+		boxToCheck := aBoard findBoxIn: aSpaceship position.
+		boxToCheck applyEffect: spaceships and: turn.
+		aBoard normalizeAll: spaceships.
 
-	turn := turn + 1.
-	self playWith: aBoard
+		winner := self checkWinnerOn: aBoard.
+		winner ifNotNil: [
+			winner move: 1 - winner position.
+			^ self ].
+
+		self verifyBattleWith: aSpaceship ].
+	turn := turn + 1
 ]
 
 { #category : #'as yet unclassified' }
@@ -91,4 +127,31 @@ Game >> throwDices [
 	sum := 0.
 	dices do: [ :die | sum := sum + die throw ].
 	^ sum
+]
+
+{ #category : #accessing }
+Game >> verifyBattleWith: actualSpaceship [
+
+	| spaceshipsFight diceRolls |
+	
+	actualSpaceship position = 1 ifTrue: [ ^ self ].
+
+	spaceshipsFight := spaceships select: [ :spaceship |
+		                   (spaceship position = actualSpaceship position) and: [ spaceship ~= actualSpaceship ]].
+	
+	spaceshipsFight add: actualSpaceship. 
+
+	spaceshipsFight size = 2 ifFalse: [ ^ self ].
+
+	diceRolls := spaceshipsFight collect: [ :spaceship | self throwDices ].
+
+	diceRolls first >= diceRolls second
+		ifTrue: [
+			spaceshipsFight second move: (-1 * actualSpaceship position) + 1.
+			spaceshipsFight second updateShield: -1 ]
+		ifFalse: [
+			spaceshipsFight first move: (-1 * actualSpaceship position) + 1.
+			spaceshipsFight first updateShield: -1 ]
+
+
 ]

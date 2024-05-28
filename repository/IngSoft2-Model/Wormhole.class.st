@@ -7,19 +7,16 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #accessing }
-Wormhole >> applyEffect [
+{ #category : #'as yet unclassified' }
+Wormhole >> applyEffect: spaceships and: turn [
 
-	^ wormholeEnd position - self position
+	| affectedSpaceship |
+	affectedSpaceship := spaceships at: turn.
+	affectedSpaceship move: wormholeEnd position - self position
 ]
 
 { #category : #'as yet unclassified' }
 Wormhole >> associateWith: aWormhole [
 
 	wormholeEnd := aWormhole
-]
-
-{ #category : #'as yet unclassified' }
-Wormhole >> isWormhole [
-	^ true
 ]

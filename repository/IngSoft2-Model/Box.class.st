@@ -8,14 +8,9 @@ Class {
 }
 
 { #category : #accessing }
-Box >> applyEffect [
+Box >> applyEffect: spaceships and: turn [
 
-	^ 0
-]
-
-{ #category : #accessing }
-Box >> isWormhole [
-	^ false
+	self subclassResponsibility.
 ]
 
 { #category : #accessing }

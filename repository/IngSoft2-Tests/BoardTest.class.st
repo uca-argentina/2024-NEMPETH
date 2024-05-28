@@ -10,14 +10,14 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessage: anErrorMessag
 ]
 
 { #category : #tests }
-BoardTest >> testWhenBoardDoesNotHaveBoxesThenThrowError [
+BoardTest >> test001WhenBoardDoesNotHaveBoxesThenThrowError [
 
 	|aPath|
 	
 	aPath := OrderedCollection new.
 	
 	self
-		should: [ Board createWith: aPath. ]
+		should: [ LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2. ]
 		raise: Error
 		withMessage: 'Path should have a least one box'
 	
@@ -25,7 +25,7 @@ BoardTest >> testWhenBoardDoesNotHaveBoxesThenThrowError [
 ]
 
 { #category : #tests }
-BoardTest >> testWhenBoardHasThreeBoxesThenLengthIsThree [
+BoardTest >> test002WhenBoardHasThreeBoxesThenLengthIsThree [
 
 	|aBoard aPath aBox aWormhole anotherWormhole |
 	
@@ -33,7 +33,7 @@ BoardTest >> testWhenBoardHasThreeBoxesThenLengthIsThree [
 	aWormhole := Wormhole new.
 	anotherWormhole := Wormhole new.
 	aPath := OrderedCollection with: aBox with: aWormhole with: anotherWormhole.
-	aBoard := Board createWith: aPath. 
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2. 
 	
 	self assert: aBoard length equals: 3.
 	
@@ -41,23 +41,7 @@ BoardTest >> testWhenBoardHasThreeBoxesThenLengthIsThree [
 ]
 
 { #category : #tests }
-BoardTest >> testWhenBoardIsCreatedWithIncorrectNumberOfWormholesThenThrowError [
-	|aPath aWormhole aBox anotherBox|
-	
-	aWormhole := Wormhole new.
-	aBox := Box new.
-	anotherBox := Box new.
-	aPath := OrderedCollection with: aWormhole with: aBox with: anotherBox.
-	
-	self
-		should: [ Board createWith: aPath. ]
-		raise: Error
-		withMessage: 'Path should have two boxes of Wormhole'
-
-]
-
-{ #category : #tests }
-BoardTest >> testWhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
+BoardTest >> test004WhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 
 	|aBoard aPath aWormhole anotherWormhole aBox anotherBox|
 	
@@ -70,8 +54,338 @@ BoardTest >> testWhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 	aBox := Box new.
 	anotherBox := Box new.
 	aPath := OrderedCollection with: aWormhole with: aBox with: anotherWormhole with: anotherBox.
-	aBoard := Board createWith: aPath. 
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2. 
 	
 	self assert: aBoard length equals: 4.
 	self assert: (aPath at: 1) position equals: 1.
+]
+
+{ #category : #tests }
+BoardTest >> test005ForLoadedBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship [
+
+	| aSpaceship aBoard aPath aWormhole anotherWormhole aBox anotherBox |
+	aSpaceship := Spaceship create.
+
+	aWormhole := Wormhole new.
+	anotherWormhole := Wormhole new.
+
+	aWormhole associateWith: anotherWormhole.
+	anotherWormhole associateWith: aWormhole.
+
+	aBox := Box new.
+	anotherBox := Box new.
+	aPath := OrderedCollection
+		         with: aWormhole
+		         with: aBox
+		         with: anotherWormhole
+		         with: anotherBox.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
+	
+	aSpaceship move: 6.
+		
+	aBoard normalizeOne: aSpaceship.
+	
+	self assert: aSpaceship position equals: 3. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+
+]
+
+{ #category : #tests }
+BoardTest >> test006ForLoadedBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAddALapToASpaceship [
+	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+
+	aWormhole := Wormhole new.
+	anotherWormhole := Wormhole new.
+
+	aWormhole associateWith: anotherWormhole.
+	anotherWormhole associateWith: aWormhole.
+
+	aBox := Box new.
+	anotherBox := Box new.
+	aPath := OrderedCollection
+		         with: aWormhole
+		         with: aBox
+		         with: anotherWormhole
+		         with: anotherBox.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
+	
+	aSpaceship move: 6.
+	anotherSpaceship move: 3.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 3. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+	self assert: anotherSpaceship position equals: 4.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
+
+]
+
+{ #category : #tests }
+BoardTest >> test007ForLoadedBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
+	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+
+	aWormhole := Wormhole new.
+	anotherWormhole := Wormhole new.
+
+	aWormhole associateWith: anotherWormhole.
+	anotherWormhole associateWith: aWormhole.
+
+	aBox := Box new.
+	anotherBox := Box new.
+	aPath := OrderedCollection
+		         with: aWormhole
+		         with: aBox
+		         with: anotherWormhole
+		         with: anotherBox.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
+	
+	aSpaceship move: 6.
+	anotherSpaceship move: -3.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 3. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+	self assert: anotherSpaceship position equals: 1.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
+
+]
+
+{ #category : #tests }
+BoardTest >> test008ForLoaded8WhenASpaceshipMovesBackThroughFirstBoxThenSubtractOneLapCompleted [
+	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+
+	aWormhole := Wormhole new.
+	anotherWormhole := Wormhole new.
+
+	aWormhole associateWith: anotherWormhole.
+	anotherWormhole associateWith: aWormhole.
+
+	aBox := Box new.
+	anotherBox := Box new.
+	aPath := OrderedCollection
+		         with: aWormhole
+		         with: aBox
+		         with: anotherWormhole
+		         with: anotherBox.
+	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
+	
+	aSpaceship move: 6.
+	anotherSpaceship move: 1.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 3. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+	self assert: anotherSpaceship position equals: 2.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
+	
+	aSpaceship move: -3.
+	anotherSpaceship move: -3.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 4. 
+	self assert: aSpaceship lapsCompleted equals: 0.
+	self assert: anotherSpaceship position equals: 1.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
+
+]
+
+{ #category : #tests }
+BoardTest >> test009CheckLengthWhenBoardIsCreated [
+	| aBoard |
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+
+	self assert: aBoard length equals: 50.
+]
+
+{ #category : #tests }
+BoardTest >> test010TheFirstBoxOfTheBoardIsANormalBox [
+
+	| aBoard |
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2..
+
+	self assert: ((aBoard findBoxIn: 1 ) isKindOf: NormalBox)
+]
+
+{ #category : #tests }
+BoardTest >> test011VerifyCorrectDistributionsOfBoxes [
+
+	| aBoard pathOfTheBoard normalBoxes hyperSpaceJumpBoxes moonwalkBoxes hyperJumpBoxes atomicBombBoxes wormHolesBoxes blackHoleBoxes |
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	pathOfTheBoard := aBoard path.
+
+	normalBoxes := pathOfTheBoard select: [ :box |
+		               box isKindOf: NormalBox ].
+
+	self assert: normalBoxes size equals: (aBoard length * 0.4 - 2).
+
+
+	hyperSpaceJumpBoxes := pathOfTheBoard select: [ :box |
+		                       box isKindOf: HyperSpaceJump ].
+
+	self assert: hyperSpaceJumpBoxes size equals: aBoard length * 0.2.
+
+
+	moonwalkBoxes := pathOfTheBoard select: [ :box |
+		                 box isKindOf: MoonWalk ].
+
+	self assert: moonwalkBoxes size equals: aBoard length * 0.1.
+
+	hyperJumpBoxes := pathOfTheBoard select: [ :box |
+		                  box isKindOf: HyperJump ].
+
+	self assert: hyperJumpBoxes size equals: aBoard length * 0.08.
+
+
+	atomicBombBoxes := pathOfTheBoard select: [ :box |
+		                   box isKindOf: AtomicBomb ].
+
+	self assert: atomicBombBoxes size equals: aBoard length * 0.02.
+
+	wormHolesBoxes := pathOfTheBoard select: [ :box |
+		                  box isKindOf: Wormhole ].
+
+	self assert: wormHolesBoxes size equals: 2.
+	
+	blackHoleBoxes := pathOfTheBoard select: [ :box |
+		                  box isKindOf: BlackHole  ].
+
+	self assert: blackHoleBoxes size equals: aBoard length * 0.2.
+]
+
+{ #category : #tests }
+BoardTest >> test012WhenBoardIsCreatedWithIncorrectNumberOfBoxesThenThrowError [
+
+	self
+		should: [ Board createWith: -30 andParsecsToBoxesRatio: 2 ]
+		raise: Error
+		withMessage:
+		'Board length should be multiple of 50 and greater than 0'
+]
+
+{ #category : #tests }
+BoardTest >> test013ForBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship [
+
+		| aSpaceship aBoard |
+		
+	aSpaceship := Spaceship create.
+
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	
+	aSpaceship move: 50.
+		
+	aBoard normalizeOne: aSpaceship.
+	
+	self assert: aSpaceship position equals: 1. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+]
+
+{ #category : #tests }
+BoardTest >> test014ForBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAddALapToASpaceship [
+	| aSpaceship anotherSpaceship spaceships aBoard |
+	
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+		
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	
+	aSpaceship move: 50.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 1. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+	self assert: anotherSpaceship position equals: 1.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
+]
+
+{ #category : #tests }
+BoardTest >> test015ForBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
+	| aSpaceship anotherSpaceship spaceships aBoard |
+	
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+		
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	
+	aSpaceship move: 50.
+	anotherSpaceship move: -3.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 1. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+	self assert: anotherSpaceship position equals: 1.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
+]
+
+{ #category : #tests }
+BoardTest >> test016ForBoardWhenASpaceshipMovesBackThroughFirstBoxThenSubtractOneLapCompleted [
+	| aSpaceship anotherSpaceship spaceships aBoard |
+	
+	aSpaceship := Spaceship create.
+	anotherSpaceship := Spaceship create.
+
+	spaceships := OrderedCollection
+		              with: aSpaceship
+		              with: anotherSpaceship.
+		
+	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	
+	aSpaceship move: 50.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 1. 
+	self assert: aSpaceship lapsCompleted equals: 1.
+	self assert: anotherSpaceship position equals: 1.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
+	
+	aSpaceship move: -50.
+		
+	aBoard normalizeAll: spaceships.
+	
+	self assert: aSpaceship position equals: 1. 
+	self assert: aSpaceship lapsCompleted equals: 0.
+	self assert: anotherSpaceship position equals: 1.
+	self assert: anotherSpaceship lapsCompleted equals: 0.
+]
+
+{ #category : #tests }
+BoardTest >> test017WhenBoardIsCreatedWithIncorrectParsecToBoxesRatioThenThrowError [
+
+	self
+		should: [ Board createWith: 50 andParsecsToBoxesRatio: 0 ]
+		raise: Error
+		withMessage:
+		'Parsecs to boxes ratio should be greater than 0'
 ]
