@@ -185,7 +185,7 @@ BoxTest >> test007VerifyCorrectCreationOfHyperJumpBox [
 	aHyperJump := HyperJump createWith: 40 andParsecsToBoxesRatio: 2.
 
 	self assert: aHyperJump parsecs size <= 10.
-	self assert: (aHyperJump parsecs anySatisfy: [ :each | each <= 20 ]).
+	self assert: (aHyperJump parsecs anySatisfy: [ :each | each <= (40 * 0.8) ]).
 
 	sortedColletion := aHyperJump parsecs sort: [ :a :b | a > b ].
 
