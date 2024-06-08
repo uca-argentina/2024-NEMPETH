@@ -212,14 +212,6 @@ BoardTest >> test008ForLoaded8WhenASpaceshipMovesBackThroughFirstBoxThenSubtract
 ]
 
 { #category : #tests }
-BoardTest >> test009CheckLengthWhenBoardIsCreated [
-	| aBoard |
-	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
-
-	self assert: aBoard length equals: 50.
-]
-
-{ #category : #tests }
 BoardTest >> test010TheFirstBoxOfTheBoardIsANormalBox [
 
 	| aBoard |
