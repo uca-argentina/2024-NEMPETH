@@ -175,7 +175,12 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 
 	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aNormalBoxOne aPath aBoard aGame aNormalBoxTwo aNormalBoxThree |
 	aDie := LoadedDie of: 5.
-	aDie add: (OrderedCollection with: 4 with: 3 with: 3 with: 3 with: 5).
+	aDie add: (OrderedCollection
+			 with: 4
+			 with: 3
+			 with: 3
+			 with: 3
+			 with: 5).
 	dices := OrderedCollection with: aDie.
 	aSpaceship := Spaceship create.
 	anotherSpaceship := Spaceship create.
@@ -188,28 +193,30 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
 	aNormalBoxThree := NormalBox new.
-	
+
 	aWormholeOne associateWith: aWormholeTwo.
 	aWormholeTwo associateWith: aWormholeOne.
-	
+
 	aPath := OrderedCollection
 		         with: aNormalBoxOne
-					with: aWormholeOne
-					with: aWormholeTwo         
-					with: aNormalBoxTwo
+		         with: aWormholeOne
+		         with: aWormholeTwo
+		         with: aNormalBoxTwo
 		         with: aNormalBoxThree.
-		         
+
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 
 	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
 
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
-	aGame playWith: aBoard.	
 	aGame playWith: aBoard.
-	aGame playWith: aBoard.	
-		
-	self assert: (aGame checkPositionsIn: aBoard) equals: (OrderedCollection with: 1 with: 3).
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+
+	self
+		assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 3)
 ]
 
 { #category : #tests }

@@ -45,16 +45,9 @@ Game class >> spaceshipsValidation: aCollectionOfSpaceships [
 ]
 
 { #category : #'as yet unclassified' }
-Game >> checkPositionsIn: aBoard [
+Game >> checkPositionsOfSpaceships [
 
-	| positions |
-	positions := OrderedCollection new.
-	spaceships do: [ :aSpaceship |
-		aSpaceship position > aBoard length
-			ifTrue: [ positions add: aBoard length ]
-			ifFalse: [ positions add: aSpaceship position ] ].
-
-	^ positions
+	^ spaceships collect: [ :spaceship | spaceship position ]
 ]
 
 { #category : #'as yet unclassified' }
