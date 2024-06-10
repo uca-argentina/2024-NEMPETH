@@ -57,6 +57,12 @@ Game >> checkRankingOn: aBoard [
 ]
 
 { #category : #'as yet unclassified' }
+Game >> checkShieldsOfSpaceships [
+
+	^ spaceships collect: [ :spaceship | spaceship shield ]
+]
+
+{ #category : #'as yet unclassified' }
 Game >> checkWinnerOn: aBoard [
 
 	^ spaceships
