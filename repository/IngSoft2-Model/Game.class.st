@@ -18,14 +18,14 @@ Game class >> amountOfLapsToWinValidation: amountOfLapsToWin [
 ]
 
 { #category : #'instance creation' }
-Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
+Game class >> createWithNumberOfSpaceships: numberOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
 
 	self dicesValidation: aCollectionOfDices.
-	self spaceshipsValidation: aCollectionOfSpaceships.
+	self spaceshipsValidation: numberOfSpaceships.
 	self amountOfLapsToWinValidation: amountOfLapsToWin.
 
 	^ self new
-		  initializeWith: aCollectionOfSpaceships
+		  initializeWith: numberOfSpaceships
 		  and: aCollectionOfDices
 		  andLapsToWin: amountOfLapsToWin
 ]
@@ -38,9 +38,9 @@ Game class >> dicesValidation: aCollectionOfDices [
 ]
 
 { #category : #'instance creation' }
-Game class >> spaceshipsValidation: aCollectionOfSpaceships [
+Game class >> spaceshipsValidation: numberOfSpaceships [
 
-	aCollectionOfSpaceships size < 2 ifTrue: [
+	numberOfSpaceships < 2 ifTrue: [
 		Error signal: 'Game should have a least two spaceships' ]
 ]
 
@@ -64,11 +64,21 @@ Game >> checkWinnerOn: aBoard [
 		  ifNone: [ nil ]
 ]
 
+{ #category : #'as yet unclassified' }
+Game >> createSpaceships: numberOfSpaceships [
+
+	| aCollectionOfSpaceships |
+	aCollectionOfSpaceships := OrderedCollection new: numberOfSpaceships.
+	1 to: numberOfSpaceships do: [ :i |
+	aCollectionOfSpaceships add: Spaceship create ].
+	^ aCollectionOfSpaceships
+]
+
 { #category : #initialization }
-Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
+Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
 
 	turn := 1.
-	spaceships := aCollectionOfSpaceships.
+	spaceships := self createSpaceships: numberOfSpaceships.
 	dices := aCollectionOfDices.
 	lapsToWin := amountOfLapsToWin
 ]

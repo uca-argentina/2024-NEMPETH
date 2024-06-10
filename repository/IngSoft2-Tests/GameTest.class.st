@@ -35,7 +35,7 @@ GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWi
 		         with: aBoxOne.
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 
@@ -58,7 +58,7 @@ GameTest >> test002WhenGameIsCreatedWithLessThanOneLapToWinThenThrowError [
 		              with: anotherSpaceship.
 
 	self
-		should: [ Game createWith: spaceships and: dices andLapsToWin: 0 ]
+		should: [ Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 0 ]
 		raise: Error
 		withMessage: 'Laps to win should be greater than zero'
 ]
@@ -90,7 +90,7 @@ GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpa
 				   with: aNormalBoxTwo.
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
+	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 2.
 	
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -159,7 +159,7 @@ GameTest >> test007WhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsZero [
 		         with: aBoxOne.
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -206,7 +206,7 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
+	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 2.
 
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -229,7 +229,7 @@ GameTest >> test009WhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 	spaceships := OrderedCollection new.
 
 	self
-		should: [ Game createWith: spaceships and: dices andLapsToWin: 1 ]
+		should: [ Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1 ]
 		raise: Error
 		withMessage: 'Game should have a least two spaceships'
 ]
@@ -244,7 +244,7 @@ GameTest >> test010WhenGameIsCreatedWithoutDicesThenThrowError [
 	dices := OrderedCollection new.
 
 	self
-		should: [ Game createWith: spaceships and: dices andLapsToWin: 1 ]
+		should: [ Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1 ]
 		raise: Error
 		withMessage: 'Game should have a least one die'
 ]
@@ -273,7 +273,7 @@ GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 		         with: aBoxOne.
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 
@@ -307,7 +307,7 @@ GameTest >> test014WhenSpaceshipMoveToAPositionWhereThereIsNotAnotherSpaceshipTh
 					with: aBoxThree.
 					 
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1.
 	
 	aSpaceship move: 1.
 	aGame verifyBattleWith: aSpaceship.
@@ -342,7 +342,7 @@ GameTest >> test015WhenTwoSpaceshipsBattleIfThereIsATieThenTheSecondSpaceshipLos
 					with: aBoxThree.
 					 
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1.
 	
 	aSpaceship move: 1.
 	anotherSpaceship move: 1.
@@ -381,7 +381,7 @@ GameTest >> test016WhenBothSpaceshipsAreInPositionOneThenTheSpaceshipsAreNotAffe
 					with: aBoxThree.
 					 
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1.
 	
 	aGame verifyBattleWith: aSpaceship.
 	
@@ -418,7 +418,7 @@ GameTest >> test017WhenPassTurnThenTheSpaceshipRecoverAllShields [
 					with: aBoxThree.
 					 
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1.
 	
 	aSpaceship updateShield: -2.
 	
@@ -457,7 +457,7 @@ GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 					with: aNormalBoxThree.
 					 
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1.
 		
 	aGame playWith: aBoard.
 	self assert: aSpaceship position equals: 2.
@@ -507,7 +507,7 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 		         with: aNormalBoxTwo.
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 2.
+	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 2.
 
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -549,7 +549,7 @@ GameTest >> test020CanNotBattleAfterASpaceshipHasWon [
 					with: aNormalBoxFour.
 					 
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1.
 		
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -587,7 +587,7 @@ GameTest >> test021WhenOnABattleTheSpaceshipsThrowTheSameThenTheOneWhichArrivedL
 					with: aNormalBoxFour.
 					 
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
-	aGame := Game createWith: spaceships and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
 		
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
