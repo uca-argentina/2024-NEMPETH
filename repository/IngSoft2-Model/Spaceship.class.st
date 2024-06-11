@@ -11,12 +11,6 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #operations }
-Spaceship class >> create [
-
-	^ self new initializeOn
-]
-
 { #category : #'as yet unclassified' }
 Spaceship class >> createWithId: anId [
 	^ self new initializeWith: anId.
@@ -46,15 +40,6 @@ Spaceship >> changeTo: anState [
 { #category : #accessing }
 Spaceship >> id [
 	^ id
-]
-
-{ #category : #initialization }
-Spaceship >> initializeOn [
-
-	position := 1.
-	shield := 3.
-	lapsCompleted := 0.
-	state:= AvailableState create.
 ]
 
 { #category : #initialization }

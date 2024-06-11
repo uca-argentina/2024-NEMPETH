@@ -64,7 +64,7 @@ BoardTest >> test004WhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 BoardTest >> test005ForLoadedBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship [
 
 	| aSpaceship aBoard aPath aWormhole anotherWormhole aBox anotherBox |
-	aSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
 
 	aWormhole := Wormhole new.
 	anotherWormhole := Wormhole new.
@@ -93,8 +93,8 @@ BoardTest >> test005ForLoadedBoardWhenASpaceshipPassTheLastBoxThenAddALapComplet
 { #category : #tests }
 BoardTest >> test006ForLoadedBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAddALapToASpaceship [
 	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
@@ -130,8 +130,8 @@ BoardTest >> test006ForLoadedBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshi
 { #category : #tests }
 BoardTest >> test007ForLoadedBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
@@ -167,8 +167,8 @@ BoardTest >> test007ForLoadedBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 { #category : #tests }
 BoardTest >> test008ForLoaded8WhenASpaceshipMovesBackThroughFirstBoxThenSubtractOneLapCompleted [
 	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
@@ -281,7 +281,7 @@ BoardTest >> test013ForBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSp
 
 		| aSpaceship aBoard |
 		
-	aSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 2.
 
 	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
 	
@@ -297,8 +297,8 @@ BoardTest >> test013ForBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSp
 BoardTest >> test014ForBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAddALapToASpaceship [
 	| aSpaceship anotherSpaceship spaceships aBoard |
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
@@ -320,8 +320,8 @@ BoardTest >> test014ForBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesN
 BoardTest >> test015ForBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 	| aSpaceship anotherSpaceship spaceships aBoard |
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
@@ -344,8 +344,8 @@ BoardTest >> test015ForBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 BoardTest >> test016ForBoardWhenASpaceshipMovesBackThroughFirstBoxThenSubtractOneLapCompleted [
 	| aSpaceship anotherSpaceship spaceships aBoard |
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship

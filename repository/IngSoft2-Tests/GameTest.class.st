@@ -42,16 +42,9 @@ GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWi
 { #category : #tests }
 GameTest >> test002WhenGameIsCreatedWithLessThanOneLapToWinThenThrowError [
 
-	| spaceships dices aDie aSpaceship anotherSpaceship |
+	| dices aDie |
 	aDie := Die of: 4.
 	dices := OrderedCollection with: aDie.
-
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
-
-	spaceships := OrderedCollection
-		              with: aSpaceship
-		              with: anotherSpaceship.
 
 	self
 		should: [ Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 0 ]
@@ -97,8 +90,8 @@ GameTest >> test006WhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionO
 
 	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree boxToCheck |
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
@@ -220,14 +213,12 @@ GameTest >> test009WhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 { #category : #tests }
 GameTest >> test010WhenGameIsCreatedWithoutDicesThenThrowError [
 
-	| spaceships dices aSpaceship |
-	aSpaceship := Spaceship create.
-	spaceships := OrderedCollection with: aSpaceship.
+	| dices |
 
 	dices := OrderedCollection new.
 
 	self
-		should: [ Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1 ]
+		should: [ Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1 ]
 		raise: Error
 		withMessage: 'Game should have a least one die'
 ]
@@ -474,12 +465,10 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 { #category : #tests }
 GameTest >> test020CanNotBattleAfterASpaceshipHasWon [
 
-	| dices aDie aSpaceship anotherSpaceship aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
+	| dices aDie aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
 	aDie := LoadedDie of: 10.
 	aDie add: (OrderedCollection with: 1 with: 3).
 	dices := OrderedCollection with: aDie.
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
 
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
@@ -508,16 +497,10 @@ GameTest >> test020CanNotBattleAfterASpaceshipHasWon [
 { #category : #tests }
 GameTest >> test021WhenOnABattleTheSpaceshipsThrowTheSameThenTheOneWhichArrivedLastLose [
 
-	| spaceships dices aDie aSpaceship anotherSpaceship aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
+	| dices aDie aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
 	aDie := LoadedDie of: 10.
 	aDie add: (OrderedCollection with: 2 with: 2 with: 3 with: 3).
 	dices := OrderedCollection with: aDie.
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
-
-	spaceships := OrderedCollection
-		              with: aSpaceship
-		              with: anotherSpaceship.
 
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.

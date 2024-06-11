@@ -9,8 +9,8 @@ BoxTest >> test001WhenSpaceshipIsOnBlackHoleBoxThenSpaceshipMovesBackFourBoxes [
 	
 	|aSpaceship anotherSpaceship spaceships aBlackHole|
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 	spaceships := OrderedCollection new.
 	spaceships add: aSpaceship; add: anotherSpaceship.
 	
@@ -31,8 +31,8 @@ BoxTest >> test002WhenSpaceshipIsOnHyperSpaceJumpBoxThenSpaceshipMovesFourBoxesA
 	
 	|aSpaceship anotherSpaceship spaceships aHyperSpaceJump|
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 	spaceships := OrderedCollection new.
 	spaceships add: aSpaceship; add: anotherSpaceship.
 	
@@ -57,9 +57,9 @@ BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMovesToPositionO
 	
 	|spaceshipOne spaceshipTwo spaceshipThree spaceships aAtomicBomb|
 	
-	spaceshipOne := Spaceship create.
-	spaceshipTwo := Spaceship create.
-	spaceshipThree := Spaceship create.
+	spaceshipOne := Spaceship createWithId: 1.
+	spaceshipTwo := Spaceship createWithId: 2.
+	spaceshipThree := Spaceship createWithId: 3.
 	
 	spaceships := OrderedCollection new.
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
@@ -92,9 +92,9 @@ BoxTest >> test004WhenSpaceshipIsOnMoonWalkThenTheOtherSpaceshipsMovesBackTwoPos
 	
 	|spaceshipOne spaceshipTwo spaceshipThree spaceships aMoonWalk|
 	
-	spaceshipOne := Spaceship create.
-	spaceshipTwo := Spaceship create.
-	spaceshipThree := Spaceship create.
+	spaceshipOne := Spaceship createWithId: 1.
+	spaceshipTwo := Spaceship createWithId: 2.
+	spaceshipThree := Spaceship createWithId: 3.
 	
 	spaceships := OrderedCollection new.
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
@@ -121,9 +121,9 @@ BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOf
 	
 	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump|
 	
-	spaceshipOne := Spaceship create.
-	spaceshipTwo := Spaceship create.
-	spaceshipThree := Spaceship create.
+	spaceshipOne := Spaceship createWithId: 1.
+	spaceshipTwo := Spaceship createWithId: 2.
+	spaceshipThree := Spaceship createWithId: 3.
 	
 	spaceships := OrderedCollection new.
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
@@ -149,9 +149,9 @@ BoxTest >> test006WhenAmountOfEffectsAppliedAreMoreThanCollectionOfParsecsThenSt
 	
 	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump|
 	
-	spaceshipOne := Spaceship create.
-	spaceshipTwo := Spaceship create.
-	spaceshipThree := Spaceship create.
+	spaceshipOne := Spaceship createWithId: 1.
+	spaceshipTwo := Spaceship createWithId: 2.
+	spaceshipThree := Spaceship createWithId: 3.
 	
 	spaceships := OrderedCollection new.
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
@@ -197,8 +197,8 @@ BoxTest >> test008WhenHyperJumpApplyEffectThenSpaceshipIsMoveBetweenOneAndTwenty
 
 	| aHyperJump spaceships aSpaceship anotherSpaceship |
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 	spaceships := OrderedCollection with: aSpaceship with: anotherSpaceship.
 	
 	aHyperJump := HyperJump createWith: 40 andParsecsToBoxesRatio: 2.
