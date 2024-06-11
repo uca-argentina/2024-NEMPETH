@@ -12,16 +12,10 @@ GameTest >> should: anErrorBlock raise: anErrorClass withMessage: anErrorMessage
 { #category : #tests }
 GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWinThenTheSpaceshipWins [
 
-| spaceships dices aDie aSpaceship anotherSpaceship aBoxOne aWormholeOne aWormholeTwo aPath aBoard aGame |
+| dices aDie aBoxOne aWormholeOne aWormholeTwo aPath aBoard aGame winner |
 	aDie := LoadedDie of: 3.
 	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
-
-	spaceships := OrderedCollection
-		              with: aSpaceship
-		              with: anotherSpaceship.
 	
 	aBoxOne := Box new.
 	aWormholeOne := Wormhole new.
@@ -35,11 +29,13 @@ GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWi
 		         with: aBoxOne.
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
-	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
+	
+	winner := aGame checkWinnerOn: aBoard.
 
-	self assert: (aGame checkWinnerOn: aBoard) equals: aSpaceship. 
+	self assert: (winner id) equals: 1. 
 	
 ]
 
@@ -66,16 +62,10 @@ GameTest >> test002WhenGameIsCreatedWithLessThanOneLapToWinThenThrowError [
 { #category : #tests }
 GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpaceshipWins [
 
-| spaceships dices aDie aSpaceship anotherSpaceship aNormalBoxOne aNormalBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame |
+| dices aDie aNormalBoxOne aNormalBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame winner |
 	aDie := LoadedDie of: 5.
 	aDie add: (OrderedCollection with: 4 with: 3 with: 3).
 	dices := OrderedCollection with: aDie.
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
-
-	spaceships := OrderedCollection
-		              with: aSpaceship
-		              with: anotherSpaceship.
 	
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
@@ -90,12 +80,15 @@ GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpa
 				   with: aNormalBoxTwo.
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
-	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 2.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 2.
 	
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
-	self assert: (aGame checkWinnerOn: aBoard) equals: aSpaceship. 
+	
+	winner := aGame checkWinnerOn: aBoard.
+
+	self assert: (winner id) equals: 1.  
 	
 ]
 
@@ -242,16 +235,11 @@ GameTest >> test010WhenGameIsCreatedWithoutDicesThenThrowError [
 { #category : #tests }
 GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 
-	| spaceships dices aDie aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame |
+	| dices aDie aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame winner |
 	aDie := LoadedDie of: 3.
 	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
-
-	spaceships := OrderedCollection
-		              with: aSpaceship
-		              with: anotherSpaceship.
+	
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
 	aWormholeOne associateWith: aWormholeTwo.
@@ -263,11 +251,13 @@ GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 		         with: aBoxOne.
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 	
-	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
+	
+	winner := aGame checkWinnerOn: aBoard.
 
-	self assert: (aGame checkWinnerOn: aBoard) equals: aSpaceship.
+	self assert: (winner id) equals: 1. 
 	
 ]
 
