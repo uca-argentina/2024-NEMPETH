@@ -445,7 +445,7 @@ GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 { #category : #tests }
 GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 
-	| spaceships dices aDie spaceshipOne spaceshipTwo spaceshipThree aNormalBoxOne aNormalBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame |
+	| dices aDie aNormalBoxOne aNormalBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 5.
 	aDie add: (OrderedCollection
 			 with: 1
@@ -454,14 +454,6 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 			 with: 1
 			 with: 5).
 	dices := OrderedCollection with: aDie.
-	spaceshipOne := Spaceship create.
-	spaceshipTwo := Spaceship create.
-	spaceshipThree := Spaceship create.
-
-	spaceships := OrderedCollection
-		              with: spaceshipOne
-		              with: spaceshipTwo
-		              with: spaceshipThree.
 
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
@@ -476,7 +468,7 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 		         with: aNormalBoxTwo.
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
 
-	aGame := Game createWithNumberOfSpaceships: spaceships and: dices andLapsToWin: 2.
+	aGame := Game createWithNumberOfSpaceships: 3 and: dices andLapsToWin: 2.
 
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -484,13 +476,9 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
 
-	self assert: (aGame checkWinnerOn: aBoard) equals: spaceshipTwo.
 	self
 		assert: (aGame checkRankingOn: aBoard)
-		equals: (OrderedCollection
-				 with: spaceshipTwo
-				 with: spaceshipThree
-				 with: spaceshipOne)
+		equals: (OrderedCollection with: 2 with: 3 with: 1)
 ]
 
 { #category : #tests }

@@ -52,8 +52,10 @@ Game >> checkPositionsOfSpaceships [
 
 { #category : #'as yet unclassified' }
 Game >> checkRankingOn: aBoard [
+	| sortedSpaceships |
+	sortedSpaceships := spaceships sort: [ :a :b | a > b ].
 
-	^ spaceships sort: [ :a :b | a > b ]
+	^ sortedSpaceships collect: [ :spaceship | spaceship id ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -76,7 +78,7 @@ Game >> createSpaceships: numberOfSpaceships [
 	| aCollectionOfSpaceships |
 	aCollectionOfSpaceships := OrderedCollection new: numberOfSpaceships.
 	1 to: numberOfSpaceships do: [ :i |
-	aCollectionOfSpaceships add: Spaceship create ].
+	aCollectionOfSpaceships add: (Spaceship createWithId: i) ].
 	^ aCollectionOfSpaceships
 ]
 
