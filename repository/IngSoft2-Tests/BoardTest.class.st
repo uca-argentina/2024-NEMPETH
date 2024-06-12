@@ -268,24 +268,28 @@ BoardTest >> test011VerifyCorrectDistributionsOfBoxes [
 
 { #category : #tests }
 BoardTest >> test012WhenBoardIsCreatedWithIncorrectNumberOfBoxesThenThrowError [
-
+	
+	|aPath|
+	aPath := OrderedCollection with: (NormalBox new).
+	
 	self
-		should: [ Board createWith: -30 andParsecsToBoxesRatio: 2 ]
+		should: [ Board createWith: aPath ]
 		raise: Error
 		withMessage:
-		'Board length should be multiple of 50 and greater than 0'
+		'Board path length should be greater than 1'
 ]
 
 { #category : #tests }
 BoardTest >> test013ForBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship [
 
-		| aSpaceship aBoard |
+		| aSpaceship aBoard aPath|
 		
 	aSpaceship := Spaceship createWithId: 2.
+	aPath := OrderedCollection with: NormalBox new with: NormalBox new with: NormalBox new.
 
-	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	aBoard := Board createWith: aPath.
 	
-	aSpaceship move: 50.
+	aSpaceship move: 3.
 		
 	aBoard normalizeOne: aSpaceship.
 	
@@ -295,18 +299,19 @@ BoardTest >> test013ForBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSp
 
 { #category : #tests }
 BoardTest >> test014ForBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAddALapToASpaceship [
-	| aSpaceship anotherSpaceship spaceships aBoard |
+	| aSpaceship anotherSpaceship spaceships aBoard aPath |
 	
 	aSpaceship := Spaceship createWithId: 1.
 	anotherSpaceship := Spaceship createWithId: 2.
+	aPath := OrderedCollection with: NormalBox new with: NormalBox new with: NormalBox new.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
 		              with: anotherSpaceship.
 		
-	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	aBoard := Board createWith: aPath.
 	
-	aSpaceship move: 50.
+	aSpaceship move: 3.
 		
 	aBoard normalizeAll: spaceships.
 	
@@ -318,18 +323,19 @@ BoardTest >> test014ForBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesN
 
 { #category : #tests }
 BoardTest >> test015ForBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
-	| aSpaceship anotherSpaceship spaceships aBoard |
+	| aSpaceship anotherSpaceship spaceships aBoard aPath |
 	
 	aSpaceship := Spaceship createWithId: 1.
 	anotherSpaceship := Spaceship createWithId: 2.
+	aPath := OrderedCollection with: NormalBox new with: NormalBox new with: NormalBox new.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
 		              with: anotherSpaceship.
 		
-	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	aBoard := Board createWith: aPath.
 	
-	aSpaceship move: 50.
+	aSpaceship move: 3.
 	anotherSpaceship move: -3.
 		
 	aBoard normalizeAll: spaceships.
@@ -342,18 +348,19 @@ BoardTest >> test015ForBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 
 { #category : #tests }
 BoardTest >> test016ForBoardWhenASpaceshipMovesBackThroughFirstBoxThenSubtractOneLapCompleted [
-	| aSpaceship anotherSpaceship spaceships aBoard |
+	| aSpaceship anotherSpaceship spaceships aBoard aPath |
 	
 	aSpaceship := Spaceship createWithId: 1.
 	anotherSpaceship := Spaceship createWithId: 2.
-
+	aPath := OrderedCollection with: NormalBox new with: NormalBox new with: NormalBox new.
+	
 	spaceships := OrderedCollection
 		              with: aSpaceship
 		              with: anotherSpaceship.
 		
-	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	aBoard := Board createWith: aPath.
 	
-	aSpaceship move: 50.
+	aSpaceship move: 3.
 		
 	aBoard normalizeAll: spaceships.
 	
@@ -362,7 +369,7 @@ BoardTest >> test016ForBoardWhenASpaceshipMovesBackThroughFirstBoxThenSubtractOn
 	self assert: anotherSpaceship position equals: 1.
 	self assert: anotherSpaceship lapsCompleted equals: 0.
 	
-	aSpaceship move: -50.
+	aSpaceship move: -3.
 		
 	aBoard normalizeAll: spaceships.
 	
@@ -370,14 +377,4 @@ BoardTest >> test016ForBoardWhenASpaceshipMovesBackThroughFirstBoxThenSubtractOn
 	self assert: aSpaceship lapsCompleted equals: 0.
 	self assert: anotherSpaceship position equals: 1.
 	self assert: anotherSpaceship lapsCompleted equals: 0.
-]
-
-{ #category : #tests }
-BoardTest >> test017WhenBoardIsCreatedWithIncorrectParsecToBoxesRatioThenThrowError [
-
-	self
-		should: [ Board createWith: 50 andParsecsToBoxesRatio: 0 ]
-		raise: Error
-		withMessage:
-		'Parsecs to boxes ratio should be greater than 0'
 ]
