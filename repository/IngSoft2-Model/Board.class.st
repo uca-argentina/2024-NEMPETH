@@ -17,9 +17,9 @@ Board class >> createWith: aPath [
 { #category : #'instance creation' }
 Board class >> lengthValidation: aPath [
 
-	(aPath size <= 1) ifTrue: [
+	(aPath size <= 0) ifTrue: [
 		Error signal:
-			'Board path length should be greater than 1']
+			'Path should have a least one box']
 ]
 
 { #category : #'as yet unclassified' }
@@ -44,8 +44,9 @@ Board >> findBoxIn:  aPosition [
 
 { #category : #initialization }
 Board >> initializeWith: aPath [
-
+	
 	path := aPath.
+	path withIndexDo: [ :box :index | box position: index ].
 ]
 
 { #category : #accessing }
