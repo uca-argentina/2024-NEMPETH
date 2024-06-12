@@ -88,7 +88,7 @@ GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpa
 { #category : #tests }
 GameTest >> test006WhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionOne [
 
-	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree boxToCheck |
+	| spaceships aSpaceship anotherSpaceship aWormholeOne aWormholeTwo aBoxOne aPath aBoard aBoxTwo aBoxThree boxToCheck actualSpaceship |
 	
 	aSpaceship := Spaceship createWithId: 1.
 	anotherSpaceship := Spaceship createWithId: 2.
@@ -113,10 +113,12 @@ GameTest >> test006WhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionO
 		         with: aBoxThree.
 
 	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
+	actualSpaceship := spaceships removeFirst.
 	
 	aSpaceship move: 2.
 	boxToCheck := aBoard findBoxIn: (aSpaceship position).
-	boxToCheck applyEffect: spaceships and: 1.
+	boxToCheck applyEffect: spaceships and: actualSpaceship.
+	spaceships add: actualSpaceship.
 
 	self assert: aSpaceship position equals: 1
 ]
@@ -192,7 +194,7 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 
 	self
 		assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 1 with: 3)
+		equals: (OrderedCollection with: 3 with: 3)
 ]
 
 { #category : #tests }
@@ -406,19 +408,19 @@ GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 		
 	aGame playWith: aBoard.
 	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 2 with: 1).
+		equals: (OrderedCollection with: 1 with: 2).
 	aGame playWith: aBoard.
 	self assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 2 with: 3).
 	aGame playWith: aBoard.
 	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 4 with: 3).
+		equals: (OrderedCollection with: 3 with: 4).
 	aGame passTurnOn: aBoard.
 	self assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 4 with: 3).
 	aGame playWith: aBoard.
 	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 5 with: 3).
+		equals: (OrderedCollection with: 3 with: 5).
 	
 	
 ]
@@ -489,7 +491,7 @@ GameTest >> test020CanNotBattleAfterASpaceshipHasWon [
 	aGame playWith: aBoard.
 
 	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 3 with: 1).
+		equals: (OrderedCollection with: 3 with: 3).
 	
 	
 ]

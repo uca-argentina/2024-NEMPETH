@@ -105,7 +105,7 @@ Game >> playWith: aBoard [
 
 	| actualSpaceship boxToCheck winner |
 	actualSpaceship := spaceships removeFirst.
-
+	
 	actualSpaceship playTurn ifFalse: [ ^ self ].
 
 	actualSpaceship move: self throwDices.
