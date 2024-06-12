@@ -5,10 +5,8 @@ Class {
 }
 
 { #category : #accessing }
-HyperSpaceJump >> applyEffect: spaceships and: turn [
-	
-	| affectedSpaceship |
-	affectedSpaceship := spaceships at: turn.
-	affectedSpaceship move: 4.
-	affectedSpaceship updateShield: -1.
+HyperSpaceJump >> applyEffect: spaceships and: actualSpaceship [
+
+	actualSpaceship move: 4.
+	actualSpaceship updateShield: -1
 ]

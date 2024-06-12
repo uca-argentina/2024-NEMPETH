@@ -14,16 +14,11 @@ MoonWalk class >> createWith: boxesToMoveBackward [
 ]
 
 { #category : #accessing }
-MoonWalk >> applyEffect: spaceships and: turn [
+MoonWalk >> applyEffect: spaceships and: actualSpaceship [
 
-	| currentSpaceship otherSpaceships |
-	currentSpaceship := spaceships at: turn.
-	otherSpaceships := spaceships select: [ :aSpaceship |
-		                   aSpaceship ~= currentSpaceship and:
-			                   aSpaceship position ~= 1 ].
-
-	otherSpaceships do: [ :aSpaceship |
-		aSpaceship move: -1 * boxesToMove ]
+	spaceships do: [ :aSpaceship |
+		aSpaceship position ~= 1 ifTrue: [
+			aSpaceship move: -1 * boxesToMove ] ]
 ]
 
 { #category : #initialization }

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-NormalBox >> applyEffect: spaceships and: turn [
+NormalBox >> applyEffect: spaceships and: actualSpaceship [
 
 	^ self
 ]

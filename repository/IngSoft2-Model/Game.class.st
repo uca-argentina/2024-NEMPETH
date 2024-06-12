@@ -2,7 +2,6 @@ Class {
 	#name : #Game,
 	#superclass : #Object,
 	#instVars : [
-		'turn',
 		'spaceships',
 		'dices',
 		'lapsToWin'
@@ -85,50 +84,44 @@ Game >> createSpaceships: numberOfSpaceships [
 { #category : #initialization }
 Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
 
-	turn := 1.
 	spaceships := self createSpaceships: numberOfSpaceships.
 	dices := aCollectionOfDices.
-	lapsToWin := amountOfLapsToWin
+	lapsToWin := amountOfLapsToWin.
 ]
 
 { #category : #'as yet unclassified' }
 Game >> passTurnOn: aBoard [
-
-	| aSpaceship |
-	turn > spaceships size ifTrue: [ turn := 1 ].
-	aSpaceship := spaceships at: turn.
-	aSpaceship recoverShields.
-
-	turn := turn + 1
+	
+	| actualSpaceship |
+	
+	actualSpaceship := spaceships removeFirst.
+	actualSpaceship recoverShields.
+	spaceships add: actualSpaceship.
+	
 ]
 
 { #category : #'as yet unclassified' }
 Game >> playWith: aBoard [
 
-	| aSpaceship boxToCheck winner |
-	turn > spaceships size ifTrue: [ turn := 1 ].
-	aSpaceship := spaceships at: turn.
+	| actualSpaceship boxToCheck winner |
+	actualSpaceship := spaceships removeFirst.
 
-	aSpaceship playTurn ifTrue: [
-		winner := self checkWinnerOn: aBoard.
-		winner ifNotNil: [
-			winner move: 1 - winner position.
-			^ self ].
+	actualSpaceship playTurn ifFalse: [ ^ self ].
 
-		aSpaceship move: self throwDices.
-		aBoard normalizeOne: aSpaceship.
+	actualSpaceship move: self throwDices.
+	aBoard normalizeOne: actualSpaceship.
+	
+	boxToCheck := aBoard findBoxIn: actualSpaceship position.
+	boxToCheck applyEffect: spaceships and: actualSpaceship.
+	spaceships add: actualSpaceship.
+	
+	aBoard normalizeAll: spaceships.
+	
+	winner := self checkWinnerOn: aBoard.
+	winner ifNotNil: [ ^ self ].
+	
+	self verifyBattleWith: actualSpaceship.
 
-		boxToCheck := aBoard findBoxIn: aSpaceship position.
-		boxToCheck applyEffect: spaceships and: turn.
-		aBoard normalizeAll: spaceships.
-
-		winner := self checkWinnerOn: aBoard.
-		winner ifNotNil: [
-			winner move: 1 - winner position.
-			^ self ].
-
-		self verifyBattleWith: aSpaceship ].
-	turn := turn + 1
 ]
 
 { #category : #'as yet unclassified' }

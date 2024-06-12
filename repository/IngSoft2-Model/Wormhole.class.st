@@ -8,11 +8,9 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-Wormhole >> applyEffect: spaceships and: turn [
+Wormhole >> applyEffect: spaceships and: actualSpaceship [
 
-	| affectedSpaceship |
-	affectedSpaceship := spaceships at: turn.
-	affectedSpaceship move: wormholeEnd position - self position
+	actualSpaceship move: wormholeEnd position - self position.
 ]
 
 { #category : #'as yet unclassified' }
