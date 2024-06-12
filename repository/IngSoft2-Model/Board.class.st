@@ -23,20 +23,6 @@ Board class >> lengthValidation: aPath [
 ]
 
 { #category : #'as yet unclassified' }
-Board >> createWormhole [
-	
-	| wormholeOne wormholeTwo |
-	
-	wormholeOne := Wormhole new.
-	wormholeTwo := Wormhole new.
-
-	wormholeOne associateWith: wormholeTwo.
-	wormholeTwo associateWith: wormholeOne.
-
-	^OrderedCollection with: wormholeOne with: wormholeTwo.
-]
-
-{ #category : #'as yet unclassified' }
 Board >> findBoxIn:  aPosition [
 
 	^ path at: aPosition
