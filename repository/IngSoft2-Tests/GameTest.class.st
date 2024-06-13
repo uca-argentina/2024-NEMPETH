@@ -408,19 +408,19 @@ GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 		
 	aGame playWith: aBoard.
 	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 1 with: 2).
+		equals: (OrderedCollection with: 2 with: 1).
 	aGame playWith: aBoard.
 	self assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 2 with: 3).
 	aGame playWith: aBoard.
 	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 3 with: 4).
+		equals: (OrderedCollection with: 4 with: 3).
 	aGame passTurnOn: aBoard.
 	self assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 4 with: 3).
 	aGame playWith: aBoard.
 	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 3 with: 5).
+		equals: (OrderedCollection with: 5 with: 3).
 	
 	
 ]

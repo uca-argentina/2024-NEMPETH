@@ -45,8 +45,9 @@ Game class >> spaceshipsValidation: numberOfSpaceships [
 
 { #category : #'as yet unclassified' }
 Game >> checkPositionsOfSpaceships [
-
-	^ spaceships collect: [ :spaceship | spaceship position ]
+	| spaceshipsSortedById |
+	spaceshipsSortedById := spaceships copy sort: [ :a :b | (a id) < (b id) ].
+	^ spaceshipsSortedById collect: [ :spaceship | spaceship position ]
 ]
 
 { #category : #'as yet unclassified' }
