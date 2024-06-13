@@ -4,6 +4,11 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
+{ #category : #asserting }
+PathGeneratorTest >> should: anErrorBlock raise: anErrorClass withMessage: anErrorMessage [ 
+	self should: anErrorBlock raise: anErrorClass withExceptionDo: [ :error | self assert: error messageText equals: anErrorMessage ]
+]
+
 { #category : #running }
 PathGeneratorTest >> test001WhenPathIsCreateThenTheFisrtBoxisKindOfNormalBox [
 
@@ -57,4 +62,13 @@ PathGeneratorTest >> test002VerifyCorrectDistributionsOfBoxes [
 	self assert: ((percent) between: 0.01 and: 0.03).
 
 
+]
+
+{ #category : #running }
+PathGeneratorTest >> test003VerifyCorrectDistributionsOfBoxes [
+	
+	self
+		should: [ PathGenerator createWith: 50 and: 0. ]
+		raise: Error
+		withMessage: 'Parsec to boxes ratio should be greater that zero'
 ]

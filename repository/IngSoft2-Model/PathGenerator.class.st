@@ -10,7 +10,16 @@ Class {
 { #category : #'as yet unclassified' }
 PathGenerator class >> createWith: aLength and: aRatio [
 
-	^ self new initializeWith: aLength and: aRatio.
+	self ratioValidation: aRatio.
+
+	^ self new initializeWith: aLength and: aRatio
+]
+
+{ #category : #'as yet unclassified' }
+PathGenerator class >> ratioValidation: aRatio [
+
+	aRatio <= 0 ifTrue: [
+		Error signal: 'Parsec to boxes ratio should be greater that zero' ]
 ]
 
 { #category : #initialization }
