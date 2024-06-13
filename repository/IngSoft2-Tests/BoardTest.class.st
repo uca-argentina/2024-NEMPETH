@@ -19,7 +19,7 @@ BoardTest >> test001WhenBoardDoesNotHaveBoxesThenThrowError [
 	self
 		should: [ Board createWith: aPath. ]
 		raise: Error
-		withMessage: 'Path should have a least one box'
+		withMessage: 'Path should have a least three box'
 	
 	
 ]

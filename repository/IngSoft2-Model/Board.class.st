@@ -19,7 +19,7 @@ Board class >> lengthValidation: aPath [
 
 	(aPath size <= 0) ifTrue: [
 		Error signal:
-			'Path should have a least one box']
+			'Path should have a least three box']
 ]
 
 { #category : #'as yet unclassified' }

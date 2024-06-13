@@ -1,11 +1,11 @@
 Class {
-	#name : #PathBoxTest,
+	#name : #PathGeneratorTest,
 	#superclass : #TestCase,
 	#category : #'IngSoft2-Tests'
 }
 
 { #category : #running }
-PathBoxTest >> test001WhenPathIsCreateThenTheFisrtBoxisKindOfNormalBox [
+PathGeneratorTest >> test001WhenPathIsCreateThenTheFisrtBoxisKindOfNormalBox [
 
 	| aPathGenerator |
 	aPathGenerator := PathGenerator createWith: 10 and: 5.
@@ -14,7 +14,7 @@ PathBoxTest >> test001WhenPathIsCreateThenTheFisrtBoxisKindOfNormalBox [
 ]
 
 { #category : #running }
-PathBoxTest >> test002VerifyCorrectDistributionsOfBoxes [
+PathGeneratorTest >> test002VerifyCorrectDistributionsOfBoxes [
 
 	| aPathGenerator pathOfTheBoard percent normalBoxes blackHoleBoxes hyperSpaceJumpBoxes 
 	 moonwalkBoxes hyperJumpBoxes atomicBombBoxes |
