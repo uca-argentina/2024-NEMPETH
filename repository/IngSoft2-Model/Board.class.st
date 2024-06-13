@@ -82,8 +82,3 @@ Board >> normalizeOne: aSpaceship [
 		aSpaceship move: -1 * self length.
 		aSpaceship addLap ]
 ]
-
-{ #category : #accessing }
-Board >> path [
-	^ path
-]
