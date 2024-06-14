@@ -16,15 +16,13 @@ HyperJump class >> createWith: listLength andParsecsToBoxesRatio: aRatio [
 ]
 
 { #category : #accessing }
-HyperJump >> applyEffect: spaceships and: turn [
+HyperJump >> applyEffect: spaceships and: actualSpaceship [
 
-	| affectedSpaceship |
-	affectedSpaceship := spaceships at: turn.
-	affectedSpaceship move: (collectionOfParsecs at: index) // parsecsToBoxesRatio .
-	
-	index = collectionOfParsecs size ifTrue: [
-		index := 0 ].
-	
+	actualSpaceship move:
+		(collectionOfParsecs at: index) // parsecsToBoxesRatio.
+
+	index = collectionOfParsecs size ifTrue: [ index := 0 ].
+
 	index := index + 1
 ]
 

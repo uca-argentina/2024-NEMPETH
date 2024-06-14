@@ -8,40 +8,18 @@ Class {
 }
 
 { #category : #'instance creation' }
-Board class >> createWith: aLength andParsecsToBoxesRatio: aRatio [
+Board class >> createWith: aPath [
 
-	self lengthValidation: aLength.
-	self parsecToBoxesRatioValidation: aRatio.
-	^ self new initializeWith: aLength and: aRatio
+	self lengthValidation: aPath.
+	^ self new initializeWith: aPath.
 ]
 
 { #category : #'instance creation' }
-Board class >> lengthValidation: aLength [
+Board class >> lengthValidation: aPath [
 
-	(aLength < 0 or: aLength \\ 50 ~= 0) ifTrue: [
+	(aPath size <= 0) ifTrue: [
 		Error signal:
-			'Board length should be multiple of 50 and greater than 0' ]
-]
-
-{ #category : #'instance creation' }
-Board class >> parsecToBoxesRatioValidation: aRatio [
-
-	aRatio <= 0 ifTrue: [
-		Error signal: 'Parsecs to boxes ratio should be greater than 0' ]
-]
-
-{ #category : #'as yet unclassified' }
-Board >> createWormhole [
-	
-	| wormholeOne wormholeTwo |
-	
-	wormholeOne := Wormhole new.
-	wormholeTwo := Wormhole new.
-
-	wormholeOne associateWith: wormholeTwo.
-	wormholeTwo associateWith: wormholeOne.
-
-	^OrderedCollection with: wormholeOne with: wormholeTwo.
+			'Path should have a least three box']
 ]
 
 { #category : #'as yet unclassified' }
@@ -51,22 +29,10 @@ Board >> findBoxIn:  aPosition [
 ]
 
 { #category : #initialization }
-Board >> initializeWith: aLength and: aRatio [ 
-
-	path := OrderedCollection new.
-
-	1 to: 0.2 * aLength do: [ :i | path add: HyperSpaceJump new ].
-	1 to: 0.2 * aLength do: [ :i | path add: BlackHole new ].
-	1 to: 0.1 * aLength do: [ :i | path add: (MoonWalk createWith: aLength atRandom) ].
-	1 to: 0.08 * aLength do: [ :i | path add: (HyperJump createWith: aLength andParsecsToBoxesRatio: aRatio  ) ].
-	1 to: 0.02 * aLength do: [ :i | path add: AtomicBomb new ].
-	1 to: ((0.4 * aLength) - 3) do: [ :i | path add: NormalBox new ].
-	path addAll: self createWormhole.
+Board >> initializeWith: aPath [
 	
-	path := path shuffled.
-	path addFirst: NormalBox new. 
-	
-	path withIndexDo: [ :box :index | box position: index ]
+	path := aPath.
+	path withIndexDo: [ :box :index | box position: index ].
 ]
 
 { #category : #accessing }
@@ -115,9 +81,4 @@ Board >> normalizeOne: aSpaceship [
 	[ aSpaceship position > self length ] whileTrue: [
 		aSpaceship move: -1 * self length.
 		aSpaceship addLap ]
-]
-
-{ #category : #accessing }
-Board >> path [
-	^ path
 ]

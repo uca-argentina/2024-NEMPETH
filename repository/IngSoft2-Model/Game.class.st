@@ -2,7 +2,6 @@ Class {
 	#name : #Game,
 	#superclass : #Object,
 	#instVars : [
-		'turn',
 		'spaceships',
 		'dices',
 		'lapsToWin'
@@ -18,14 +17,14 @@ Game class >> amountOfLapsToWinValidation: amountOfLapsToWin [
 ]
 
 { #category : #'instance creation' }
-Game class >> createWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
+Game class >> createWithNumberOfSpaceships: numberOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
 
 	self dicesValidation: aCollectionOfDices.
-	self spaceshipsValidation: aCollectionOfSpaceships.
+	self spaceshipsValidation: numberOfSpaceships.
 	self amountOfLapsToWinValidation: amountOfLapsToWin.
 
 	^ self new
-		  initializeWith: aCollectionOfSpaceships
+		  initializeWith: numberOfSpaceships
 		  and: aCollectionOfDices
 		  andLapsToWin: amountOfLapsToWin
 ]
@@ -38,29 +37,31 @@ Game class >> dicesValidation: aCollectionOfDices [
 ]
 
 { #category : #'instance creation' }
-Game class >> spaceshipsValidation: aCollectionOfSpaceships [
+Game class >> spaceshipsValidation: numberOfSpaceships [
 
-	aCollectionOfSpaceships size < 2 ifTrue: [
+	numberOfSpaceships < 2 ifTrue: [
 		Error signal: 'Game should have a least two spaceships' ]
 ]
 
 { #category : #'as yet unclassified' }
-Game >> checkPositionsIn: aBoard [
-
-	| positions |
-	positions := OrderedCollection new.
-	spaceships do: [ :aSpaceship |
-		aSpaceship position > aBoard length
-			ifTrue: [ positions add: aBoard length ]
-			ifFalse: [ positions add: aSpaceship position ] ].
-
-	^ positions
+Game >> checkPositionsOfSpaceships [
+	| spaceshipsSortedById |
+	spaceshipsSortedById := spaceships copy sort: [ :a :b | (a id) < (b id) ].
+	^ spaceshipsSortedById collect: [ :spaceship | spaceship position ]
 ]
 
 { #category : #'as yet unclassified' }
 Game >> checkRankingOn: aBoard [
+	| sortedSpaceships |
+	sortedSpaceships := spaceships sort: [ :a :b | a > b ].
 
-	^ spaceships sort: [ :a :b | a > b ]
+	^ sortedSpaceships collect: [ :spaceship | spaceship id ]
+]
+
+{ #category : #'as yet unclassified' }
+Game >> checkShieldsOfSpaceships [
+
+	^ spaceships collect: [ :spaceship | spaceship shield ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -71,53 +72,57 @@ Game >> checkWinnerOn: aBoard [
 		  ifNone: [ nil ]
 ]
 
-{ #category : #initialization }
-Game >> initializeWith: aCollectionOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
+{ #category : #'as yet unclassified' }
+Game >> createSpaceships: numberOfSpaceships [
 
-	turn := 1.
-	spaceships := aCollectionOfSpaceships.
+	| aCollectionOfSpaceships |
+	aCollectionOfSpaceships := OrderedCollection new: numberOfSpaceships.
+	1 to: numberOfSpaceships do: [ :i |
+	aCollectionOfSpaceships add: (Spaceship createWithId: i) ].
+	^ aCollectionOfSpaceships
+]
+
+{ #category : #initialization }
+Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
+
+	spaceships := self createSpaceships: numberOfSpaceships.
 	dices := aCollectionOfDices.
-	lapsToWin := amountOfLapsToWin
+	lapsToWin := amountOfLapsToWin.
 ]
 
 { #category : #'as yet unclassified' }
 Game >> passTurnOn: aBoard [
-
-	| aSpaceship |
-	turn > spaceships size ifTrue: [ turn := 1 ].
-	aSpaceship := spaceships at: turn.
-	aSpaceship recoverShields.
-
-	turn := turn + 1
+	
+	| actualSpaceship |
+	
+	actualSpaceship := spaceships removeFirst.
+	actualSpaceship recoverShields.
+	spaceships add: actualSpaceship.
+	
 ]
 
 { #category : #'as yet unclassified' }
 Game >> playWith: aBoard [
 
-	| aSpaceship boxToCheck winner |
-	turn > spaceships size ifTrue: [ turn := 1 ].
-	aSpaceship := spaceships at: turn.
+	| actualSpaceship boxToCheck winner |
+	actualSpaceship := spaceships removeFirst.
+	
+	actualSpaceship playTurn ifFalse: [ ^ self ].
 
-	aSpaceship playTurn ifTrue: [
-		winner := self checkWinnerOn: aBoard.
-		winner ifNotNil: [
-			winner move: 1 - winner position.
-			^ self ].
+	actualSpaceship move: self throwDices.
+	aBoard normalizeOne: actualSpaceship.
+	
+	boxToCheck := aBoard findBoxIn: actualSpaceship position.
+	boxToCheck applyEffect: spaceships and: actualSpaceship.
+	spaceships add: actualSpaceship.
+	
+	aBoard normalizeAll: spaceships.
+	
+	winner := self checkWinnerOn: aBoard.
+	winner ifNotNil: [ ^ self ].
+	
+	self verifyBattleWith: actualSpaceship.
 
-		aSpaceship move: self throwDices.
-		aBoard normalizeOne: aSpaceship.
-
-		boxToCheck := aBoard findBoxIn: aSpaceship position.
-		boxToCheck applyEffect: spaceships and: turn.
-		aBoard normalizeAll: spaceships.
-
-		winner := self checkWinnerOn: aBoard.
-		winner ifNotNil: [
-			winner move: 1 - winner position.
-			^ self ].
-
-		self verifyBattleWith: aSpaceship ].
-	turn := turn + 1
 ]
 
 { #category : #'as yet unclassified' }

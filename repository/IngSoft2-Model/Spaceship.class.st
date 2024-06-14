@@ -5,15 +5,15 @@ Class {
 		'position',
 		'shield',
 		'lapsCompleted',
-		'state'
+		'state',
+		'id'
 	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #operations }
-Spaceship class >> create [
-
-	^ self new initializeOn
+{ #category : #'as yet unclassified' }
+Spaceship class >> createWithId: anId [
+	^ self new initializeWith: anId.
 ]
 
 { #category : #comparing }
@@ -37,13 +37,19 @@ Spaceship >> changeTo: anState [
 	state := anState.
 ]
 
-{ #category : #initialization }
-Spaceship >> initializeOn [
+{ #category : #accessing }
+Spaceship >> id [
+	^ id
+]
 
+{ #category : #initialization }
+Spaceship >> initializeWith: anId [
+
+	id := anId.
 	position := 1.
 	shield := 3.
 	lapsCompleted := 0.
-	state:= AvailableState create.
+	state := AvailableState create
 ]
 
 { #category : #accessing }

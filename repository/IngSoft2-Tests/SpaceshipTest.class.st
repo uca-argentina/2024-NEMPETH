@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 SpaceshipTest >> test001WhenASpaceshipIsCreatedThenPositionIsZero [
 	| aSpaceship |
-	aSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
 	
 	self assert: aSpaceship position equals: 1.
 ]
@@ -16,7 +16,7 @@ SpaceshipTest >> test001WhenASpaceshipIsCreatedThenPositionIsZero [
 SpaceshipTest >> test003WhenASpaceshipMovesTwoAndFivePositionsThenPositionIsSeven [
 
 	| aSpaceship |
-	aSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
 	aSpaceship move: 2.
 	aSpaceship move: 5.
 	self assert: aSpaceship position equals: 8
@@ -26,7 +26,7 @@ SpaceshipTest >> test003WhenASpaceshipMovesTwoAndFivePositionsThenPositionIsSeve
 SpaceshipTest >> test004WhenTheSpaceshipIsCreatedThenCanPlayTurn [
 
 	| aSpaceship |
-	aSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
 
 	self assert: aSpaceship playTurn.
 	self assert: [ aSpaceship state isKindOf: AvailableState ]
@@ -36,7 +36,7 @@ SpaceshipTest >> test004WhenTheSpaceshipIsCreatedThenCanPlayTurn [
 SpaceshipTest >> test005WhenSpaceshipHasZeroShieldsThenChangeToUnavailableState [
 
 	| aSpaceship |
-	aSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
 	aSpaceship updateShield: -3.
 
 
@@ -48,7 +48,7 @@ SpaceshipTest >> test005WhenSpaceshipHasZeroShieldsThenChangeToUnavailableState 
 SpaceshipTest >> test006WhenSpaceshipIsUnavaliablePlayTwoTurnsThenSpaceshipIsAvalibleToPlay [
 
 	| aSpaceship |
-	aSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
 	aSpaceship updateShield: -3.
 	
 	aSpaceship playTurn.

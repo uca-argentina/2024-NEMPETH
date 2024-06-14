@@ -7,19 +7,20 @@ Class {
 { #category : #tests }
 BoxTest >> test001WhenSpaceshipIsOnBlackHoleBoxThenSpaceshipMovesBackFourBoxes [
 	
-	|aSpaceship anotherSpaceship spaceships aBlackHole|
+	|actualSpaceship aSpaceship anotherSpaceship spaceships aBlackHole|
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 	spaceships := OrderedCollection new.
 	spaceships add: aSpaceship; add: anotherSpaceship.
 	
 	aBlackHole := BlackHole new.
 	aSpaceship move: 4.
+	actualSpaceship := spaceships removeFirst.
 	
 	self assert: aSpaceship position equals: 5.
 	self assert: anotherSpaceship position equals: 1.
-	aBlackHole applyEffect: spaceships and: 1.
+	aBlackHole applyEffect: spaceships and: actualSpaceship.
 	
 	self assert: aSpaceship position equals: 1.
 	self assert: anotherSpaceship position equals: 1.
@@ -29,21 +30,22 @@ BoxTest >> test001WhenSpaceshipIsOnBlackHoleBoxThenSpaceshipMovesBackFourBoxes [
 { #category : #tests }
 BoxTest >> test002WhenSpaceshipIsOnHyperSpaceJumpBoxThenSpaceshipMovesFourBoxesAndLosesOneShield [
 	
-	|aSpaceship anotherSpaceship spaceships aHyperSpaceJump|
+	|aSpaceship anotherSpaceship spaceships aHyperSpaceJump actualSpaceship|
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 	spaceships := OrderedCollection new.
 	spaceships add: aSpaceship; add: anotherSpaceship.
 	
 	aHyperSpaceJump := HyperSpaceJump new.
+	actualSpaceship := spaceships removeFirst.
 	
 	self assert: aSpaceship position equals: 1.
 	self assert: aSpaceship shield equals: 3.
 	self assert: anotherSpaceship position equals: 1.
 	self assert: anotherSpaceship shield equals: 3.
 	
-	aHyperSpaceJump applyEffect: spaceships and: 1.
+	aHyperSpaceJump applyEffect: spaceships and: actualSpaceship.
 	
 	self assert: aSpaceship position equals: 5.
 	self assert: aSpaceship shield equals: 2.
@@ -55,11 +57,11 @@ BoxTest >> test002WhenSpaceshipIsOnHyperSpaceJumpBoxThenSpaceshipMovesFourBoxesA
 { #category : #tests }
 BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMovesToPositionOneAndLosesOneShieldExceptForSpaceshipsOnSafeZone [
 	
-	|spaceshipOne spaceshipTwo spaceshipThree spaceships aAtomicBomb|
+	|spaceshipOne spaceshipTwo spaceshipThree spaceships aAtomicBomb actualSpaceship |
 	
-	spaceshipOne := Spaceship create.
-	spaceshipTwo := Spaceship create.
-	spaceshipThree := Spaceship create.
+	spaceshipOne := Spaceship createWithId: 1.
+	spaceshipTwo := Spaceship createWithId: 2.
+	spaceshipThree := Spaceship createWithId: 3.
 	
 	spaceships := OrderedCollection new.
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
@@ -76,7 +78,8 @@ BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMovesToPositionO
 	self assert: spaceshipThree position equals: 1.
 	self assert: spaceshipThree shield equals: 3.
 	
-	aAtomicBomb applyEffect: spaceships and: 1.
+	actualSpaceship := spaceships removeFirst.
+	aAtomicBomb applyEffect: spaceships and: actualSpaceship.
 	
 	self assert: spaceshipOne position equals: 1.
 	self assert: spaceshipOne shield equals: 2.
@@ -90,17 +93,18 @@ BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMovesToPositionO
 { #category : #tests }
 BoxTest >> test004WhenSpaceshipIsOnMoonWalkThenTheOtherSpaceshipsMovesBackTwoPositionsExceptForTheOnesOnTheSafeZone [
 	
-	|spaceshipOne spaceshipTwo spaceshipThree spaceships aMoonWalk|
+	|spaceshipOne spaceshipTwo spaceshipThree spaceships aMoonWalk actualSpaceship|
 	
-	spaceshipOne := Spaceship create.
-	spaceshipTwo := Spaceship create.
-	spaceshipThree := Spaceship create.
+	spaceshipOne := Spaceship createWithId: 1.
+	spaceshipTwo := Spaceship createWithId: 2.
+	spaceshipThree := Spaceship createWithId: 3.
 	
 	spaceships := OrderedCollection new.
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
 	
 	aMoonWalk := MoonWalk createWith: 2.
-	
+	actualSpaceship := spaceships removeFirst.
+		
 	spaceshipOne move: 4.
 	spaceshipTwo move: 2.
 	
@@ -108,7 +112,7 @@ BoxTest >> test004WhenSpaceshipIsOnMoonWalkThenTheOtherSpaceshipsMovesBackTwoPos
 	self assert: spaceshipTwo position equals: 3.
 	self assert: spaceshipThree position equals: 1.
 
-	aMoonWalk applyEffect: spaceships and: 1.
+	aMoonWalk applyEffect: spaceships and: actualSpaceship.
 	
 	self assert: spaceshipOne position equals: 5.
 	self assert: spaceshipTwo position equals: 1.
@@ -121,9 +125,9 @@ BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOf
 	
 	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump|
 	
-	spaceshipOne := Spaceship create.
-	spaceshipTwo := Spaceship create.
-	spaceshipThree := Spaceship create.
+	spaceshipOne := Spaceship createWithId: 1.
+	spaceshipTwo := Spaceship createWithId: 2.
+	spaceshipThree := Spaceship createWithId: 3.
 	
 	spaceships := OrderedCollection new.
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
@@ -149,9 +153,9 @@ BoxTest >> test006WhenAmountOfEffectsAppliedAreMoreThanCollectionOfParsecsThenSt
 	
 	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump|
 	
-	spaceshipOne := Spaceship create.
-	spaceshipTwo := Spaceship create.
-	spaceshipThree := Spaceship create.
+	spaceshipOne := Spaceship createWithId: 1.
+	spaceshipTwo := Spaceship createWithId: 2.
+	spaceshipThree := Spaceship createWithId: 3.
 	
 	spaceships := OrderedCollection new.
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
@@ -195,15 +199,16 @@ BoxTest >> test007VerifyCorrectCreationOfHyperJumpBox [
 { #category : #tests }
 BoxTest >> test008WhenHyperJumpApplyEffectThenSpaceshipIsMoveBetweenOneAndTwentyBoxes [
 
-	| aHyperJump spaceships aSpaceship anotherSpaceship |
+	| aHyperJump spaceships aSpaceship anotherSpaceship actualSpaceship |
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 	spaceships := OrderedCollection with: aSpaceship with: anotherSpaceship.
+	actualSpaceship := spaceships removeFirst.
 	
 	aHyperJump := HyperJump createWith: 40 andParsecsToBoxesRatio: 2.
 	
-	aHyperJump applyEffect: spaceships and: 1. 
+	aHyperJump applyEffect: spaceships and: actualSpaceship. 
 
 	self assert: ((aSpaceship position) between: 2 and: 21).
 	self assert: anotherSpaceship position equals: 1.	

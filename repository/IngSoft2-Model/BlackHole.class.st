@@ -5,9 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-BlackHole >> applyEffect: spaceships and: turn [
-	
-	| affectedSpaceship |
-	affectedSpaceship := spaceships at: turn.
-	affectedSpaceship move: -4.
+BlackHole >> applyEffect: spaceships and: actualSpaceship [
+
+	actualSpaceship move: -4.
 ]

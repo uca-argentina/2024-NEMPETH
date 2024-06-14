@@ -17,9 +17,9 @@ BoardTest >> test001WhenBoardDoesNotHaveBoxesThenThrowError [
 	aPath := OrderedCollection new.
 	
 	self
-		should: [ LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2. ]
+		should: [ Board createWith: aPath. ]
 		raise: Error
-		withMessage: 'Path should have a least one box'
+		withMessage: 'Path should have a least three box'
 	
 	
 ]
@@ -32,10 +32,11 @@ BoardTest >> test002WhenBoardHasThreeBoxesThenLengthIsThree [
 	aBox := Box new.
 	aWormhole := Wormhole new.
 	anotherWormhole := Wormhole new.
-	aPath := OrderedCollection with: aBox with: aWormhole with: anotherWormhole.
-	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2. 
 	
-	self assert: aBoard length equals: 3.
+	aPath := OrderedCollection with: aBox with: aWormhole with: anotherWormhole.
+	aBoard := Board createWith: aPath .
+	
+	self assert: (aBoard length) equals: 3.
 	
 	
 ]
@@ -54,7 +55,7 @@ BoardTest >> test004WhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 	aBox := Box new.
 	anotherBox := Box new.
 	aPath := OrderedCollection with: aWormhole with: aBox with: anotherWormhole with: anotherBox.
-	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2. 
+	aBoard := Board createWith: aPath.
 	
 	self assert: aBoard length equals: 4.
 	self assert: (aPath at: 1) position equals: 1.
@@ -64,7 +65,7 @@ BoardTest >> test004WhenBoardIsCreatedWithTwoBoxesAndWormholeThenLengthIsFour [
 BoardTest >> test005ForLoadedBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship [
 
 	| aSpaceship aBoard aPath aWormhole anotherWormhole aBox anotherBox |
-	aSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
 
 	aWormhole := Wormhole new.
 	anotherWormhole := Wormhole new.
@@ -79,7 +80,7 @@ BoardTest >> test005ForLoadedBoardWhenASpaceshipPassTheLastBoxThenAddALapComplet
 		         with: aBox
 		         with: anotherWormhole
 		         with: anotherBox.
-	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
+	aBoard := Board createWith: aPath.
 	
 	aSpaceship move: 6.
 		
@@ -93,8 +94,8 @@ BoardTest >> test005ForLoadedBoardWhenASpaceshipPassTheLastBoxThenAddALapComplet
 { #category : #tests }
 BoardTest >> test006ForLoadedBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAddALapToASpaceship [
 	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
@@ -113,7 +114,7 @@ BoardTest >> test006ForLoadedBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshi
 		         with: aBox
 		         with: anotherWormhole
 		         with: anotherBox.
-	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
+	aBoard := Board createWith: aPath.
 	
 	aSpaceship move: 6.
 	anotherSpaceship move: 3.
@@ -130,8 +131,8 @@ BoardTest >> test006ForLoadedBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshi
 { #category : #tests }
 BoardTest >> test007ForLoadedBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
@@ -150,7 +151,7 @@ BoardTest >> test007ForLoadedBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 		         with: aBox
 		         with: anotherWormhole
 		         with: anotherBox.
-	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
+	aBoard := Board createWith: aPath.
 	
 	aSpaceship move: 6.
 	anotherSpaceship move: -3.
@@ -167,8 +168,8 @@ BoardTest >> test007ForLoadedBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 { #category : #tests }
 BoardTest >> test008ForLoaded8WhenASpaceshipMovesBackThroughFirstBoxThenSubtractOneLapCompleted [
 	| aSpaceship anotherSpaceship spaceships aBoard aPath aWormhole anotherWormhole aBox anotherBox |
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
@@ -187,7 +188,7 @@ BoardTest >> test008ForLoaded8WhenASpaceshipMovesBackThroughFirstBoxThenSubtract
 		         with: aBox
 		         with: anotherWormhole
 		         with: anotherBox.
-	aBoard := LoadedBoard createWith: aPath andParsecsToBoxesRatio: 2.
+	aBoard := Board createWith: aPath.
 	
 	aSpaceship move: 6.
 	anotherSpaceship move: 1.
@@ -212,88 +213,28 @@ BoardTest >> test008ForLoaded8WhenASpaceshipMovesBackThroughFirstBoxThenSubtract
 ]
 
 { #category : #tests }
-BoardTest >> test009CheckLengthWhenBoardIsCreated [
-	| aBoard |
-	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
-
-	self assert: aBoard length equals: 50.
-]
-
-{ #category : #tests }
 BoardTest >> test010TheFirstBoxOfTheBoardIsANormalBox [
 
-	| aBoard |
-	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2..
+	| aBoard aPathGenerator|
+	
+	aPathGenerator := PathGenerator createWith: 10 and: 5. 
+	
+	aBoard := Board createWith: aPathGenerator path.
 
 	self assert: ((aBoard findBoxIn: 1 ) isKindOf: NormalBox)
 ]
 
 { #category : #tests }
-BoardTest >> test011VerifyCorrectDistributionsOfBoxes [
-
-	| aBoard pathOfTheBoard normalBoxes hyperSpaceJumpBoxes moonwalkBoxes hyperJumpBoxes atomicBombBoxes wormHolesBoxes blackHoleBoxes |
-	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
-	pathOfTheBoard := aBoard path.
-
-	normalBoxes := pathOfTheBoard select: [ :box |
-		               box isKindOf: NormalBox ].
-
-	self assert: normalBoxes size equals: (aBoard length * 0.4 - 2).
-
-
-	hyperSpaceJumpBoxes := pathOfTheBoard select: [ :box |
-		                       box isKindOf: HyperSpaceJump ].
-
-	self assert: hyperSpaceJumpBoxes size equals: aBoard length * 0.2.
-
-
-	moonwalkBoxes := pathOfTheBoard select: [ :box |
-		                 box isKindOf: MoonWalk ].
-
-	self assert: moonwalkBoxes size equals: aBoard length * 0.1.
-
-	hyperJumpBoxes := pathOfTheBoard select: [ :box |
-		                  box isKindOf: HyperJump ].
-
-	self assert: hyperJumpBoxes size equals: aBoard length * 0.08.
-
-
-	atomicBombBoxes := pathOfTheBoard select: [ :box |
-		                   box isKindOf: AtomicBomb ].
-
-	self assert: atomicBombBoxes size equals: aBoard length * 0.02.
-
-	wormHolesBoxes := pathOfTheBoard select: [ :box |
-		                  box isKindOf: Wormhole ].
-
-	self assert: wormHolesBoxes size equals: 2.
-	
-	blackHoleBoxes := pathOfTheBoard select: [ :box |
-		                  box isKindOf: BlackHole  ].
-
-	self assert: blackHoleBoxes size equals: aBoard length * 0.2.
-]
-
-{ #category : #tests }
-BoardTest >> test012WhenBoardIsCreatedWithIncorrectNumberOfBoxesThenThrowError [
-
-	self
-		should: [ Board createWith: -30 andParsecsToBoxesRatio: 2 ]
-		raise: Error
-		withMessage:
-		'Board length should be multiple of 50 and greater than 0'
-]
-
-{ #category : #tests }
 BoardTest >> test013ForBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSpaceship [
 
-		| aSpaceship aBoard |
+		| aSpaceship aBoard aPath|
 		
-	aSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 2.
+	aPath := OrderedCollection with: NormalBox new with: NormalBox new with: NormalBox new.
 
-	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	aBoard := Board createWith: aPath.
 	
-	aSpaceship move: 50.
+	aSpaceship move: 3.
 		
 	aBoard normalizeOne: aSpaceship.
 	
@@ -303,18 +244,19 @@ BoardTest >> test013ForBoardWhenASpaceshipPassTheLastBoxThenAddALapCompletedToSp
 
 { #category : #tests }
 BoardTest >> test014ForBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesNotThenAddALapToASpaceship [
-	| aSpaceship anotherSpaceship spaceships aBoard |
+	| aSpaceship anotherSpaceship spaceships aBoard aPath |
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
+	aPath := OrderedCollection with: NormalBox new with: NormalBox new with: NormalBox new.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
 		              with: anotherSpaceship.
 		
-	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	aBoard := Board createWith: aPath.
 	
-	aSpaceship move: 50.
+	aSpaceship move: 3.
 		
 	aBoard normalizeAll: spaceships.
 	
@@ -326,18 +268,19 @@ BoardTest >> test014ForBoardWhenASpaceshipPassTheLastBoxAndAnotherSpaceshipDoesN
 
 { #category : #tests }
 BoardTest >> test015ForBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
-	| aSpaceship anotherSpaceship spaceships aBoard |
+	| aSpaceship anotherSpaceship spaceships aBoard aPath |
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
+	aPath := OrderedCollection with: NormalBox new with: NormalBox new with: NormalBox new.
 
 	spaceships := OrderedCollection
 		              with: aSpaceship
 		              with: anotherSpaceship.
 		
-	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	aBoard := Board createWith: aPath.
 	
-	aSpaceship move: 50.
+	aSpaceship move: 3.
 	anotherSpaceship move: -3.
 		
 	aBoard normalizeAll: spaceships.
@@ -350,18 +293,19 @@ BoardTest >> test015ForBoardCanNotGoBackBeyondFirstBoxOnFirstLap [
 
 { #category : #tests }
 BoardTest >> test016ForBoardWhenASpaceshipMovesBackThroughFirstBoxThenSubtractOneLapCompleted [
-	| aSpaceship anotherSpaceship spaceships aBoard |
+	| aSpaceship anotherSpaceship spaceships aBoard aPath |
 	
-	aSpaceship := Spaceship create.
-	anotherSpaceship := Spaceship create.
-
+	aSpaceship := Spaceship createWithId: 1.
+	anotherSpaceship := Spaceship createWithId: 2.
+	aPath := OrderedCollection with: NormalBox new with: NormalBox new with: NormalBox new.
+	
 	spaceships := OrderedCollection
 		              with: aSpaceship
 		              with: anotherSpaceship.
 		
-	aBoard := Board createWith: 50 andParsecsToBoxesRatio: 2.
+	aBoard := Board createWith: aPath.
 	
-	aSpaceship move: 50.
+	aSpaceship move: 3.
 		
 	aBoard normalizeAll: spaceships.
 	
@@ -370,7 +314,7 @@ BoardTest >> test016ForBoardWhenASpaceshipMovesBackThroughFirstBoxThenSubtractOn
 	self assert: anotherSpaceship position equals: 1.
 	self assert: anotherSpaceship lapsCompleted equals: 0.
 	
-	aSpaceship move: -50.
+	aSpaceship move: -3.
 		
 	aBoard normalizeAll: spaceships.
 	
@@ -378,14 +322,4 @@ BoardTest >> test016ForBoardWhenASpaceshipMovesBackThroughFirstBoxThenSubtractOn
 	self assert: aSpaceship lapsCompleted equals: 0.
 	self assert: anotherSpaceship position equals: 1.
 	self assert: anotherSpaceship lapsCompleted equals: 0.
-]
-
-{ #category : #tests }
-BoardTest >> test017WhenBoardIsCreatedWithIncorrectParsecToBoxesRatioThenThrowError [
-
-	self
-		should: [ Board createWith: 50 andParsecsToBoxesRatio: 0 ]
-		raise: Error
-		withMessage:
-		'Parsecs to boxes ratio should be greater than 0'
 ]

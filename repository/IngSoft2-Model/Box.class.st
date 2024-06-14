@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #accessing }
-Box >> applyEffect: spaceships and: turn [
+Box >> applyEffect: spaceships and: actualSpaceship [
 
 	self subclassResponsibility.
 ]
