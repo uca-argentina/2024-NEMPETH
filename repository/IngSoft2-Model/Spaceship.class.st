@@ -6,7 +6,8 @@ Class {
 		'shield',
 		'lapsCompleted',
 		'state',
-		'id'
+		'id',
+		'cards'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -33,6 +34,11 @@ Spaceship >> addLap [
 ]
 
 { #category : #'as yet unclassified' }
+Spaceship >> cards [
+	^ cards
+]
+
+{ #category : #'as yet unclassified' }
 Spaceship >> changeTo: anState [ 
 	state := anState.
 ]
@@ -49,6 +55,7 @@ Spaceship >> initializeWith: anId [
 	position := 1.
 	shield := 3.
 	lapsCompleted := 0.
+	cards := OrderedCollection new.
 	state := AvailableState create
 ]
 
@@ -61,6 +68,12 @@ Spaceship >> lapsCompleted [
 Spaceship >> move: positionsToMove [
 
 	position := position + positionsToMove
+]
+
+{ #category : #'as yet unclassified' }
+Spaceship >> obtain: aCard [
+
+	cards add: aCard
 ]
 
 { #category : #'as yet unclassified' }

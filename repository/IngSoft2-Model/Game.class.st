@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'spaceships',
 		'dices',
-		'lapsToWin'
+		'lapsToWin',
+		'deck'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -14,6 +15,20 @@ Game class >> amountOfLapsToWinValidation: amountOfLapsToWin [
 
 	amountOfLapsToWin < 1 ifTrue: [
 		Error signal: 'Laps to win should be greater than zero' ]
+]
+
+{ #category : #'as yet unclassified' }
+Game class >> createWithNumberOfSpaceships: numberOfSpaceships and: aCollectionOfDices and: aDeck andLapsToWin: amountOfLapsToWin [
+
+	self dicesValidation: aCollectionOfDices.
+	self spaceshipsValidation: numberOfSpaceships.
+	self amountOfLapsToWinValidation: amountOfLapsToWin.
+
+	^ self new
+		  initializeWith: numberOfSpaceships
+		  and: aCollectionOfDices
+		  and: aDeck
+		  andLapsToWin: amountOfLapsToWin
 ]
 
 { #category : #'instance creation' }
@@ -41,6 +56,13 @@ Game class >> spaceshipsValidation: numberOfSpaceships [
 
 	numberOfSpaceships < 2 ifTrue: [
 		Error signal: 'Game should have a least two spaceships' ]
+]
+
+{ #category : #'as yet unclassified' }
+Game >> checkAmountOfCardsOfSpaceships [
+	| spaceshipsSortedById |
+	spaceshipsSortedById := spaceships copy sort: [ :a :b | (a id) < (b id) ].
+	^ spaceshipsSortedById collect: [ :spaceship | (spaceship cards) size ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -75,11 +97,23 @@ Game >> checkWinnerOn: aBoard [
 { #category : #'as yet unclassified' }
 Game >> createSpaceships: numberOfSpaceships [
 
-	| aCollectionOfSpaceships |
+	| aCollectionOfSpaceships anSpaceship |
 	aCollectionOfSpaceships := OrderedCollection new: numberOfSpaceships.
 	1 to: numberOfSpaceships do: [ :i |
-	aCollectionOfSpaceships add: (Spaceship createWithId: i) ].
+		anSpaceship := (Spaceship createWithId: i).
+		anSpaceship obtain: (deck giveACard). 
+		anSpaceship obtain: (deck giveACard).
+	aCollectionOfSpaceships add: anSpaceship ].
 	^ aCollectionOfSpaceships
+]
+
+{ #category : #initialization }
+Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices and: aDeck andLapsToWin: amountOfLapsToWin [ 
+	
+	dices := aCollectionOfDices.
+	deck := aDeck.
+	lapsToWin := amountOfLapsToWin.
+	spaceships := self createSpaceships: numberOfSpaceships.
 ]
 
 { #category : #initialization }

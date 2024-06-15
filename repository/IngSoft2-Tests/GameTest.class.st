@@ -525,3 +525,35 @@ GameTest >> test021WhenOnABattleTheSpaceshipsThrowTheSameThenTheOneWhichArrivedL
 	
 	
 ]
+
+{ #category : #tests }
+GameTest >> test022SpaceshipsStartWithTwoCardsWhenGameStarts [
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 2 with: 2 with: 3 with: 3).
+	dices := OrderedCollection with: aDie.
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+	
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+					with: aNormalBoxOne
+					with: aNormalBoxTwo
+					with: aNormalBoxThree
+					with: aNormalBoxFour.
+					 
+	aBoard := Board createWith: aPath.
+	aGame := Game createWithNumberOfSpaceships: 4 and: dices and: aDeck andLapsToWin: 1.
+
+	self assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection with: 2 with: 2 with: 2 with: 2).
+	
+	
+]
