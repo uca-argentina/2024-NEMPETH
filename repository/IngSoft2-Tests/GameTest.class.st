@@ -12,10 +12,16 @@ GameTest >> should: anErrorBlock raise: anErrorClass withMessage: anErrorMessage
 { #category : #tests }
 GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWinThenTheSpaceshipWins [
 
-| dices aDie aBoxOne aWormholeOne aWormholeTwo aPath aBoard aGame winner |
+| dices aDie cards aDeck aBoxOne aWormholeOne aWormholeTwo aPath aBoard aGame winner |
 	aDie := LoadedDie of: 3.
 	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
 	
 	aBoxOne := Box new.
 	aWormholeOne := Wormhole new.
@@ -29,7 +35,7 @@ GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWi
 		         with: aBoxOne.
 	aBoard := Board createWith: aPath.
 	
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 	
@@ -55,10 +61,16 @@ GameTest >> test002WhenGameIsCreatedWithLessThanOneLapToWinThenThrowError [
 { #category : #tests }
 GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpaceshipWins [
 
-| dices aDie aNormalBoxOne aNormalBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame winner |
+| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame winner |
 	aDie := LoadedDie of: 5.
 	aDie add: (OrderedCollection with: 4 with: 3 with: 3).
 	dices := OrderedCollection with: aDie.
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
 	
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
@@ -73,7 +85,7 @@ GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpa
 				   with: aNormalBoxTwo.
 	aBoard := Board createWith: aPath.
 	
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 2.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 2.
 	
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -126,11 +138,17 @@ GameTest >> test006WhenASpaceshipIsOnSecondWormholeThenSpaceshipMovesToPositionO
 { #category : #tests }
 GameTest >> test007WhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsOne [
 
-	| dices aDie aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame |
+	| dices aDie cards aDeck aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
 	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
 
+   cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+	
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
 	aWormholeOne associateWith: aWormholeTwo.
@@ -142,7 +160,7 @@ GameTest >> test007WhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsOne [
 		         with: aBoxOne.
 	aBoard := Board createWith: aPath.
 	
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -156,7 +174,7 @@ GameTest >> test007WhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsOne [
 { #category : #tests }
 GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 
-	| dices aDie aWormholeOne aWormholeTwo aNormalBoxOne aPath aBoard aGame aNormalBoxTwo aNormalBoxThree |
+	| dices aDie cards aDeck aWormholeOne aWormholeTwo aNormalBoxOne aPath aBoard aGame aNormalBoxTwo aNormalBoxThree |
 	aDie := LoadedDie of: 5.
 	aDie add: (OrderedCollection
 			 with: 4
@@ -165,6 +183,12 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 			 with: 3
 			 with: 5).
 	dices := OrderedCollection with: aDie.
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
 
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
@@ -184,7 +208,7 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 
 	aBoard := Board createWith: aPath.
 
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 2.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 2.
 
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -228,10 +252,16 @@ GameTest >> test010WhenGameIsCreatedWithoutDicesThenThrowError [
 { #category : #tests }
 GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 
-	| dices aDie aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame winner |
+	| dices aDie cards aDeck aWormholeOne aWormholeTwo aBoxOne aPath aBoard aGame winner |
 	aDie := LoadedDie of: 3.
 	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
 	
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
@@ -244,7 +274,7 @@ GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 		         with: aBoxOne.
 	aBoard := Board createWith: aPath.
 	
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 	
@@ -257,10 +287,16 @@ GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 { #category : #tests }
 GameTest >> test014WhenSpaceshipMoveToAPositionWhereThereIsNotAnotherSpaceshipThenTheShieldIsNotAffected [
 
-	| dices aDie aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
+	| dices aDie cards aDeck aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
 	aDie add: (OrderedCollection with: 1).
 	dices := OrderedCollection with: aDie.
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
 
 	aBoxOne := NormalBox new.
 	aBoxTwo := NormalBox new.
@@ -275,7 +311,7 @@ GameTest >> test014WhenSpaceshipMoveToAPositionWhereThereIsNotAnotherSpaceshipTh
 					with: aBoxThree.
 					 
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 	
@@ -286,10 +322,16 @@ GameTest >> test014WhenSpaceshipMoveToAPositionWhereThereIsNotAnotherSpaceshipTh
 { #category : #tests }
 GameTest >> test015WhenTwoSpaceshipsBattleIfThereIsATieThenTheSecondSpaceshipLoseOneShieldAndRestartPositionOne [
 
-	| dices aDie aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
+	| dices aDie cards aDeck aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
 	aDie add: (OrderedCollection with: 1).
 	dices := OrderedCollection with: aDie.
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
 
 	aBoxOne := NormalBox new.
 	aBoxTwo := NormalBox new.
@@ -304,7 +346,7 @@ GameTest >> test015WhenTwoSpaceshipsBattleIfThereIsATieThenTheSecondSpaceshipLos
 					with: aBoxThree.
 					 
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -316,11 +358,16 @@ GameTest >> test015WhenTwoSpaceshipsBattleIfThereIsATieThenTheSecondSpaceshipLos
 { #category : #tests }
 GameTest >> test016WhenBothSpaceshipsAreInPositionOneThenTheSpaceshipsAreNotAffectedThisIsASafeZone [
 
-	| dices aDie aBoxOne aBoxTwo aBoxThree aPath aBoard aGame |
+	| dices aDie cards aDeck aBoxOne aBoxTwo aBoxThree aPath aBoard aGame |
 	aDie := LoadedDie of: 3.
 	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
 
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
 
 	aBoxOne := NormalBox new.
 	aBoxTwo := NormalBox new.
@@ -332,7 +379,7 @@ GameTest >> test016WhenBothSpaceshipsAreInPositionOneThenTheSpaceshipsAreNotAffe
 					with: aBoxThree.
 					 
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 	
@@ -346,11 +393,17 @@ GameTest >> test016WhenBothSpaceshipsAreInPositionOneThenTheSpaceshipsAreNotAffe
 { #category : #tests }
 GameTest >> test017WhenPassTurnThenTheSpaceshipRecoverAllShields [
 
-	|  dices aDie aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
+	|  dices aDie cards aDeck aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 10.
 	aDie add: (OrderedCollection with: 1 with: 1 with: 1 with: 2 with: 2).
 	dices := OrderedCollection with: aDie.
-
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+	
 	aBoxOne := NormalBox new.
 	aBoxTwo := NormalBox new.
 	aBoxThree := Box new.
@@ -364,7 +417,7 @@ GameTest >> test017WhenPassTurnThenTheSpaceshipRecoverAllShields [
 					with: aBoxThree.
 					 
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
 	
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -384,11 +437,17 @@ GameTest >> test017WhenPassTurnThenTheSpaceshipRecoverAllShields [
 { #category : #tests }
 GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 
-	| dices aDie aNormalBoxOne aNormalBoxTwo aNormalBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 10.
 	aDie add: (OrderedCollection with: 1 with: 3 with: 1 with: 1).
 	dices := OrderedCollection with: aDie.
-
+ 	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+	
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
 	aNormalBoxThree := NormalBox new.
@@ -404,7 +463,7 @@ GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 					with: aNormalBoxThree.
 					 
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
 		
 	aGame playWith: aBoard.
 	self assert: aGame checkPositionsOfSpaceships
@@ -428,7 +487,7 @@ GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 { #category : #tests }
 GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 
-	| dices aDie aNormalBoxOne aNormalBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 5.
 	aDie add: (OrderedCollection
 			 with: 1
@@ -438,6 +497,12 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 			 with: 5).
 	dices := OrderedCollection with: aDie.
 
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+	
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
 	aWormholeOne := Wormhole new.
@@ -451,7 +516,7 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 		         with: aNormalBoxTwo.
 	aBoard := Board createWith: aPath.
 
-	aGame := Game createWithNumberOfSpaceships: 3 and: dices andLapsToWin: 2.
+	aGame := Game createWithNumberOfSpaceships: 3 and: dices and: aDeck andLapsToWin: 2.
 
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -467,11 +532,17 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 { #category : #tests }
 GameTest >> test020CanNotBattleAfterASpaceshipHasWon [
 
-	| dices aDie aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
 	aDie := LoadedDie of: 10.
 	aDie add: (OrderedCollection with: 1 with: 3).
 	dices := OrderedCollection with: aDie.
-
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+	
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
 	aNormalBoxThree := NormalBox new.
@@ -483,7 +554,7 @@ GameTest >> test020CanNotBattleAfterASpaceshipHasWon [
 					with: aNormalBoxFour.
 					 
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
 		
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -499,10 +570,16 @@ GameTest >> test020CanNotBattleAfterASpaceshipHasWon [
 { #category : #tests }
 GameTest >> test021WhenOnABattleTheSpaceshipsThrowTheSameThenTheOneWhichArrivedLastLose [
 
-	| dices aDie aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
 	aDie := LoadedDie of: 10.
 	aDie add: (OrderedCollection with: 2 with: 2 with: 3 with: 3).
 	dices := OrderedCollection with: aDie.
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
 
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
@@ -515,7 +592,7 @@ GameTest >> test021WhenOnABattleTheSpaceshipsThrowTheSameThenTheOneWhichArrivedL
 					with: aNormalBoxFour.
 					 
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1.
+	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
 		
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
