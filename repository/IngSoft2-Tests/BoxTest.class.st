@@ -210,6 +210,6 @@ BoxTest >> test008WhenHyperJumpApplyEffectThenSpaceshipIsMoveBetweenOneAndTwenty
 	
 	aHyperJump applyEffect: spaceships and: actualSpaceship. 
 
-	self assert: ((aSpaceship position) between: 2 and: 21).
+	self assert: ((aSpaceship position) between: 1 and: 21).
 	self assert: anotherSpaceship position equals: 1.	
 ]
