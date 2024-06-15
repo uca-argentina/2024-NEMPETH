@@ -48,12 +48,18 @@ GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWi
 { #category : #tests }
 GameTest >> test002WhenGameIsCreatedWithLessThanOneLapToWinThenThrowError [
 
-	| dices aDie |
+	| dices aDie cards aDeck |
 	aDie := Die of: 4.
 	dices := OrderedCollection with: aDie.
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
 
 	self
-		should: [ Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 0 ]
+		should: [ Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 0 ]
 		raise: Error
 		withMessage: 'Laps to win should be greater than zero'
 ]
@@ -224,14 +230,18 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 { #category : #tests }
 GameTest >> test009WhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 
-	| spaceships dices aDie |
+	| dices aDie cards aDeck |
 	aDie := Die of: 4.
 	dices := OrderedCollection with: aDie.
 
-	spaceships := OrderedCollection new.
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
 
 	self
-		should: [ Game createWithNumberOfSpaceships: 0 and: dices andLapsToWin: 1 ]
+		should: [ Game createWithNumberOfSpaceships: 0 and: dices and: aDeck andLapsToWin: 1 ]
 		raise: Error
 		withMessage: 'Game should have a least two spaceships'
 ]
@@ -239,12 +249,18 @@ GameTest >> test009WhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 { #category : #tests }
 GameTest >> test010WhenGameIsCreatedWithoutDicesThenThrowError [
 
-	| dices |
+	| dices cards aDeck |
 
 	dices := OrderedCollection new.
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
 
 	self
-		should: [ Game createWithNumberOfSpaceships: 2 and: dices andLapsToWin: 1 ]
+		should: [ Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1 ]
 		raise: Error
 		withMessage: 'Game should have a least one die'
 ]
@@ -633,4 +649,73 @@ GameTest >> test022SpaceshipsStartWithTwoCardsWhenGameStarts [
 		equals: (OrderedCollection with: 2 with: 2 with: 2 with: 2).
 	
 	
+]
+
+{ #category : #tests }
+GameTest >> test023WhenGameStartsThenItHasNotPermanentCardsPlayed [
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 2 with: 2 with: 3 with: 3).
+	dices := OrderedCollection with: aDie.
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+	
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+					with: aNormalBoxOne
+					with: aNormalBoxTwo
+					with: aNormalBoxThree
+					with: aNormalBoxFour.
+					 
+	aBoard := Board createWith: aPath.
+	aGame := Game createWithNumberOfSpaceships: 4 and: dices and: aDeck andLapsToWin: 1.
+
+	self assert: aGame getPermanentCardPlayed
+		equals: (OrderedCollection new).
+	
+	
+]
+
+{ #category : #tests }
+GameTest >> test024WhenGameStartsThenThereIsNoLastCardPlay [
+
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection
+			 with: 2
+			 with: 2
+			 with: 3
+			 with: 3).
+	dices := OrderedCollection with: aDie.
+
+	cards := {
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 4
+		         and: dices
+		         and: aDeck
+		         andLapsToWin: 1.
+
+	self assert: aGame getLastCardPlayed isNil
 ]

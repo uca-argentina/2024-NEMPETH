@@ -7,7 +7,14 @@ Class {
 { #category : #tests }
 DeckTest >> test001WhenTheDeckIsAskedForACardThenGivesACard [
 
-	| aDeck |
-	aDeck := Deck new.
-	self assert: ((aDeck giveACard) isKindOf: Card).
+	| aDeck cardOne cardTwo |
+	aDeck := Deck create.
+	
+	cardOne := aDeck giveACard.
+	cardTwo := aDeck giveACard.
+	
+	self assert: (cardOne isKindOf: Card).
+	self assert: cardOne id equals: 1.
+	self assert: (cardTwo isKindOf: Card).
+	self assert: cardTwo id equals: 2.
 ]

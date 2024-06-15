@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'index',
-		'cards'
+		'cards',
+		'idForCard'
 	],
 	#classInstVars : [
 		'index',
@@ -22,15 +23,17 @@ LoadedDeck class >> createWith: aMapsOfCards [
 LoadedDeck >> giveACard [
 
 	| card |
-	card := (cards at: index) new.
+	card := (cards at: index) createWithId: idForCard.
 	index = cards size ifTrue: [ index := index - cards size ].
 	index := index + 1.
+	idForCard := idForCard + 1.
 	^ card
 ]
 
 { #category : #initialization }
 LoadedDeck >> initializeWith: aMapsOfCards [
-
+	
+	idForCard := 1.
 	index := 1.
 	cards := aMapsOfCards
 ]

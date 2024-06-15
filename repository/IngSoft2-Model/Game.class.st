@@ -5,7 +5,9 @@ Class {
 		'spaceships',
 		'dices',
 		'lapsToWin',
-		'deck'
+		'deck',
+		'permanentCardsPlayed',
+		'lastCardPlayed'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -94,9 +96,20 @@ Game >> createSpaceships: numberOfSpaceships [
 	^ aCollectionOfSpaceships
 ]
 
+{ #category : #'as yet unclassified' }
+Game >> getLastCardPlayed [
+	^ lastCardPlayed
+]
+
+{ #category : #'as yet unclassified' }
+Game >> getPermanentCardPlayed [
+	^ permanentCardsPlayed
+]
+
 { #category : #initialization }
 Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices and: aDeck andLapsToWin: amountOfLapsToWin [ 
 	
+	permanentCardsPlayed := OrderedCollection new.
 	dices := aCollectionOfDices.
 	deck := aDeck.
 	lapsToWin := amountOfLapsToWin.

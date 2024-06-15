@@ -1,8 +1,16 @@
 Class {
 	#name : #Deck,
 	#superclass : #Object,
+	#instVars : [
+		'idForCard'
+	],
 	#category : #'IngSoft2-Model'
 }
+
+{ #category : #operations }
+Deck class >> create [
+	^ self new initializeWith
+]
 
 { #category : #'as yet unclassified' }
 Deck >> giveACard [
@@ -16,8 +24,14 @@ Deck >> giveACard [
         6 -> Repeat.
     } asDictionary.
     randomValue := #(1 2 3 4 5 6) atRandom.
-    aCard := (cardMapping at: randomValue) new.
+    aCard := (cardMapping at: randomValue) createWithId: idForCard.
+	 idForCard := idForCard + 1.
     
     ^ aCard
 
+]
+
+{ #category : #initialization }
+Deck >> initializeWith [
+	idForCard := 1
 ]
