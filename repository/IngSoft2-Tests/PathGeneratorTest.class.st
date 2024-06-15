@@ -24,7 +24,7 @@ PathGeneratorTest >> test002VerifyCorrectDistributionsOfBoxes [
 	| aPathGenerator pathOfTheBoard percent normalBoxes blackHoleBoxes hyperSpaceJumpBoxes 
 	 moonwalkBoxes hyperJumpBoxes atomicBombBoxes |
 	
-	aPathGenerator := PathGenerator createWith: 10000 and: 5.
+	aPathGenerator := PathGenerator createWith: 20000 and: 5.
 	
 	pathOfTheBoard := aPathGenerator path.
 
