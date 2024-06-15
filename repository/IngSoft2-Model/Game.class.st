@@ -32,19 +32,6 @@ Game class >> createWithNumberOfSpaceships: numberOfSpaceships and: aCollectionO
 ]
 
 { #category : #'instance creation' }
-Game class >> createWithNumberOfSpaceships: numberOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
-
-	self dicesValidation: aCollectionOfDices.
-	self spaceshipsValidation: numberOfSpaceships.
-	self amountOfLapsToWinValidation: amountOfLapsToWin.
-
-	^ self new
-		  initializeWith: numberOfSpaceships
-		  and: aCollectionOfDices
-		  andLapsToWin: amountOfLapsToWin
-]
-
-{ #category : #'instance creation' }
 Game class >> dicesValidation: aCollectionOfDices [
 
 	aCollectionOfDices size < 1 ifTrue: [
@@ -114,14 +101,6 @@ Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices and: aDeck an
 	deck := aDeck.
 	lapsToWin := amountOfLapsToWin.
 	spaceships := self createSpaceships: numberOfSpaceships.
-]
-
-{ #category : #initialization }
-Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices andLapsToWin: amountOfLapsToWin [
-
-	spaceships := self createSpaceships: numberOfSpaceships.
-	dices := aCollectionOfDices.
-	lapsToWin := amountOfLapsToWin.
 ]
 
 { #category : #'as yet unclassified' }
