@@ -65,7 +65,7 @@ PathGeneratorTest >> test002VerifyCorrectDistributionsOfBoxes [
 ]
 
 { #category : #running }
-PathGeneratorTest >> test003VerifyCorrectDistributionsOfBoxes [
+PathGeneratorTest >> test003WhenRatioParsecToBoxesIsEqualOrLessThanZeroThenThorwError [
 	
 	self
 		should: [ PathGenerator createWith: 50 and: 0. ]
