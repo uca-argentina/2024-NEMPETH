@@ -8,7 +8,10 @@ Class {
 LoadedDeckTest >> test001WhenUsingALoadedDeckThenReturnTheCardsGivenWhenCreated [ 
 	| cards aDeck |
 	
-	cards := OrderedCollection with: (Acceleration new) with: (Speed new).
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
 	self assert: ((aDeck giveACard) isKindOf: Acceleration).
 	self assert: ((aDeck giveACard) isKindOf: Speed).

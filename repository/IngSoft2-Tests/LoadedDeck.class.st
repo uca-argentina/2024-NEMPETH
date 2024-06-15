@@ -1,6 +1,10 @@
 Class {
 	#name : #LoadedDeck,
 	#superclass : #Object,
+	#instVars : [
+		'index',
+		'cards'
+	],
 	#classInstVars : [
 		'index',
 		'cards'
@@ -9,18 +13,24 @@ Class {
 }
 
 { #category : #'instance creation' }
-LoadedDeck class >> createWith: aCollectionOfCards [
+LoadedDeck class >> createWith: aMapsOfCards [
 
-	index := 1.
-	cards := aCollectionOfCards
+	^ self new initializeWith: aMapsOfCards
 ]
 
 { #category : #'as yet unclassified' }
-LoadedDeck class >> giveACard [
+LoadedDeck >> giveACard [
 
 	| card |
-	card := cards at: index.
+	card := (cards at: index) new.
 	index = cards size ifTrue: [ index := index - cards size ].
 	index := index + 1.
 	^ card
+]
+
+{ #category : #initialization }
+LoadedDeck >> initializeWith: aMapsOfCards [
+
+	index := 1.
+	cards := aMapsOfCards
 ]
