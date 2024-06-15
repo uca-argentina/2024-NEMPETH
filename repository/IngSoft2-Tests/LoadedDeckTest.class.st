@@ -1,0 +1,16 @@
+Class {
+	#name : #LoadedDeckTest,
+	#superclass : #TestCase,
+	#category : #'IngSoft2-Tests'
+}
+
+{ #category : #tests }
+LoadedDeckTest >> test001WhenUsingALoadedDeckThenReturnTheCardsGivenWhenCreated [ 
+	| cards aDeck |
+	
+	cards := OrderedCollection with: (Acceleration new) with: (Speed new).
+	aDeck := LoadedDeck createWith: cards.
+	self assert: ((aDeck giveACard) isKindOf: Acceleration).
+	self assert: ((aDeck giveACard) isKindOf: Speed).
+	
+]
