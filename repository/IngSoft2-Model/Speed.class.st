@@ -12,6 +12,7 @@ Speed >> applyCardEffect: aCardArguments and: aGame [
 
 	idOfAffectedSpaceship := aCardArguments at: 'idTargetSpaceship'.
 	aGame applySpeedWith: idOfAffectedSpaceship.
+	aGame addPermanentCardPlayed: self.
 	
 ]
 
@@ -19,4 +20,5 @@ Speed >> applyCardEffect: aCardArguments and: aGame [
 Speed >> removeCardEffect: aCardArguments and: aGame [ 
 
 	aGame removeSpeedWith: idOfAffectedSpaceship.
+	aGame removePermanentCardPlayed: self.
 ]

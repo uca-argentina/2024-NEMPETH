@@ -8,7 +8,9 @@ Class {
 		'state',
 		'id',
 		'cards',
-		'movementBySpeed'
+		'movementBySpeed',
+		'avaliableForMercenary',
+		'mercenaries'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -35,6 +37,12 @@ Spaceship >> addLap [
 ]
 
 { #category : #adding }
+Spaceship >> addMercenary: aSpaceship [
+	mercenaries add: aSpaceship.
+	aSpaceship changeAvailabilityForMercenary.
+]
+
+{ #category : #adding }
 Spaceship >> addSpeed [
 	movementBySpeed := movementBySpeed + 1.
 ]
@@ -42,6 +50,11 @@ Spaceship >> addSpeed [
 { #category : #'as yet unclassified' }
 Spaceship >> cards [
 	^ cards
+]
+
+{ #category : #'as yet unclassified' }
+Spaceship >> changeAvailabilityForMercenary [
+	avaliableForMercenary := avaliableForMercenary not. 
 ]
 
 { #category : #'as yet unclassified' }
@@ -58,6 +71,8 @@ Spaceship >> id [
 Spaceship >> initializeWith: anId [
 
 	id := anId.
+	avaliableForMercenary := true.
+	mercenaries := OrderedCollection new.
 	movementBySpeed := 0.
 	position := 1.
 	shield := 3.
@@ -66,9 +81,20 @@ Spaceship >> initializeWith: anId [
 	state := AvailableState create
 ]
 
+{ #category : #testing }
+Spaceship >> isAvaliableForMercenary [
+	^ avaliableForMercenary 
+]
+
 { #category : #accessing }
 Spaceship >> lapsCompleted [
 	^ lapsCompleted
+]
+
+{ #category : #accessing }
+Spaceship >> mercenaries [
+
+	^ mercenaries
 ]
 
 { #category : #accessing }
@@ -104,6 +130,11 @@ Spaceship >> position [
 Spaceship >> recoverShields [
 
 	shield := 3
+]
+
+{ #category : #removing }
+Spaceship >> removeMercenary: aSpaceship [ 
+	mercenaries remove: aSpaceship.
 ]
 
 { #category : #'as yet unclassified' }

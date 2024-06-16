@@ -55,6 +55,23 @@ Game >> addAcceleration [
 ]
 
 { #category : #'as yet unclassified' }
+Game >> addPermanentCardPlayed: aCard [
+
+	permanentCardsPlayed add: aCard
+]
+
+{ #category : #'as yet unclassified' }
+Game >> applyMercenary: idOfMercenarySpaceship to: idOfActualSpaceship [ 
+	
+	| mercenarySpaceship actualSpaceship |
+	
+	mercenarySpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfMercenarySpaceship ].
+	actualSpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfActualSpaceship ].
+	
+	mercenarySpaceship isAvaliableForMercenary ifTrue: [ actualSpaceship addMercenary: mercenarySpaceship. ]
+]
+
+{ #category : #'as yet unclassified' }
 Game >> applySpeedWith: anIdOfSpaceship [
 
 	| affectedSpaceship |
@@ -156,7 +173,7 @@ Game >> playCard: aCardArguments [
 	actualSpaceship removeThis: card.
 	
 	card applyCardEffect: aCardArguments and: self.
-	permanentCardsPlayed add: card.
+
 
 ]
 
@@ -189,6 +206,23 @@ Game >> removeAcceleration [
 	movementByAcceleration := movementByAcceleration - 1.
 ]
 
+{ #category : #removing }
+Game >> removeMercenary: idOfMercenarySpaceship and: idOfActualSpaceship [ 
+	
+	| mercenarySpaceship actualSpaceship |
+	mercenarySpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfMercenarySpaceship ].
+	actualSpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfActualSpaceship ].
+	
+	actualSpaceship removeMercenary: mercenarySpaceship.
+	mercenarySpaceship changeAvailabilityForMercenary
+
+]
+
+{ #category : #removing }
+Game >> removePermanentCardPlayed: aCard [ 
+	permanentCardsPlayed remove: aCard.
+]
+
 { #category : #'as yet unclassified' }
 Game >> removeSpeedWith: anIdOfSpaceship [ 
 	| affectedSpaceship |
@@ -210,26 +244,34 @@ Game >> throwDices [
 { #category : #accessing }
 Game >> verifyBattleWith: actualSpaceship [
 
-	| spaceshipsFight diceRolls |
-	
+	| spaceshipsToFight sumOfThrowsActualSpaceship sumOfThrowsCounterSpaceship counterSpaceship |
 	actualSpaceship position = 1 ifTrue: [ ^ self ].
-
-	spaceshipsFight := spaceships select: [ :spaceship |
-		                   (spaceship position = actualSpaceship position) and: [ spaceship ~= actualSpaceship ]].
 	
-	spaceshipsFight add: actualSpaceship. 
+	sumOfThrowsActualSpaceship := 0.
+	sumOfThrowsCounterSpaceship := 0.
+	
+	spaceshipsToFight := spaceships select: [ :spaceship |
+                           (spaceship position = actualSpaceship position) and: [ spaceship ~= actualSpaceship ]].
 
-	spaceshipsFight size = 2 ifFalse: [ ^ self ].
+	spaceshipsToFight := spaceshipsToFight reject: [ :aSpaceship |
+		                     aSpaceship mercenaries includes:
+			                     actualSpaceship ].
+		
+	spaceshipsToFight size = 1 ifFalse: [ ^ self ].
 
-	diceRolls := spaceshipsFight collect: [ :spaceship | self throwDices ].
 
-	diceRolls first >= diceRolls second
+	counterSpaceship := spaceshipsToFight first.
+
+	1 to: (1 + actualSpaceship mercenaries size) do: [ :i | sumOfThrowsActualSpaceship := sumOfThrowsActualSpaceship + self throwDices  ].
+	1 to: (1 + counterSpaceship mercenaries size) do: [ :i | sumOfThrowsCounterSpaceship := sumOfThrowsCounterSpaceship + self throwDices  ].
+
+	 sumOfThrowsCounterSpaceship >= sumOfThrowsActualSpaceship
 		ifTrue: [
-			spaceshipsFight second move: (-1 * actualSpaceship position) + 1.
-			spaceshipsFight second updateShield: -1 ]
+			actualSpaceship move: -1 * actualSpaceship position + 1.
+			actualSpaceship updateShield: -1.
+			actualSpaceship mercenaries do: [ :aMercenary | aMercenary updateShield: -1 ]]
 		ifFalse: [
-			spaceshipsFight first move: (-1 * actualSpaceship position) + 1.
-			spaceshipsFight first updateShield: -1 ]
-
-
+			counterSpaceship move: -1 * counterSpaceship position + 1.
+			counterSpaceship updateShield: -1.
+			counterSpaceship mercenaries do: [ :aMercenary | aMercenary updateShield: -1 ]].
 ]
