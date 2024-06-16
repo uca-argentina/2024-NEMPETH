@@ -156,6 +156,7 @@ Game >> playCard: aCardArguments [
 	actualSpaceship removeThis: card.
 	
 	card applyCardEffect: aCardArguments and: self.
+	permanentCardsPlayed add: card.
 
 ]
 
@@ -181,6 +182,20 @@ Game >> playWith: aBoard [
 	
 	self verifyBattleWith: actualSpaceship.
 
+]
+
+{ #category : #removing }
+Game >> removeAcceleration [
+	movementByAcceleration := movementByAcceleration - 1.
+]
+
+{ #category : #'as yet unclassified' }
+Game >> removeSpeedWith: anIdOfSpaceship [ 
+	| affectedSpaceship |
+	affectedSpaceship := spaceships detect: [ :aSpaceship |
+		                      aSpaceship id = anIdOfSpaceship ].
+	
+	affectedSpaceship removeSpeed. 
 ]
 
 { #category : #'as yet unclassified' }

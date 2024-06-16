@@ -14,3 +14,9 @@ Speed >> applyCardEffect: aCardArguments and: aGame [
 	aGame applySpeedWith: idOfAffectedSpaceship.
 	
 ]
+
+{ #category : #removing }
+Speed >> removeCardEffect: aCardArguments and: aGame [ 
+
+	aGame removeSpeedWith: idOfAffectedSpaceship.
+]

@@ -106,6 +106,11 @@ Spaceship >> recoverShields [
 	shield := 3
 ]
 
+{ #category : #'as yet unclassified' }
+Spaceship >> removeSpeed [
+	movementBySpeed := movementBySpeed - 1.
+]
+
 { #category : #removing }
 Spaceship >> removeThis: aCard [
 	self cards remove: aCard.
