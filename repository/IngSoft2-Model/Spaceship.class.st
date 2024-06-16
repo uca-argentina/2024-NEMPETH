@@ -7,7 +7,8 @@ Class {
 		'lapsCompleted',
 		'state',
 		'id',
-		'cards'
+		'cards',
+		'movementBySpeed'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -33,6 +34,11 @@ Spaceship >> addLap [
 	lapsCompleted := lapsCompleted + 1
 ]
 
+{ #category : #adding }
+Spaceship >> addSpeed [
+	movementBySpeed := movementBySpeed + 1.
+]
+
 { #category : #'as yet unclassified' }
 Spaceship >> cards [
 	^ cards
@@ -52,6 +58,7 @@ Spaceship >> id [
 Spaceship >> initializeWith: anId [
 
 	id := anId.
+	movementBySpeed := 0.
 	position := 1.
 	shield := 3.
 	lapsCompleted := 0.
@@ -68,6 +75,11 @@ Spaceship >> lapsCompleted [
 Spaceship >> move: positionsToMove [
 
 	position := position + positionsToMove
+]
+
+{ #category : #accessing }
+Spaceship >> movementBySpeed [
+	^ movementBySpeed
 ]
 
 { #category : #'as yet unclassified' }

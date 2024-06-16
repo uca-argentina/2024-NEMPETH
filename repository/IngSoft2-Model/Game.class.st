@@ -55,6 +55,16 @@ Game >> addAcceleration [
 ]
 
 { #category : #'as yet unclassified' }
+Game >> applySpeedWith: anIdOfSpaceship [
+
+	| affectedSpaceship |
+	affectedSpaceship := spaceships detect: [ :aSpaceship |
+		                      aSpaceship id = anIdOfSpaceship ].
+	
+	affectedSpaceship addSpeed. 
+]
+
+{ #category : #'as yet unclassified' }
 Game >> checkAmountOfCardsOfSpaceships [
 	| spaceshipsSortedById |
 	spaceshipsSortedById := spaceships copy sort: [ :a :b | (a id) < (b id) ].
@@ -156,7 +166,7 @@ Game >> playWith: aBoard [
 	actualSpaceship := spaceships removeFirst.
 	
 	actualSpaceship playTurn ifFalse: [ ^ self ].
-	actualSpaceship move: self throwDices + movementByAcceleration.
+	actualSpaceship move: self throwDices + movementByAcceleration + actualSpaceship movementBySpeed.
 	
 	aBoard normalizeOne: actualSpaceship.
 	
