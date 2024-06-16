@@ -94,6 +94,11 @@ Spaceship >> recoverShields [
 	shield := 3
 ]
 
+{ #category : #removing }
+Spaceship >> removeThis: aCard [
+	self cards remove: aCard.
+]
+
 { #category : #accessing }
 Spaceship >> shield [
 	^ shield

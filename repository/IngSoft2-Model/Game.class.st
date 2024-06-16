@@ -7,7 +7,8 @@ Class {
 		'lapsToWin',
 		'deck',
 		'permanentCardsPlayed',
-		'lastCardPlayed'
+		'lastCardPlayed',
+		'movementByAcceleration'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -45,6 +46,12 @@ Game class >> spaceshipsValidation: numberOfSpaceships [
 
 	numberOfSpaceships < 2 ifTrue: [
 		Error signal: 'Game should have a least two spaceships' ]
+]
+
+{ #category : #adding }
+Game >> addAcceleration [
+
+	movementByAcceleration := movementByAcceleration + 1.
 ]
 
 { #category : #'as yet unclassified' }
@@ -110,6 +117,7 @@ Game >> getPermanentCardPlayed [
 Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices and: aDeck andLapsToWin: amountOfLapsToWin [ 
 	
 	permanentCardsPlayed := OrderedCollection new.
+	movementByAcceleration := 0.
 	dices := aCollectionOfDices.
 	deck := aDeck.
 	lapsToWin := amountOfLapsToWin.
@@ -128,14 +136,28 @@ Game >> passTurnOn: aBoard [
 ]
 
 { #category : #'as yet unclassified' }
+Game >> playCard: aCardArguments [ 
+
+	| idOfSpaceship actualSpaceship idOfCard card |
+	idOfSpaceship := aCardArguments at: 'idSpaceship'.
+	actualSpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfSpaceship ].
+	idOfCard := aCardArguments at: 'idCardToUse'.
+	card := (actualSpaceship cards) detect: [ :aCard | aCard id = idOfCard ].
+	actualSpaceship removeThis: card.
+	
+	card applyCardEffect: aCardArguments and: self.
+
+]
+
+{ #category : #'as yet unclassified' }
 Game >> playWith: aBoard [
 
 	| actualSpaceship boxToCheck winner |
 	actualSpaceship := spaceships removeFirst.
 	
 	actualSpaceship playTurn ifFalse: [ ^ self ].
-
-	actualSpaceship move: self throwDices.
+	actualSpaceship move: self throwDices + movementByAcceleration.
+	
 	aBoard normalizeOne: actualSpaceship.
 	
 	boxToCheck := aBoard findBoxIn: actualSpaceship position.

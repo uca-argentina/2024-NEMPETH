@@ -719,3 +719,52 @@ GameTest >> test024WhenGameStartsThenThereIsNoLastCardPlay [
 
 	self assert: aGame getLastCardPlayed isNil
 ]
+
+{ #category : #tests }
+GameTest >> test025WhenAnAccelerationIsPlayedThenAllThrowsIncreaseByOne [
+
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame  cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection
+			 with: 1
+			 with: 2).
+	dices := OrderedCollection with: aDie.
+
+	cards := {(1 -> Acceleration).} asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         andLapsToWin: 1.
+		
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 1.
+	cardArguments at: 'idCardToUse' put: 1.
+	aGame playCard: cardArguments.
+
+	self assert: aGame checkAmountOfCardsOfSpaceships
+	equals: (OrderedCollection with: 1 with: 2).
+	
+	aGame playWith: aBoard.
+	
+	self assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 3 with: 1).
+		
+	aGame playWith: aBoard.
+	
+	self assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 3 with: 4).
+]
