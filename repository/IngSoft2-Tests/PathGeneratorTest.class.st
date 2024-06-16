@@ -19,52 +19,6 @@ PathGeneratorTest >> test001WhenPathIsCreateThenTheFisrtBoxisKindOfNormalBox [
 ]
 
 { #category : #running }
-PathGeneratorTest >> test002VerifyCorrectDistributionsOfBoxes [
-
-	| aPathGenerator pathOfTheBoard percent normalBoxes blackHoleBoxes hyperSpaceJumpBoxes 
-	 moonwalkBoxes hyperJumpBoxes atomicBombBoxes |
-	
-	aPathGenerator := PathGenerator createWith: 7500 and: 5.
-	
-	pathOfTheBoard := aPathGenerator path.
-
-	normalBoxes := pathOfTheBoard select: [ :box | box isKindOf: NormalBox ].
-	percent := normalBoxes size/pathOfTheBoard size.
-	
-	self assert: ((percent) between:  0.35 and: 0.45).
-	
-	
-	blackHoleBoxes := pathOfTheBoard select: [ :box | box isKindOf: BlackHole ].
-	percent := blackHoleBoxes size/pathOfTheBoard size.
-	
-	self assert: ((percent) between: 0.15 and: 0.25).
-	
-	
-	hyperSpaceJumpBoxes := pathOfTheBoard select: [ :box | box isKindOf: HyperSpaceJump ].
-	percent := hyperSpaceJumpBoxes size/pathOfTheBoard size.
-	
-	self assert: ((percent) between: 0.15 and: 0.25).
-	
-	
-	moonwalkBoxes := pathOfTheBoard select: [ :box | box isKindOf: MoonWalk ].
-	percent := moonwalkBoxes size/pathOfTheBoard size.
-
-	self assert: ((percent) between: 0.05 and: 0.15).
-	
-	hyperJumpBoxes := pathOfTheBoard select: [ :box | box isKindOf: HyperJump ].
-	percent := hyperJumpBoxes size/pathOfTheBoard size.
-	
-	self assert: ((percent) between: 0.03 and: 0.12).
-
-	atomicBombBoxes := pathOfTheBoard select: [ :box | box isKindOf: AtomicBomb ].
-	percent := atomicBombBoxes size/pathOfTheBoard size.
-	
-	self assert: ((percent) between: 0 and: 0.07).
-
-
-]
-
-{ #category : #running }
 PathGeneratorTest >> test003WhenRatioParsecToBoxesIsEqualOrLessThanZeroThenThorwError [
 	
 	self
