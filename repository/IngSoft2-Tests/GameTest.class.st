@@ -1971,3 +1971,161 @@ GameTest >> test043WhenASpaceshipIsInACardBoxThenGetsACard [
 		assert: aGame checkAmountOfCardsOfSpaceships
 		equals: (OrderedCollection with: 3 with: 2 with: 3)
 ]
+
+{ #category : #tests }
+GameTest >> test044WhenASpaceshipTriesToPlayAccelerationWhenItIsNotItsTurnThenThrowError [
+
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 1 with: 2).
+	dices := OrderedCollection with: aDie.
+
+	cards := { (1 -> Acceleration) } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 2.
+	cardArguments at: 'idCardToUse' put: 3.
+
+	self
+		should: [ aGame playCard: cardArguments ]
+		raise: Error
+		withMessage: 'A spaceship is trying to play a permanent card and it is not its turn'
+]
+
+{ #category : #tests }
+GameTest >> test045WhenASpaceshipTriesToPlayACardThatDoesNotHaveThenThrowError [
+
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 1 with: 2).
+	dices := OrderedCollection with: aDie.
+
+	cards := { (1 -> Acceleration) } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 1.
+	cardArguments at: 'idCardToUse' put: 3.
+
+	self
+		should: [ aGame playCard: cardArguments ]
+		raise: Error
+		withMessage: 'A spaceship is trying to play a card that does not have'
+]
+
+{ #category : #tests }
+GameTest >> test046WhenASpaceshipTriesToPlaySpeedWhenItIsNotItsTurnThenThrowError [
+
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 1 with: 2).
+	dices := OrderedCollection with: aDie.
+
+	cards := { (1 -> Speed) } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 2.
+	cardArguments at: 'idCardToUse' put: 3.
+	cardArguments at: 'idTargetSpaceship' put: 2.
+
+	self
+		should: [ aGame playCard: cardArguments ]
+		raise: Error
+		withMessage: 'A spaceship is trying to play a permanent card and it is not its turn'
+]
+
+{ #category : #tests }
+GameTest >> test047WhenASpaceshipTriesToPlayMercenaryWhenItIsNotItsTurnThenThrowError [
+
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 1 with: 2).
+	dices := OrderedCollection with: aDie.
+
+	cards := { (1 -> Mercenary) } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 2.
+	cardArguments at: 'idCardToUse' put: 3.
+	cardArguments at: 'idTargetSpaceship' put: 1.
+
+	self
+		should: [ aGame playCard: cardArguments ]
+		raise: Error
+		withMessage: 'A spaceship is trying to play a permanent card and it is not its turn'
+]

@@ -5,10 +5,17 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-Acceleration >> applyCardEffect: aCardArguments and: aGame [ 
+Acceleration >> applyCardEffect: aCardArguments and: aGame [
+
+	| idOfSpaceship idOfSpaceshipAtTurn |
+	idOfSpaceship := aCardArguments at: 'idSpaceship'.
+	idOfSpaceshipAtTurn := aGame getIdOfSpaceshipAtTurn.
+	self
+		permanentCardValidationWith: idOfSpaceship
+		and: idOfSpaceshipAtTurn.
 
 	aGame addAcceleration.
-	aGame addPermanentCardPlayed: self.
+	aGame addPermanentCardPlayed: self
 ]
 
 { #category : #removing }

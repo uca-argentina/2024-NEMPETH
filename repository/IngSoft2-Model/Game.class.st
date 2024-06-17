@@ -155,6 +155,12 @@ Game >> createSpaceships: numberOfSpaceships [
 ]
 
 { #category : #'as yet unclassified' }
+Game >> getIdOfSpaceshipAtTurn [
+
+	^ spaceships first id
+]
+
+{ #category : #'as yet unclassified' }
 Game >> getLastCardPlayed [
 	^ lastCardPlayed
 ]
@@ -189,17 +195,20 @@ Game >> passTurn [
 ]
 
 { #category : #'as yet unclassified' }
-Game >> playCard: aCardArguments [ 
+Game >> playCard: aCardArguments [
 
 	| idOfSpaceship actualSpaceship idOfCard card |
 	idOfSpaceship := aCardArguments at: 'idSpaceship'.
-	actualSpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfSpaceship ].
+	actualSpaceship := spaceships detect: [ :aSpaceship |
+		                   aSpaceship id = idOfSpaceship ].
 	idOfCard := aCardArguments at: 'idCardToUse'.
-	card := (actualSpaceship cards) detect: [ :aCard | aCard id = idOfCard ].
-	actualSpaceship removeThis: card.
 	
-	card applyCardEffect: aCardArguments and: self.
+	self validation: actualSpaceship hasTheCard: idOfCard.
 
+	card := actualSpaceship cards detect: [ :aCard | aCard id = idOfCard ].
+
+	card applyCardEffect: aCardArguments and: self.
+	actualSpaceship removeThis: card
 ]
 
 { #category : #'as yet unclassified' }
@@ -267,6 +276,15 @@ Game >> throwDices [
 	sum := 0.
 	dices do: [ :die | sum := sum + die throw ].
 	^ sum
+]
+
+{ #category : #'as yet unclassified' }
+Game >> validation: actualSpaceship hasTheCard: idOfCard [
+
+	(actualSpaceship cards noneSatisfy: [ :aCard | aCard id = idOfCard ])
+		ifTrue: [
+			Error signal:
+				'A spaceship is trying to play a card that does not have' ]
 ]
 
 { #category : #accessing }

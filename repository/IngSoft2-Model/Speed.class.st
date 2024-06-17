@@ -10,7 +10,14 @@ Class {
 { #category : #'as yet unclassified' }
 Speed >> applyCardEffect: aCardArguments and: aGame [
 
+	| idOfSpaceship idOfSpaceshipAtTurn |
 	idOfAffectedSpaceship := aCardArguments at: 'idTargetSpaceship'.
+	idOfSpaceship := aCardArguments at: 'idSpaceship'.
+	idOfSpaceshipAtTurn := aGame getIdOfSpaceshipAtTurn.
+	self
+		permanentCardValidationWith: idOfSpaceship
+		and: idOfSpaceshipAtTurn.
+	
 	aGame applySpeedWith: idOfAffectedSpaceship.
 	aGame addPermanentCardPlayed: self.
 	
