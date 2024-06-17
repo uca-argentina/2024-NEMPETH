@@ -12,45 +12,59 @@ GameTest >> should: anErrorBlock raise: anErrorClass withMessage: anErrorMessage
 { #category : #tests }
 GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWinThenTheSpaceshipWins [
 
-| dices aDie cards aDeck aBoxOne aWormholeOne aWormholeTwo aPath aBoard aGame winner |
+	| dices aDie cards aDeck aBoxOne aWormholeOne aWormholeTwo aPath aBoard aGame winner |
 	aDie := LoadedDie of: 3.
 	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
-	
+
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
-	
+
 	aBoxOne := Box new.
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
 	aWormholeOne associateWith: aWormholeTwo.
 	aWormholeTwo associateWith: aWormholeOne.
-	
+
 	aPath := OrderedCollection
-			      with: aWormholeOne
+		         with: aWormholeOne
 		         with: aWormholeTwo
 		         with: aBoxOne.
 	aBoard := Board createWith: aPath.
-	
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
-	
+
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
 	aGame playWith: aBoard.
-	
+
 	winner := aGame checkWinnerOn: aBoard.
 
-	self assert: (winner id) equals: 1. 
-	
+	self assert: winner id equals: 1
 ]
 
 { #category : #tests }
 GameTest >> test002WhenGameIsCreatedWithLessThanOneLapToWinThenThrowError [
 
-	| dices aDie cards aDeck |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aPath aBoard |
 	aDie := Die of: 4.
 	dices := OrderedCollection with: aDie.
+	
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	
+
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo.
+
+
+	aBoard := Board createWith: aPath.
 	
 	cards := {
         1 -> Acceleration.
@@ -59,7 +73,7 @@ GameTest >> test002WhenGameIsCreatedWithLessThanOneLapToWinThenThrowError [
 	aDeck := LoadedDeck createWith: cards.
 
 	self
-		should: [ Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 0 ]
+		should: [ Game createWithNumberOfSpaceships: 2 and: dices and: aDeck and: aBoard andLapsToWin: 0 ]
 		raise: Error
 		withMessage: 'Laps to win should be greater than zero'
 ]
@@ -67,17 +81,16 @@ GameTest >> test002WhenGameIsCreatedWithLessThanOneLapToWinThenThrowError [
 { #category : #tests }
 GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpaceshipWins [
 
-| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame winner |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aWormholeOne aWormholeTwo aPath aBoard aGame winner |
 	aDie := LoadedDie of: 5.
 	aDie add: (OrderedCollection with: 4 with: 3 with: 3).
 	dices := OrderedCollection with: aDie.
-	
+
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
-	
+
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
 	aWormholeOne := Wormhole new.
@@ -85,22 +98,26 @@ GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpa
 	aWormholeOne associateWith: aWormholeTwo.
 	aWormholeTwo associateWith: aWormholeOne.
 	aPath := OrderedCollection
-			      with: aWormholeOne
+		         with: aWormholeOne
 		         with: aWormholeTwo
 		         with: aNormalBoxOne
-				   with: aNormalBoxTwo.
+		         with: aNormalBoxTwo.
 	aBoard := Board createWith: aPath.
-	
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 2.
-	
+
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 2.
+
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
-	
+
 	winner := aGame checkWinnerOn: aBoard.
 
-	self assert: (winner id) equals: 1.  
-	
+	self assert: winner id equals: 1
 ]
 
 { #category : #tests }
@@ -149,12 +166,11 @@ GameTest >> test007WhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsOne [
 	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
 
-   cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+	cards := {
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
-	
+
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
 	aWormholeOne associateWith: aWormholeTwo.
@@ -165,16 +181,22 @@ GameTest >> test007WhenASpaceshipWinsThenPositionOfAnotherSpaceshipIsOne [
 		         with: aWormholeTwo
 		         with: aBoxOne.
 	aBoard := Board createWith: aPath.
-	
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
-	
+
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 1 with: 1).
+
+	self
+		assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 1)
 ]
 
 { #category : #tests }
@@ -189,11 +211,10 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 			 with: 3
 			 with: 5).
 	dices := OrderedCollection with: aDie.
-	
+
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
 
 	aWormholeOne := Wormhole new.
@@ -214,7 +235,12 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 
 	aBoard := Board createWith: aPath.
 
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 2.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 2.
 
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -230,9 +256,16 @@ GameTest >> test008WhenGameEndedThenReturnTheFinishSpaceshipPositionOnBoard [
 { #category : #tests }
 GameTest >> test009WhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 
-	| dices aDie cards aDeck |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aPath aBoard |
 	aDie := Die of: 4.
 	dices := OrderedCollection with: aDie.
+	
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+
+	aPath := OrderedCollection with: aNormalBoxOne with: aNormalBoxTwo.
+
+	aBoard := Board createWith: aPath.
 
 	cards := {
         1 -> Acceleration.
@@ -241,7 +274,7 @@ GameTest >> test009WhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 	aDeck := LoadedDeck createWith: cards.
 
 	self
-		should: [ Game createWithNumberOfSpaceships: 0 and: dices and: aDeck andLapsToWin: 1 ]
+		should: [ Game createWithNumberOfSpaceships: 0 and: dices and: aDeck and: aBoard andLapsToWin: 1 ]
 		raise: Error
 		withMessage: 'Game should have a least two spaceships'
 ]
@@ -249,9 +282,16 @@ GameTest >> test009WhenGameIsCreatedWithLessThanTwoSpaceshipsThenThrowError [
 { #category : #tests }
 GameTest >> test010WhenGameIsCreatedWithoutDicesThenThrowError [
 
-	| dices cards aDeck |
+	| dices cards aDeck aNormalBoxOne aNormalBoxTwo aPath aBoard |
 
 	dices := OrderedCollection new.
+	
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+
+	aPath := OrderedCollection with: aNormalBoxOne with: aNormalBoxTwo.
+
+	aBoard := Board createWith: aPath.
 	
 	cards := {
         1 -> Acceleration.
@@ -260,7 +300,7 @@ GameTest >> test010WhenGameIsCreatedWithoutDicesThenThrowError [
 	aDeck := LoadedDeck createWith: cards.
 
 	self
-		should: [ Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1 ]
+		should: [ Game createWithNumberOfSpaceships: 2 and: dices and: aDeck and: aBoard andLapsToWin: 1 ]
 		raise: Error
 		withMessage: 'Game should have a least one die'
 ]
@@ -272,13 +312,12 @@ GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 	aDie := LoadedDie of: 3.
 	aDie add: (OrderedCollection with: 3).
 	dices := OrderedCollection with: aDie.
-	
+
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
-	
+
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
 	aWormholeOne associateWith: aWormholeTwo.
@@ -289,15 +328,19 @@ GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 		         with: aWormholeTwo
 		         with: aBoxOne.
 	aBoard := Board createWith: aPath.
-	
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
-	
+
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
 	aGame playWith: aBoard.
-	
+
 	winner := aGame checkWinnerOn: aBoard.
 
-	self assert: (winner id) equals: 1. 
-	
+	self assert: winner id equals: 1
 ]
 
 { #category : #tests }
@@ -307,11 +350,10 @@ GameTest >> test014WhenSpaceshipMoveToAPositionWhereThereIsNotAnotherSpaceshipTh
 	aDie := LoadedDie of: 3.
 	aDie add: (OrderedCollection with: 1).
 	dices := OrderedCollection with: aDie.
-	
+
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
 
 	aBoxOne := NormalBox new.
@@ -320,19 +362,25 @@ GameTest >> test014WhenSpaceshipMoveToAPositionWhereThereIsNotAnotherSpaceshipTh
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
 	aPath := OrderedCollection
-					with: aBoxOne
-					with: aBoxTwo
+		         with: aBoxOne
+		         with: aBoxTwo
 		         with: aWormholeOne
 		         with: aWormholeTwo
-					with: aBoxThree.
-					 
+		         with: aBoxThree.
+
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
-	
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkShieldsOfSpaceships 
-		equals: (OrderedCollection with: 3 with: 3).
+
+	self
+		assert: aGame checkShieldsOfSpaceships
+		equals: (OrderedCollection with: 3 with: 3)
 ]
 
 { #category : #tests }
@@ -342,11 +390,10 @@ GameTest >> test015WhenTwoSpaceshipsBattleIfThereIsATieThenTheSecondSpaceshipLos
 	aDie := LoadedDie of: 3.
 	aDie add: (OrderedCollection with: 1).
 	dices := OrderedCollection with: aDie.
-	
+
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
 
 	aBoxOne := NormalBox new.
@@ -355,20 +402,26 @@ GameTest >> test015WhenTwoSpaceshipsBattleIfThereIsATieThenTheSecondSpaceshipLos
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
 	aPath := OrderedCollection
-					with: aBoxOne
-					with: aBoxTwo
+		         with: aBoxOne
+		         with: aBoxTwo
 		         with: aWormholeOne
 		         with: aWormholeTwo
-					with: aBoxThree.
-					 
+		         with: aBoxThree.
+
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
-	
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 2 with: 1).
+
+	self
+		assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 2 with: 1)
 ]
 
 { #category : #tests }
@@ -380,9 +433,8 @@ GameTest >> test016WhenBothSpaceshipsAreInPositionOneThenTheSpaceshipsAreNotAffe
 	dices := OrderedCollection with: aDie.
 
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
 
 	aBoxOne := NormalBox new.
@@ -390,64 +442,82 @@ GameTest >> test016WhenBothSpaceshipsAreInPositionOneThenTheSpaceshipsAreNotAffe
 	aBoxThree := NormalBox new.
 
 	aPath := OrderedCollection
-					with: aBoxOne
-					with: aBoxTwo
-					with: aBoxThree.
-					 
+		         with: aBoxOne
+		         with: aBoxTwo
+		         with: aBoxThree.
+
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
-	
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships  
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 1 with: 1).
-	
-	self assert: aGame checkShieldsOfSpaceships 
-		equals: (OrderedCollection with: 3 with: 3).
+
+	self
+		assert: aGame checkShieldsOfSpaceships
+		equals: (OrderedCollection with: 3 with: 3)
 ]
 
 { #category : #tests }
 GameTest >> test017WhenPassTurnThenTheSpaceshipRecoverAllShields [
 
-	|  dices aDie cards aDeck aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
+	| dices aDie cards aDeck aBoxOne aBoxTwo aBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 10.
-	aDie add: (OrderedCollection with: 1 with: 1 with: 2 with: 1 with: 2).
+	aDie add: (OrderedCollection
+			 with: 1
+			 with: 1
+			 with: 2
+			 with: 1
+			 with: 2).
 	dices := OrderedCollection with: aDie.
-	
+
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
-	
+
 	aBoxOne := NormalBox new.
 	aBoxTwo := NormalBox new.
 	aBoxThree := Box new.
 	aWormholeOne := Wormhole new.
 	aWormholeTwo := Wormhole new.
 	aPath := OrderedCollection
-					with: aBoxOne
-					with: aBoxTwo
+		         with: aBoxOne
+		         with: aBoxTwo
 		         with: aWormholeOne
 		         with: aWormholeTwo
-					with: aBoxThree.
-					 
-	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
-	
-	aGame playWith: aBoard.
-	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 1 with: 2).
-	self assert: aGame checkShieldsOfSpaceships 
-		equals: (OrderedCollection with: 2 with: 3).
-		
-	aGame passTurnOn: aBoard.
-	
-	self assert: aGame checkShieldsOfSpaceships 
-		equals: (OrderedCollection with: 3 with: 3).
+		         with: aBoxThree.
 
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+
+	self
+		assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 2).
+	self
+		assert: aGame checkShieldsOfSpaceships
+		equals: (OrderedCollection with: 2 with: 3).
+
+	aGame passTurnOn: aBoard.
+
+	self
+		assert: aGame checkShieldsOfSpaceships
+		equals: (OrderedCollection with: 3 with: 3)
 ]
 
 { #category : #tests }
@@ -455,15 +525,18 @@ GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 
 	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aWormholeOne aWormholeTwo aPath aBoard aGame |
 	aDie := LoadedDie of: 10.
-	aDie add: (OrderedCollection with: 1 with: 3 with: 1 with: 1).
+	aDie add: (OrderedCollection
+			 with: 1
+			 with: 3
+			 with: 1
+			 with: 1).
 	dices := OrderedCollection with: aDie.
- 	
+
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
-	
+
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
 	aNormalBoxThree := NormalBox new.
@@ -472,32 +545,40 @@ GameTest >> test018WhenPassTurnThenTheSpaceshipStaysOnTheSamePlace [
 	aWormholeOne associateWith: aWormholeTwo.
 	aWormholeTwo associateWith: aWormholeOne.
 	aPath := OrderedCollection
-					with: aNormalBoxOne
-					with: aNormalBoxTwo
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
 		         with: aWormholeOne
 		         with: aWormholeTwo
-					with: aNormalBoxThree.
-					 
+		         with: aNormalBoxThree.
+
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
-		
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
 	aGame playWith: aBoard.
-	self assert: aGame checkPositionsOfSpaceships
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 2 with: 1).
 	aGame playWith: aBoard.
-	self assert: aGame checkPositionsOfSpaceships
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 2 with: 3).
 	aGame playWith: aBoard.
-	self assert: aGame checkPositionsOfSpaceships
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 4 with: 3).
 	aGame passTurnOn: aBoard.
-	self assert: aGame checkPositionsOfSpaceships
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 4 with: 3).
 	aGame playWith: aBoard.
-	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 5 with: 3).
-	
-	
+	self
+		assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 5 with: 3)
 ]
 
 { #category : #tests }
@@ -514,11 +595,10 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 	dices := OrderedCollection with: aDie.
 
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
-	
+
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
 	aWormholeOne := Wormhole new.
@@ -532,7 +612,12 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 		         with: aNormalBoxTwo.
 	aBoard := Board createWith: aPath.
 
-	aGame := Game createWithNumberOfSpaceships: 3 and: dices and: aDeck andLapsToWin: 2.
+	aGame := Game
+		         createWithNumberOfSpaceships: 3
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 2.
 
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
@@ -552,35 +637,38 @@ GameTest >> test020CanNotBattleAfterASpaceshipHasWon [
 	aDie := LoadedDie of: 10.
 	aDie add: (OrderedCollection with: 1 with: 3).
 	dices := OrderedCollection with: aDie.
-	
+
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
-	
+
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
 	aNormalBoxThree := NormalBox new.
 	aNormalBoxFour := NormalBox new.
 	aPath := OrderedCollection
-					with: aNormalBoxOne
-					with: aNormalBoxTwo
-					with: aNormalBoxThree
-					with: aNormalBoxFour.
-					 
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
-		
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
 
-	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 3 with: 3).
-	
-	
+	self
+		assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 3 with: 3)
 ]
 
 { #category : #tests }
@@ -588,13 +676,16 @@ GameTest >> test021WhenOnABattleTheSpaceshipsThrowTheSameThenTheOneWhichArrivedL
 
 	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
 	aDie := LoadedDie of: 10.
-	aDie add: (OrderedCollection with: 2 with: 2 with: 3 with: 3).
+	aDie add: (OrderedCollection
+			 with: 2
+			 with: 2
+			 with: 3
+			 with: 3).
 	dices := OrderedCollection with: aDie.
-	
+
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
 
 	aNormalBoxOne := NormalBox new.
@@ -602,85 +693,109 @@ GameTest >> test021WhenOnABattleTheSpaceshipsThrowTheSameThenTheOneWhichArrivedL
 	aNormalBoxThree := NormalBox new.
 	aNormalBoxFour := NormalBox new.
 	aPath := OrderedCollection
-					with: aNormalBoxOne
-					with: aNormalBoxTwo
-					with: aNormalBoxThree
-					with: aNormalBoxFour.
-					 
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
 	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 2 and: dices and: aDeck andLapsToWin: 1.
-		
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
 
-	self assert: aGame checkPositionsOfSpaceships
-		equals: (OrderedCollection with: 3 with: 1).
-	
-	
+	self
+		assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 3 with: 1)
 ]
 
 { #category : #tests }
 GameTest >> test022SpaceshipsStartWithTwoCardsWhenGameStarts [
+
 	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
 	aDie := LoadedDie of: 10.
-	aDie add: (OrderedCollection with: 2 with: 2 with: 3 with: 3).
+	aDie add: (OrderedCollection
+			 with: 2
+			 with: 2
+			 with: 3
+			 with: 3).
 	dices := OrderedCollection with: aDie.
-	
+
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
-	
+
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
 	aNormalBoxThree := NormalBox new.
 	aNormalBoxFour := NormalBox new.
 	aPath := OrderedCollection
-					with: aNormalBoxOne
-					with: aNormalBoxTwo
-					with: aNormalBoxThree
-					with: aNormalBoxFour.
-					 
-	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 4 and: dices and: aDeck andLapsToWin: 1.
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
 
-	self assert: aGame checkAmountOfCardsOfSpaceships
-		equals: (OrderedCollection with: 2 with: 2 with: 2 with: 2).
-	
-	
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 4
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
+	self
+		assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection
+				 with: 2
+				 with: 2
+				 with: 2
+				 with: 2)
 ]
 
 { #category : #tests }
 GameTest >> test023WhenGameStartsThenItHasNotPermanentCardsPlayed [
+
 	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame |
 	aDie := LoadedDie of: 10.
-	aDie add: (OrderedCollection with: 2 with: 2 with: 3 with: 3).
+	aDie add: (OrderedCollection
+			 with: 2
+			 with: 2
+			 with: 3
+			 with: 3).
 	dices := OrderedCollection with: aDie.
-	
+
 	cards := {
-        1 -> Acceleration.
-        2 -> Speed.
-    } asDictionary.
+		         (1 -> Acceleration).
+		         (2 -> Speed) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
-	
+
 	aNormalBoxOne := NormalBox new.
 	aNormalBoxTwo := NormalBox new.
 	aNormalBoxThree := NormalBox new.
 	aNormalBoxFour := NormalBox new.
 	aPath := OrderedCollection
-					with: aNormalBoxOne
-					with: aNormalBoxTwo
-					with: aNormalBoxThree
-					with: aNormalBoxFour.
-					 
-	aBoard := Board createWith: aPath.
-	aGame := Game createWithNumberOfSpaceships: 4 and: dices and: aDeck andLapsToWin: 1.
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
 
-	self assert: aGame getPermanentCardPlayed
-		equals: (OrderedCollection new).
-	
-	
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 4
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
+	self
+		assert: aGame getPermanentCardPlayed
+		equals: OrderedCollection new
 ]
 
 { #category : #tests }
@@ -715,6 +830,7 @@ GameTest >> test024WhenGameStartsThenThereIsNoLastCardPlay [
 		         createWithNumberOfSpaceships: 4
 		         and: dices
 		         and: aDeck
+		         and: aBoard
 		         andLapsToWin: 1.
 
 	self assert: aGame getLastCardPlayed isNil
@@ -723,14 +839,12 @@ GameTest >> test024WhenGameStartsThenThereIsNoLastCardPlay [
 { #category : #tests }
 GameTest >> test025WhenAnAccelerationCardIsPlayedThenAllThrowsIncreaseByOne [
 
-	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame  cardArguments |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame cardArguments |
 	aDie := LoadedDie of: 10.
-	aDie add: (OrderedCollection
-			 with: 1
-			 with: 2).
+	aDie add: (OrderedCollection with: 1 with: 2).
 	dices := OrderedCollection with: aDie.
 
-	cards := {(1 -> Acceleration).} asDictionary.
+	cards := { (1 -> Acceleration) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
 
 	aNormalBoxOne := NormalBox new.
@@ -748,37 +862,39 @@ GameTest >> test025WhenAnAccelerationCardIsPlayedThenAllThrowsIncreaseByOne [
 		         createWithNumberOfSpaceships: 2
 		         and: dices
 		         and: aDeck
+		         and: aBoard
 		         andLapsToWin: 1.
-		
+
 	cardArguments := Dictionary new.
 	cardArguments at: 'idSpaceship' put: 1.
 	cardArguments at: 'idCardToUse' put: 1.
 	aGame playCard: cardArguments.
 
-	self assert: aGame checkAmountOfCardsOfSpaceships
-	equals: (OrderedCollection with: 1 with: 2).
-	
+	self
+		assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 2).
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 3 with: 1).
-		
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 3 with: 4).
-	
-	self assert: (aGame getPermanentCardPlayed size) equals: 1. 
+
+	self assert: aGame getPermanentCardPlayed size equals: 1
 ]
 
 { #category : #tests }
 GameTest >> test026WhenAnSpeedCardIsPlayedThenTheAffectedSpaceshipThrowsIncreaseByOne [
 
-	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame  cardArguments |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame cardArguments |
 	aDie := LoadedDie of: 10.
-	aDie add: (OrderedCollection
-			 with: 1
-			 with: 2).
+	aDie add: (OrderedCollection with: 1 with: 2).
 	dices := OrderedCollection with: aDie.
 
 	cards := {
@@ -801,45 +917,46 @@ GameTest >> test026WhenAnSpeedCardIsPlayedThenTheAffectedSpaceshipThrowsIncrease
 		         createWithNumberOfSpaceships: 2
 		         and: dices
 		         and: aDeck
+		         and: aBoard
 		         andLapsToWin: 1.
-		
+
 	cardArguments := Dictionary new.
 	cardArguments at: 'idSpaceship' put: 1.
 	cardArguments at: 'idCardToUse' put: 2.
 	cardArguments at: 'idTargetSpaceship' put: 2.
-	
+
 	aGame playCard: cardArguments.
 
-	self assert: aGame checkAmountOfCardsOfSpaceships
-	equals: (OrderedCollection with: 1 with: 2).
-	
+	self
+		assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 2).
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 2 with: 1).
-		
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 2 with: 4).
-		
-	self assert: (aGame getPermanentCardPlayed size) equals: 1. 
+
+	self assert: aGame getPermanentCardPlayed size equals: 1
 ]
 
 { #category : #tests }
 GameTest >> test027WhenAnCancelationCardIsPlayedAndTheAffectedCardIsSpeedThenTheAffectedSpaceshipsDecreaseHisThrowByOne [
 
-	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame  cardArguments |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame cardArguments |
 	aDie := LoadedDie of: 10.
-	aDie add: (OrderedCollection
-			 with: 1
-			 with: 2).
+	aDie add: (OrderedCollection with: 1 with: 2).
 	dices := OrderedCollection with: aDie.
 
-	cards := {.
+	cards := {
 		         (1 -> Speed).
-					(2 -> Cancellation)
-		 } asDictionary.
+		         (2 -> Cancellation) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
 
 	aNormalBoxOne := NormalBox new.
@@ -857,67 +974,71 @@ GameTest >> test027WhenAnCancelationCardIsPlayedAndTheAffectedCardIsSpeedThenThe
 		         createWithNumberOfSpaceships: 2
 		         and: dices
 		         and: aDeck
+		         and: aBoard
 		         andLapsToWin: 1.
-		
+
 	cardArguments := Dictionary new.
 	cardArguments at: 'idSpaceship' put: 1.
 	cardArguments at: 'idCardToUse' put: 1.
 	cardArguments at: 'idTargetSpaceship' put: 2.
-	
+
 	aGame playCard: cardArguments.
 
-	self assert: aGame checkAmountOfCardsOfSpaceships
-	equals: (OrderedCollection with: 1 with: 2).
-	
+	self
+		assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 2).
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 2 with: 1).
-		
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 2 with: 4).
-		
-	self assert: (aGame getPermanentCardPlayed size) equals: 1. 
-	
+
+	self assert: aGame getPermanentCardPlayed size equals: 1.
+
 	cardArguments := Dictionary new.
 	cardArguments at: 'idSpaceship' put: 1.
 	cardArguments at: 'idCardToUse' put: 2.
 	cardArguments at: 'idTargetCard' put: 1.
-	
+
 	aGame playCard: cardArguments.
 
-	self assert: aGame checkAmountOfCardsOfSpaceships
-	equals: (OrderedCollection with: 0 with: 2).
-	
+	self
+		assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection with: 0 with: 2).
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 3 with: 4).
-		
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 3 with: 2).
-		
-	self assert: (aGame getPermanentCardPlayed size) equals: 0. 
+
+	self assert: aGame getPermanentCardPlayed size equals: 0
 ]
 
 { #category : #tests }
 GameTest >> test028WhenAnCancelationCardIsPlayedAndTheAffectedCardIsAccelerationThenAllSpaceshipsDecreaseHisThrowByOne [
 
-	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aPath aBoard aGame  cardArguments |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aPath aBoard aGame cardArguments |
 	aDie := LoadedDie of: 10.
-	aDie add: (OrderedCollection
-			 with: 1
-			 with: 3).
+	aDie add: (OrderedCollection with: 1 with: 3).
 	dices := OrderedCollection with: aDie.
 
-	cards := {.
+	cards := {
 		         (1 -> Acceleration).
-					(2 -> Cancellation)
-		 } asDictionary.
+		         (2 -> Cancellation) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
 
 	aNormalBoxOne := NormalBox new.
@@ -937,64 +1058,68 @@ GameTest >> test028WhenAnCancelationCardIsPlayedAndTheAffectedCardIsAcceleration
 		         createWithNumberOfSpaceships: 2
 		         and: dices
 		         and: aDeck
+		         and: aBoard
 		         andLapsToWin: 1.
-		
+
 	cardArguments := Dictionary new.
 	cardArguments at: 'idSpaceship' put: 1.
 	cardArguments at: 'idCardToUse' put: 1.
-	
+
 	aGame playCard: cardArguments.
 
-	self assert: aGame checkAmountOfCardsOfSpaceships
-	equals: (OrderedCollection with: 1 with: 2).
-	
+	self
+		assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 2).
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 3 with: 1).
-		
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 3 with: 5).
-		
-	self assert: (aGame getPermanentCardPlayed size) equals: 1. 
-	
+
+	self assert: aGame getPermanentCardPlayed size equals: 1.
+
 	cardArguments := Dictionary new.
 	cardArguments at: 'idSpaceship' put: 1.
 	cardArguments at: 'idCardToUse' put: 2.
 	cardArguments at: 'idTargetCard' put: 1.
-	
+
 	aGame playCard: cardArguments.
 
-	self assert: aGame checkAmountOfCardsOfSpaceships
-	equals: (OrderedCollection with: 0 with: 2).
-	
+	self
+		assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection with: 0 with: 2).
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 4 with: 5).
-		
+
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
+
+	self
+		assert: aGame checkPositionsOfSpaceships
 		equals: (OrderedCollection with: 4 with: 3).
-		
-	self assert: (aGame getPermanentCardPlayed size) equals: 0. 
+
+	self assert: aGame getPermanentCardPlayed size equals: 0
 ]
 
 { #category : #tests }
 GameTest >> test029WhenAnMercenaryCardIsPlayedThenAlliedSpaceshipsNotFight [
 
-	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aPath aBoard aGame  cardArguments |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aPath aBoard aGame cardArguments |
 	aDie := LoadedDie of: 10.
-	aDie add: (OrderedCollection
-			 with: 1).
+	aDie add: (OrderedCollection with: 1).
 	dices := OrderedCollection with: aDie.
 
-	cards := {.
-		         (1 -> Mercenary ).
-		 } asDictionary.
+	cards := { (1 -> Mercenary) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
 
 	aNormalBoxOne := NormalBox new.
@@ -1014,31 +1139,32 @@ GameTest >> test029WhenAnMercenaryCardIsPlayedThenAlliedSpaceshipsNotFight [
 		         createWithNumberOfSpaceships: 3
 		         and: dices
 		         and: aDeck
+		         and: aBoard
 		         andLapsToWin: 1.
-		
+
 	cardArguments := Dictionary new.
 	cardArguments at: 'idSpaceship' put: 1.
 	cardArguments at: 'idCardToUse' put: 1.
 	cardArguments at: 'idTargetSpaceship' put: 2.
-	
+
 	aGame playCard: cardArguments.
 
-	self assert: aGame checkAmountOfCardsOfSpaceships
-	equals: (OrderedCollection with: 1 with: 2 with: 2).
-	
+	self
+		assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 2 with: 2).
+
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
-	equals: (OrderedCollection with: 2 with: 2 with: 1).
-	
-	
+
+	self
+		assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 2 with: 2 with: 1)
 ]
 
 { #category : #tests }
 GameTest >> test030WhenAMercenaryCardIsPlayedSpaceshipAndHisAlliedLoseThenLoseOneShieldBoth [
 
-	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aPath aBoard aGame  cardArguments |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aPath aBoard aGame cardArguments |
 	aDie := LoadedDie of: 10.
 	aDie add: (OrderedCollection
 			 with: 1
@@ -1049,9 +1175,7 @@ GameTest >> test030WhenAMercenaryCardIsPlayedSpaceshipAndHisAlliedLoseThenLoseOn
 			 with: 1).
 	dices := OrderedCollection with: aDie.
 
-	cards := {.
-		         (1 -> Mercenary ).
-		 } asDictionary.
+	cards := { (1 -> Mercenary) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
 
 	aNormalBoxOne := NormalBox new.
@@ -1071,34 +1195,37 @@ GameTest >> test030WhenAMercenaryCardIsPlayedSpaceshipAndHisAlliedLoseThenLoseOn
 		         createWithNumberOfSpaceships: 3
 		         and: dices
 		         and: aDeck
+		         and: aBoard
 		         andLapsToWin: 1.
-		
+
 	cardArguments := Dictionary new.
 	cardArguments at: 'idSpaceship' put: 1.
 	cardArguments at: 'idCardToUse' put: 1.
 	cardArguments at: 'idTargetSpaceship' put: 2.
-	
+
 	aGame playCard: cardArguments.
 
-	self assert: aGame checkAmountOfCardsOfSpaceships
-	equals: (OrderedCollection with: 1 with: 2 with: 2).
-	
+	self
+		assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 2 with: 2).
+
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
-	equals: (OrderedCollection with: 1 with: 3 with: 2).
-	
-	self assert: aGame checkShieldsOfSpaceships equals: (OrderedCollection with: 2 with: 2 with: 3).
-	
-	
+
+	self
+		assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 3 with: 2).
+
+	self
+		assert: aGame checkShieldsOfSpaceships
+		equals: (OrderedCollection with: 2 with: 2 with: 3)
 ]
 
 { #category : #tests }
-GameTest >> test031WhenAnCancelationCardIsPlayedAndTheAffectedCardIsMercenaryThenTheAffectedSpaceshipLoseHisMercenary [ 
+GameTest >> test031WhenAnCancelationCardIsPlayedAndTheAffectedCardIsMercenaryThenTheAffectedSpaceshipLoseHisMercenary [
 
-	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aPath aBoard aGame  cardArguments |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aPath aBoard aGame cardArguments |
 	aDie := LoadedDie of: 10.
 	aDie add: (OrderedCollection
 			 with: 1
@@ -1109,10 +1236,9 @@ GameTest >> test031WhenAnCancelationCardIsPlayedAndTheAffectedCardIsMercenaryThe
 			 with: 1).
 	dices := OrderedCollection with: aDie.
 
-	cards := {.
+	cards := {
 		         (1 -> Mercenary).
-					(2 -> Cancellation)
-		 } asDictionary.
+		         (2 -> Cancellation) } asDictionary.
 	aDeck := LoadedDeck createWith: cards.
 
 	aNormalBoxOne := NormalBox new.
@@ -1132,49 +1258,53 @@ GameTest >> test031WhenAnCancelationCardIsPlayedAndTheAffectedCardIsMercenaryThe
 		         createWithNumberOfSpaceships: 3
 		         and: dices
 		         and: aDeck
+		         and: aBoard
 		         andLapsToWin: 4.
-		
+
 	cardArguments := Dictionary new.
 	cardArguments at: 'idSpaceship' put: 1.
 	cardArguments at: 'idCardToUse' put: 1.
 	cardArguments at: 'idTargetSpaceship' put: 2.
-	
+
 	aGame playCard: cardArguments.
 
-	self assert: aGame checkAmountOfCardsOfSpaceships
-	equals: (OrderedCollection with: 1 with: 2 with: 2).
-	
+	self
+		assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 2 with: 2).
+
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
 	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
-	equals: (OrderedCollection with: 1 with: 3 with: 2).
-	
-	self assert: aGame checkShieldsOfSpaceships equals: (OrderedCollection with: 2 with: 2 with: 3).
-	
+
+	self
+		assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 3 with: 2).
+
+	self
+		assert: aGame checkShieldsOfSpaceships
+		equals: (OrderedCollection with: 2 with: 2 with: 3).
+
 	cardArguments := Dictionary new.
 	cardArguments at: 'idSpaceship' put: 2.
 	cardArguments at: 'idCardToUse' put: 4.
 	cardArguments at: 'idTargetCard' put: 1.
-	
-	aGame playCard: cardArguments.
-	
-	self assert: aGame checkAmountOfCardsOfSpaceships
-	equals: (OrderedCollection with: 1 with: 1 with: 2).
-	
-	aGame playWith: aBoard.
-	aGame playWith: aBoard.
-	aGame playWith: aBoard.
-	
-	self assert: aGame checkPositionsOfSpaceships
-	equals: (OrderedCollection with: 2 with: 1 with: 1).
-	self assert: aGame checkShieldsOfSpaceships equals: (OrderedCollection with: 2 with: 2 with: 1).
-	
-	
 
-	
-	
+	aGame playCard: cardArguments.
+
+	self
+		assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection with: 1 with: 1 with: 2).
+
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+
+	self
+		assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 2 with: 1 with: 1).
+	self
+		assert: aGame checkShieldsOfSpaceships
+		equals: (OrderedCollection with: 2 with: 2 with: 1)
 ]
 
 { #category : #tests }
