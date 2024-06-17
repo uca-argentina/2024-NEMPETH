@@ -1815,3 +1815,53 @@ GameTest >> test042WhenARedoCardIsPlayAndLastCardIsMercenaryCardThenSpaceshipGet
 	
 	self assert: aGame getPermanentCardPlayed size equals: 2. 
 ]
+
+{ #category : #tests }
+GameTest >> test043WhenASpaceshipIsInACardBoxThenGetsACard [
+
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aCardBoxOne aCardBoxTwo aPath aBoard aGame |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 1 with: 2 with: 3).
+
+	dices := OrderedCollection with: aDie.
+
+	cards := {
+		         (1 -> Redo).
+		         (2 -> Mercenary) } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aCardBoxOne := CardBox createWith: aDeck.
+	aCardBoxTwo := CardBox createWith: aDeck.
+
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+		         with: aCardBoxOne
+		         with: aNormalBoxTwo
+		         with: aCardBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 3
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 3.
+
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+
+	self
+		assert: aGame checkPositionsOfSpaceships
+		equals: (OrderedCollection with: 2 with: 3 with: 4).
+
+	self
+		assert: aGame checkAmountOfCardsOfSpaceships
+		equals: (OrderedCollection with: 3 with: 2 with: 3)
+]

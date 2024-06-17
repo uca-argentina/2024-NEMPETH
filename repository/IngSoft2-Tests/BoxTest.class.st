@@ -213,3 +213,30 @@ BoxTest >> test008WhenHyperJumpApplyEffectThenSpaceshipIsMoveBetweenOneAndTwenty
 	self assert: ((aSpaceship position) between: 1 and: 21).
 	self assert: anotherSpaceship position equals: 1.	
 ]
+
+{ #category : #tests }
+BoxTest >> test009WhenCardBoxApplyEffectThenSpaceshipAddACardOnItsPrivateDeck [
+    
+    | cards aDeck aCardBox spaceships aSpaceship anotherSpaceship actualSpaceship |
+    
+    aSpaceship := Spaceship createWithId: 1.
+    anotherSpaceship := Spaceship createWithId: 2.
+    spaceships := OrderedCollection with: aSpaceship with: anotherSpaceship.
+    actualSpaceship := spaceships removeFirst.
+
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+    
+    aCardBox := CardBox createWith: aDeck.
+    aCardBox applyEffect: spaceships and: actualSpaceship. 
+    
+    self assert: (actualSpaceship cards size) equals: 1.
+    
+    aCardBox applyEffect: spaceships and: actualSpaceship. 
+    aCardBox applyEffect: spaceships and: actualSpaceship. 
+    
+    self assert: (actualSpaceship cards size) equals: 3.
+]

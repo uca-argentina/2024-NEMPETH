@@ -21,17 +21,24 @@ PathGeneratorTest >> test001WhenPathIsCreateThenTheFisrtBoxisKindOfNormalBox [
 { #category : #running }
 PathGeneratorTest >> test002VerifyCorrectDistributionsOfBoxes [
 
-	| aPathGenerator pathOfTheBoard percent normalBoxes blackHoleBoxes hyperSpaceJumpBoxes 
+	| aDeck aPathGenerator pathOfTheBoard percent normalBoxes cardBoxes blackHoleBoxes hyperSpaceJumpBoxes 
 	 moonwalkBoxes hyperJumpBoxes atomicBombBoxes |
 	
-	aPathGenerator := PathGenerator createWith: 7500 and: 5.
+	aDeck := Deck create.
+	
+	aPathGenerator := PathGenerator createWith: 7500 and: 5 and: aDeck.
 	
 	pathOfTheBoard := aPathGenerator path.
 
 	normalBoxes := pathOfTheBoard select: [ :box | box isKindOf: NormalBox ].
 	percent := normalBoxes size/pathOfTheBoard size.
 	
-	self assert: ((percent) between:  0.35 and: 0.45).
+	self assert: ((percent) between:  0.25 and: 0.35).
+	
+	cardBoxes := pathOfTheBoard select: [ :box | box isKindOf: CardBox ].
+	percent := cardBoxes size/pathOfTheBoard size.
+	
+	self assert: ((percent) between:  0.05 and: 0.15).
 	
 	
 	blackHoleBoxes := pathOfTheBoard select: [ :box | box isKindOf: BlackHole ].
@@ -60,7 +67,6 @@ PathGeneratorTest >> test002VerifyCorrectDistributionsOfBoxes [
 	percent := atomicBombBoxes size/pathOfTheBoard size.
 	
 	self assert: ((percent) between: 0 and: 0.07).
-
 
 ]
 
