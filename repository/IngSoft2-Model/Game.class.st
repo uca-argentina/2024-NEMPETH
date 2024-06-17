@@ -69,6 +69,8 @@ Game class >> spaceshipsValidation: numberOfSpaceships [
 Game >> addAcceleration [
 
 	movementByAcceleration := movementByAcceleration + 1.
+	lastCardPlayed := Acceleration.
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -85,7 +87,7 @@ Game >> applyMercenary: idOfMercenarySpaceship to: idOfActualSpaceship [
 	mercenarySpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfMercenarySpaceship ].
 	actualSpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfActualSpaceship ].
 	
-	mercenarySpaceship isAvaliableForMercenary ifTrue: [ actualSpaceship addMercenary: mercenarySpaceship. ]
+	mercenarySpaceship isAvaliableForMercenary ifTrue: [ actualSpaceship addMercenary: mercenarySpaceship. ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -110,6 +112,7 @@ Game >> applySpeedWith: anIdOfSpaceship [
 		                      aSpaceship id = anIdOfSpaceship ].
 	
 	affectedSpaceship addSpeed. 
+	lastCardPlayed := Speed.
 ]
 
 { #category : #'as yet unclassified' }
@@ -219,7 +222,6 @@ Game >> playCard: aCardArguments [
 	
 	card applyCardEffect: aCardArguments and: self.
 
-
 ]
 
 { #category : #'as yet unclassified' }
@@ -250,6 +252,7 @@ Game >> playWith: aBoard [
 { #category : #removing }
 Game >> removeAcceleration [
 	movementByAcceleration := movementByAcceleration - 1.
+
 ]
 
 { #category : #removing }
@@ -267,6 +270,7 @@ Game >> removeMercenary: idOfMercenarySpaceship and: idOfActualSpaceship [
 { #category : #removing }
 Game >> removePermanentCardPlayed: aCard [ 
 	permanentCardsPlayed remove: aCard.
+	lastCardPlayed := Cancellation.
 ]
 
 { #category : #'as yet unclassified' }
