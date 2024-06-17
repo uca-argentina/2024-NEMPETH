@@ -1682,3 +1682,136 @@ GameTest >> test040WhenARedoCardIsPlayAndLastCardIsCancellationCardThenRemoveThe
 	
 	self assert: aGame getPermanentCardPlayed size equals: 0. 
 ]
+
+{ #category : #tests }
+GameTest >> test041WhenARedoCardIsPlayAndLastCardIsRepeatCardThenSpaceshipTargetApplyTheLastBoxPlayed [
+	
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aBlackhole aPath aBoard aGame  cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection
+			 with: 3
+			 with: 5).
+	dices := OrderedCollection with: aDie.
+
+	cards := {.
+		         (1 -> Redo).
+					(2 -> Repeat ).
+		 } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aNormalBoxFive := NormalBox new.
+	aBlackhole := BlackHole new.
+	
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+					with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour
+		         with: aNormalBoxFive
+					with: aBlackhole.
+					
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+					and: aBoard
+		         andLapsToWin: 3.
+		
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	
+	self assert: aGame checkPositionsOfSpaceships
+	equals: (OrderedCollection with: 4 with: 2 ).
+	
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 2.
+	cardArguments at: 'idCardToUse' put: 4.
+	cardArguments at: 'idTargetSpaceship' put: 1.
+	aGame playCard: cardArguments.
+	
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 1.
+	cardArguments at: 'idCardToUse' put: 1.
+	cardArguments at: 'idTargetSpaceship' put: 2.
+	aGame playCard: cardArguments.
+
+	self assert: aGame checkPositionsOfSpaceships
+	equals: (OrderedCollection with: 1 with: 1 ).	
+	
+	self assert: aGame getPermanentCardPlayed size equals: 0. 
+]
+
+{ #category : #tests }
+GameTest >> test042WhenARedoCardIsPlayAndLastCardIsMercenaryCardThenSpaceshipGetAMercenary [
+	
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aPath aBoard aGame  cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection
+			 with: 1
+			 with: 1
+			 with: 2).
+	dices := OrderedCollection with: aDie.
+
+	cards := {.
+		         (1 -> Redo).
+					(2 -> Mercenary ).
+		 } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aNormalBoxFive := NormalBox new.
+	
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+					with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour
+		         with: aNormalBoxFive.
+					
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 3
+		         and: dices
+		         and: aDeck
+					and: aBoard
+		         andLapsToWin: 3.
+		
+	
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 1.
+	cardArguments at: 'idCardToUse' put: 2.
+	cardArguments at: 'idTargetSpaceship' put: 2.
+	aGame playCard: cardArguments.
+	
+	aGame playWith: aBoard.
+	
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 2.
+	cardArguments at: 'idCardToUse' put: 3.
+	cardArguments at: 'idTargetSpaceship' put: 1.
+	aGame playCard: cardArguments.
+	
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	
+	self assert: aGame checkPositionsOfSpaceships
+	equals: (OrderedCollection with: 2 with: 2 with: 3 ).
+	self assert: aGame checkShieldsOfSpaceships 
+	equals: (OrderedCollection with: 3 with: 3 with: 3 ).
+	
+	aGame playWith: aBoard.
+	self assert: aGame checkPositionsOfSpaceships
+	equals: (OrderedCollection with: 3 with: 2 with: 1 ).
+	self assert: aGame checkShieldsOfSpaceships 
+	equals: (OrderedCollection with: 3 with: 3 with: 2 ).
+	
+	self assert: aGame getPermanentCardPlayed size equals: 2. 
+]

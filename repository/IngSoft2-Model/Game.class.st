@@ -88,6 +88,7 @@ Game >> applyMercenary: idOfMercenarySpaceship to: idOfActualSpaceship [
 	actualSpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfActualSpaceship ].
 	
 	mercenarySpaceship isAvaliableForMercenary ifTrue: [ actualSpaceship addMercenary: mercenarySpaceship. ].
+	lastCardPlayed := Mercenary.
 ]
 
 { #category : #'as yet unclassified' }
@@ -102,6 +103,8 @@ Game >> applyRepeat: idOfTargetSpaceship [
 	
 	spaceships add: affectedSpaceship beforeIndex: index.
 	board normalizeAll: spaceships.
+	
+	lastCardPlayed := Repeat.
 ]
 
 { #category : #'as yet unclassified' }
@@ -139,8 +142,9 @@ Game >> checkRankingOn: aBoard [
 
 { #category : #'as yet unclassified' }
 Game >> checkShieldsOfSpaceships [
-
-	^ spaceships collect: [ :spaceship | spaceship shield ]
+	| spaceshipsSortedById |
+	spaceshipsSortedById := spaceships copy sort: [ :a :b | (a id) < (b id) ].
+	^ spaceshipsSortedById collect: [ :spaceship | spaceship shield ]
 ]
 
 { #category : #'as yet unclassified' }
