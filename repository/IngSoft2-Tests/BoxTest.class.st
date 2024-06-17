@@ -123,7 +123,7 @@ BoxTest >> test004WhenSpaceshipIsOnMoonWalkThenTheOtherSpaceshipsMovesBackTwoPos
 { #category : #tests }
 BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOfParsecs [
 	
-	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump|
+	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump parsecOne lightYearOne lightYearTwo |
 	
 	spaceshipOne := Spaceship createWithId: 1.
 	spaceshipTwo := Spaceship createWithId: 2.
@@ -133,7 +133,10 @@ BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOf
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
 
 	aHyperJump := LoadedHyperJump createWith: 3 andParsecsToBoxesRatio: 2.
-	aHyperJump addParsecs: (OrderedCollection with: 6 with: 4 with: 3).
+	parsecOne := Parsec createWith: 6.
+	lightYearOne := LightYear createWith: 12.
+	lightYearTwo := LightYear createWith: 9.
+	aHyperJump addParsecs: (OrderedCollection with: parsecOne with: lightYearOne with: lightYearTwo).
 
 	spaceshipOne move: 4.
 	spaceshipTwo move: 2.
@@ -151,7 +154,7 @@ BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOf
 { #category : #tests }
 BoxTest >> test006WhenAmountOfEffectsAppliedAreMoreThanCollectionOfParsecsThenStartFromBeginning [
 	
-	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump|
+	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump parsecOne lightYearOne |
 	
 	spaceshipOne := Spaceship createWithId: 1.
 	spaceshipTwo := Spaceship createWithId: 2.
@@ -161,7 +164,9 @@ BoxTest >> test006WhenAmountOfEffectsAppliedAreMoreThanCollectionOfParsecsThenSt
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
 
 	aHyperJump := LoadedHyperJump createWith: 2 andParsecsToBoxesRatio: 2.
-	aHyperJump addParsecs: (OrderedCollection with: 4 with: 2).
+	parsecOne := Parsec createWith: 4.
+	lightYearOne := LightYear createWith: 6.
+	aHyperJump addParsecs: (OrderedCollection with: parsecOne with: lightYearOne).
 
 	spaceshipOne move: 1.
 	spaceshipTwo move: 1.
@@ -210,7 +215,7 @@ BoxTest >> test008WhenHyperJumpApplyEffectThenSpaceshipIsMoveBetweenOneAndTwenty
 	
 	aHyperJump applyEffect: spaceships and: actualSpaceship. 
 
-	self assert: ((aSpaceship position) between: 1 and: 21).
+	self assert: ((aSpaceship position) between: 2 and: 21).
 	self assert: anotherSpaceship position equals: 1.	
 ]
 

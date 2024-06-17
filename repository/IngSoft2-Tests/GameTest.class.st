@@ -1556,7 +1556,7 @@ GameTest >> test036WhenARepeatCardIsPlayAndLastBoxIsAtomicbombThenAllSpaceshipLo
 { #category : #tests }
 GameTest >> test037WhenARepeatCardIsPlayAndLastBoxIsHyperJumpThenTheAffectedSpaceshipMovesFowardAnAmountOfParsecs [
 
-	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aHyperJump aPath aBoard aGame cardArguments |
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aHyperJump aPath aBoard aGame cardArguments parsecOne lightYearOne lightYearTwo |
 	aDie := LoadedDie of: 10.
 	aDie add: (OrderedCollection with: 3 with: 1).
 	dices := OrderedCollection with: aDie.
@@ -1570,7 +1570,10 @@ GameTest >> test037WhenARepeatCardIsPlayAndLastBoxIsHyperJumpThenTheAffectedSpac
 	aNormalBoxFour := NormalBox new.
 	aNormalBoxFive := NormalBox new.
 	aHyperJump := LoadedHyperJump createWith: 3 andParsecsToBoxesRatio: 2.
-	aHyperJump addParsecs: (OrderedCollection with: 6 with: 4 with: 3).
+	parsecOne := Parsec createWith: 6.
+	lightYearOne := LightYear createWith: 12.
+	lightYearTwo := LightYear createWith: 9.
+	aHyperJump addParsecs: (OrderedCollection with: parsecOne with: lightYearOne with: lightYearTwo).
 	aPath := OrderedCollection
 		         with: aNormalBoxOne
 		         with: aHyperJump

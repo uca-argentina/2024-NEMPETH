@@ -25,7 +25,7 @@ LoadedHyperJump >> addParsecs: aCollectionOfParsecs [
 { #category : #accessing }
 LoadedHyperJump >> applyEffect: spaceships and: affectedSpaceship [
 
-	affectedSpaceship move: (collectionOfParsecs at: index) // parsecsToBoxesRatio .
+	affectedSpaceship move: ((collectionOfParsecs at: index) toParsec) // parsecsToBoxesRatio .
 	
 	index = collectionOfParsecs size ifTrue: [
 		index := 0 ].
