@@ -8,7 +8,9 @@ Class {
 		'deck',
 		'permanentCardsPlayed',
 		'lastCardPlayed',
-		'movementByAcceleration'
+		'movementByAcceleration',
+		'lastBox',
+		'board'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -18,6 +20,21 @@ Game class >> amountOfLapsToWinValidation: amountOfLapsToWin [
 
 	amountOfLapsToWin < 1 ifTrue: [
 		Error signal: 'Laps to win should be greater than zero' ]
+]
+
+{ #category : #'as yet unclassified' }
+Game class >> createWithNumberOfSpaceships: numberOfSpaceships and: aCollectionOfDices and: aDeck and: aBoard andLapsToWin: amountOfLapsToWin [ 
+
+	self dicesValidation: aCollectionOfDices.
+	self spaceshipsValidation: numberOfSpaceships.
+	self amountOfLapsToWinValidation: amountOfLapsToWin.
+
+	^ self new
+		  initializeWith: numberOfSpaceships
+		  and: aCollectionOfDices
+		  and: aDeck
+		  and: aBoard
+		  andLapsToWin: amountOfLapsToWin
 ]
 
 { #category : #'as yet unclassified' }
@@ -69,6 +86,20 @@ Game >> applyMercenary: idOfMercenarySpaceship to: idOfActualSpaceship [
 	actualSpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfActualSpaceship ].
 	
 	mercenarySpaceship isAvaliableForMercenary ifTrue: [ actualSpaceship addMercenary: mercenarySpaceship. ]
+]
+
+{ #category : #'as yet unclassified' }
+Game >> applyRepeat: idOfTargetSpaceship [ 
+	
+	| affectedSpaceship index |
+	affectedSpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfTargetSpaceship ].
+	index := spaceships indexOf: affectedSpaceship.
+	spaceships removeAt: index.
+	
+	lastBox applyEffect: spaceships and: affectedSpaceship.
+	
+	spaceships add: affectedSpaceship beforeIndex: index.
+	board normalizeAll: spaceships.
 ]
 
 { #category : #'as yet unclassified' }
@@ -141,6 +172,19 @@ Game >> getPermanentCardPlayed [
 ]
 
 { #category : #initialization }
+Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices and: aDeck and: aBoard andLapsToWin: amountOfLapsToWin [ 
+	
+	permanentCardsPlayed := OrderedCollection new.
+	movementByAcceleration := 0.
+	dices := aCollectionOfDices.
+	deck := aDeck.
+	board := aBoard.
+	lapsToWin := amountOfLapsToWin.
+	lastBox := NormalBox new.
+	spaceships := self createSpaceships: numberOfSpaceships.
+]
+
+{ #category : #initialization }
 Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices and: aDeck andLapsToWin: amountOfLapsToWin [ 
 	
 	permanentCardsPlayed := OrderedCollection new.
@@ -148,6 +192,7 @@ Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices and: aDeck an
 	dices := aCollectionOfDices.
 	deck := aDeck.
 	lapsToWin := amountOfLapsToWin.
+	lastBox := NormalBox new.
 	spaceships := self createSpaceships: numberOfSpaceships.
 ]
 
@@ -189,6 +234,7 @@ Game >> playWith: aBoard [
 	aBoard normalizeOne: actualSpaceship.
 	
 	boxToCheck := aBoard findBoxIn: actualSpaceship position.
+	lastBox := boxToCheck.
 	boxToCheck applyEffect: spaceships and: actualSpaceship.
 	spaceships add: actualSpaceship.
 	
