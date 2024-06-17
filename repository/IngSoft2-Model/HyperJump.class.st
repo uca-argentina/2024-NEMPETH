@@ -2,9 +2,9 @@ Class {
 	#name : #HyperJump,
 	#superclass : #Box,
 	#instVars : [
-		'collectionOfParsecs',
 		'index',
-		'parsecsToBoxesRatio'
+		'parsecsToBoxesRatio',
+		'collectionOfUnits'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -19,35 +19,41 @@ HyperJump class >> createWith: listLength andParsecsToBoxesRatio: aRatio [
 HyperJump >> applyEffect: spaceships and: actualSpaceship [
 
 	actualSpaceship move:
-		(collectionOfParsecs at: index) // parsecsToBoxesRatio.
+		(collectionOfUnits  at: index) toParsec // parsecsToBoxesRatio.
 
-	index = collectionOfParsecs size ifTrue: [ index := 0 ].
+	index = collectionOfUnits size ifTrue: [ index := 0 ].
 
 	index := index + 1
 ]
 
 { #category : #initialization }
-HyperJump >> initializeWith: boardLength and: aRatio [ 
+HyperJump >> initializeWith: boardLength and: aRatio [
 
-	| maxPosibleLengthCollectionOfParsecs maxPosibleValueCollectionOfParsecs uniqueValuesSet setLength|
+	| maxPosibleLengthCollectionOfParsecs maxPosibleValueCollectionOfParsecs uniqueValuesSet setLength unitsMapping units setOfUnits |
 	index := 1.
-	collectionOfParsecs := OrderedCollection new.
 	parsecsToBoxesRatio := aRatio.
 
 	maxPosibleLengthCollectionOfParsecs := (boardLength * 0.25) rounded.
-	setLength := maxPosibleLengthCollectionOfParsecs atRandom. 
-	maxPosibleValueCollectionOfParsecs := (boardLength * 0.8) rounded. 
+	setLength := maxPosibleLengthCollectionOfParsecs atRandom.
+	maxPosibleValueCollectionOfParsecs := (boardLength * 0.8) rounded.
+
+	uniqueValuesSet := Set new.
+	[ uniqueValuesSet size < setLength ] whileTrue: [
+		uniqueValuesSet add: maxPosibleValueCollectionOfParsecs atRandom ].
 	
-    uniqueValuesSet := Set new.
-    [ uniqueValuesSet size < setLength ] whileTrue: [
-        uniqueValuesSet add: (maxPosibleValueCollectionOfParsecs atRandom).
-    ].
+	unitsMapping := {
+        1 -> Parsec.
+        2 -> LightYear.
+    } asDictionary.
+	units := #( 1 2 ).
+	setOfUnits := uniqueValuesSet collect: [ :aValue |
+		                    (unitsMapping at: (units atRandom)) createWith: aValue ].
 	
-	collectionOfParsecs := uniqueValuesSet asOrderedCollection.
-	collectionOfParsecs sort: [ :a :b | a > b ].
+	collectionOfUnits := setOfUnits asOrderedCollection.
+	collectionOfUnits sort: [ :a :b | a toParsec > b toParsec ]
 ]
 
 { #category : #'as yet unclassified' }
-HyperJump >> parsecs [
-	^ collectionOfParsecs.
+HyperJump >> units [
+	^ collectionOfUnits.
 ]
