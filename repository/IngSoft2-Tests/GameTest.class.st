@@ -1329,3 +1329,163 @@ GameTest >> test034WhenARepeatCardIsPlayAndLastBoxIsHyperSpaceJumpThenTheAffecte
 	self assert: aGame checkShieldsOfSpaceships 
 	equals: (OrderedCollection with: 2 with: 2).
 ]
+
+{ #category : #tests }
+GameTest >> test035WhenARepeatCardIsPlayAndLastBoxIsMoonWalkThenTheAffectedSpaceshipMoveTwoBoxesBackWards [
+	
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aMoonWalk aPath aBoard aGame  cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection
+			 with: 4
+			 with: 3).
+	dices := OrderedCollection with: aDie.
+
+	cards := {.
+		         (1 -> Repeat ).
+		 } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aNormalBoxFive := NormalBox new.
+	aMoonWalk := MoonWalk createWith: 2.
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+					with: aNormalBoxTwo
+		         with: aNormalBoxThree
+				   with: aMoonWalk
+		         with: aNormalBoxFour
+		         with: aNormalBoxFive.
+					
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+					and: aBoard
+		         andLapsToWin: 3.
+		
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 1.
+	cardArguments at: 'idCardToUse' put: 1.
+	cardArguments at: 'idTargetSpaceship' put: 1.
+	
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame playCard: cardArguments.
+	
+	self assert: aGame checkPositionsOfSpaceships
+	equals: (OrderedCollection with: 3 with: 2).
+]
+
+{ #category : #tests }
+GameTest >> test036WhenARepeatCardIsPlayAndLastBoxIsAtomicbombThenAllSpaceshipLoseOneShieldAndReturnToPositionOne [
+	
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive anAtomicBomb aPath aBoard aGame  cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection
+			 with: 4
+			 with: 3).
+	dices := OrderedCollection with: aDie.
+
+	cards := {.
+		         (1 -> Repeat ).
+		 } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aNormalBoxFive := NormalBox new.
+	anAtomicBomb := AtomicBomb new.
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+					with: aNormalBoxTwo
+		         with: aNormalBoxThree
+				   with: anAtomicBomb
+		         with: aNormalBoxFour
+		         with: aNormalBoxFive.
+					
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+					and: aBoard
+		         andLapsToWin: 3.
+		
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 1.
+	cardArguments at: 'idCardToUse' put: 1.
+	cardArguments at: 'idTargetSpaceship' put: 1.
+	
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	self assert: aGame checkPositionsOfSpaceships
+	equals: (OrderedCollection with: 1 with: 1).	
+	self assert: aGame checkShieldsOfSpaceships 
+	equals: (OrderedCollection with: 2 with: 2).
+	aGame playCard: cardArguments.
+	
+	self assert: aGame checkPositionsOfSpaceships
+	equals: (OrderedCollection with: 1 with: 1).	
+	self assert: aGame checkShieldsOfSpaceships 
+	equals: (OrderedCollection with: 1 with: 1).
+	
+
+]
+
+{ #category : #tests }
+GameTest >> test037WhenARepeatCardIsPlayAndLastBoxIsHyperJumpThenTheAffectedSpaceshipMovesFowardAnAmountOfParsecs [
+	
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aNormalBoxFive aHyperJump aPath aBoard aGame  cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection
+			 with: 3
+			 with: 1).
+	dices := OrderedCollection with: aDie.
+
+	cards := {.
+		         (1 -> Repeat ).
+		 } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aNormalBoxFive := NormalBox new.
+	aHyperJump := LoadedHyperJump createWith: 3 andParsecsToBoxesRatio: 2.
+	aHyperJump addParsecs: (OrderedCollection with: 6 with: 4 with: 3).
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+					with: aHyperJump
+					with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour
+		         with: aNormalBoxFive.
+					
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+					and: aBoard
+		         andLapsToWin: 3.
+		
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 1.
+	cardArguments at: 'idCardToUse' put: 1.
+	cardArguments at: 'idTargetSpaceship' put: 1.
+	
+	aGame playWith: aBoard.
+	aGame playWith: aBoard.
+	aGame playCard: cardArguments.
+	
+	self assert: aGame checkPositionsOfSpaceships
+	equals: (OrderedCollection with: 6 with: 5).	
+
+]

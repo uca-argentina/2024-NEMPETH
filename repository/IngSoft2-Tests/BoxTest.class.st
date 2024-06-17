@@ -55,7 +55,7 @@ BoxTest >> test002WhenSpaceshipIsOnHyperSpaceJumpBoxThenSpaceshipMovesFourBoxesA
 ]
 
 { #category : #tests }
-BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMovesToPositionOneAndLosesOneShieldExceptForSpaceshipsOnSafeZone [
+BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMoveToPositionOneAndLoseOneShield [
 	
 	|spaceshipOne spaceshipTwo spaceshipThree spaceships aAtomicBomb actualSpaceship |
 	
@@ -86,7 +86,7 @@ BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMovesToPositionO
 	self assert: spaceshipTwo position equals: 1.
 	self assert: spaceshipTwo shield equals: 2.
 	self assert: spaceshipThree position equals: 1.
-	self assert: spaceshipThree shield equals: 3.
+	self assert: spaceshipThree shield equals: 2.
 	
 ]
 
@@ -141,8 +141,8 @@ BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOf
 	self assert: spaceshipOne position equals: 5.
 	self assert: spaceshipTwo position equals: 3.
 
-	aHyperJump applyEffect: spaceships and: 1.
-	aHyperJump applyEffect: spaceships and: 2.
+	aHyperJump applyEffect: spaceships and: spaceshipOne.
+	aHyperJump applyEffect: spaceships and: spaceshipTwo.
 
 	self assert: spaceshipOne position equals: 8.
 	self assert: spaceshipTwo position equals: 5.
@@ -171,9 +171,9 @@ BoxTest >> test006WhenAmountOfEffectsAppliedAreMoreThanCollectionOfParsecsThenSt
 	self assert: spaceshipTwo position equals: 2.
 	self assert: spaceshipThree position equals: 2.
 
-	aHyperJump applyEffect: spaceships and: 1.
-	aHyperJump applyEffect: spaceships and: 2.
-	aHyperJump applyEffect: spaceships and: 3.
+	aHyperJump applyEffect: spaceships and: spaceshipOne.
+	aHyperJump applyEffect: spaceships and: spaceshipTwo.
+	aHyperJump applyEffect: spaceships and: spaceshipThree.
 	
 	self assert: spaceshipOne position equals: 4.
 	self assert: spaceshipTwo position equals: 3.
