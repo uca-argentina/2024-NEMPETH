@@ -178,7 +178,7 @@ Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices and: aDeck an
 ]
 
 { #category : #'as yet unclassified' }
-Game >> passTurnOn: aBoard [
+Game >> passTurn [
 	
 	| actualSpaceship |
 	
@@ -203,7 +203,7 @@ Game >> playCard: aCardArguments [
 ]
 
 { #category : #'as yet unclassified' }
-Game >> playWith: aBoard [
+Game >> playTurn [
 
 	| actualSpaceship boxToCheck winner |
 	actualSpaceship := spaceships removeFirst.
@@ -211,16 +211,16 @@ Game >> playWith: aBoard [
 	actualSpaceship playTurn ifFalse: [ ^ self ].
 	actualSpaceship move: self throwDices + movementByAcceleration + actualSpaceship movementBySpeed.
 	
-	aBoard normalizeOne: actualSpaceship.
+	board normalizeOne: actualSpaceship.
 	
-	boxToCheck := aBoard findBoxIn: actualSpaceship position.
+	boxToCheck := board findBoxIn: actualSpaceship position.
 	lastBox := boxToCheck.
 	boxToCheck applyEffect: spaceships and: actualSpaceship.
 	spaceships add: actualSpaceship.
 	
-	aBoard normalizeAll: spaceships.
+	board normalizeAll: spaceships.
 	
-	winner := self checkWinnerOn: aBoard.
+	winner := self checkWinnerOn: board.
 	winner ifNotNil: [ ^ self ].
 	
 	self verifyBattleWith: actualSpaceship.
