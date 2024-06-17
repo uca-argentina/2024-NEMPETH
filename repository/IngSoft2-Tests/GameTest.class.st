@@ -43,7 +43,7 @@ GameTest >> test001WhenSpaceshipsMovesThreeBoxesOnAThreeBoxesBoardWithOneLapToWi
 
 	aGame playTurn.
 
-	winner := aGame checkWinnerOn: aBoard.
+	winner := aGame checkWinner.
 
 	self assert: winner id equals: 1
 ]
@@ -115,7 +115,7 @@ GameTest >> test003WhenSpaceshipsCompleteTwoLapsOnATwoLapCompletedGameThenTheSpa
 	aGame playTurn.
 	aGame playTurn.
 
-	winner := aGame checkWinnerOn: aBoard.
+	winner := aGame checkWinner.
 
 	self assert: winner id equals: 1
 ]
@@ -338,7 +338,7 @@ GameTest >> test011WhenSpaceshipsMoveThreeBoxesThenASpaceshipWins [
 
 	aGame playTurn.
 
-	winner := aGame checkWinnerOn: aBoard.
+	winner := aGame checkWinner.
 
 	self assert: winner id equals: 1
 ]
@@ -626,7 +626,7 @@ GameTest >> test019CheckTheRankingOfSpaceshipsInTheGame [
 	aGame playTurn.
 
 	self
-		assert: (aGame checkRankingOn: aBoard)
+		assert: aGame checkRanking
 		equals: (OrderedCollection with: 2 with: 3 with: 1)
 ]
 
@@ -2042,7 +2042,7 @@ GameTest >> test045WhenASpaceshipTriesToPlayACardThatDoesNotHaveThenThrowError [
 
 	cardArguments := Dictionary new.
 	cardArguments at: 'idSpaceship' put: 1.
-	cardArguments at: 'idCardToUse' put: 3.
+	cardArguments at: 'idCardToUse' put: 10000000.
 
 	self
 		should: [ aGame playCard: cardArguments ]
@@ -2216,4 +2216,83 @@ GameTest >> test049WhenASpaceshipTriesToPlayMercenaryAndChooseOneAlreadyChosenAs
 		should: [ aGame playCard: cardArguments ]
 		raise: Error
 		withMessage: 'A spaceship chose a mercenary already chosen'
+]
+
+{ #category : #tests }
+GameTest >> test050WhenASpaceshipThatDoesNotExistTriesToPlayACardThenThrowError [
+
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 1 with: 2).
+	dices := OrderedCollection with: aDie.
+
+	cards := { (1 -> Acceleration) } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 50.
+	cardArguments at: 'idCardToUse' put: 3.
+
+	self
+		should: [ aGame playCard: cardArguments ]
+		raise: Error
+		withMessage: 'The spaceship that wants to play the card does not exist'
+]
+
+{ #category : #tests }
+GameTest >> test051WhenASpaceshipChooseATargetSpaceshipThatDoesNotExistThenThrowError [
+
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 1 with: 2).
+	dices := OrderedCollection with: aDie.
+
+	cards := { (1 -> Speed) } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 1.
+	cardArguments at: 'idCardToUse' put: 1.
+	cardArguments at: 'idTargetSpaceship' put: 3.
+
+	self
+		should: [ aGame playCard: cardArguments ]
+		raise: Error
+		withMessage: 'The target spaceship does not exist'
 ]

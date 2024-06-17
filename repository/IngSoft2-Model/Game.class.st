@@ -69,6 +69,7 @@ Game >> addPermanentCardPlayed: aCard [
 Game >> applyMercenary: idOfMercenarySpaceship to: idOfActualSpaceship [
 
 	| mercenarySpaceship actualSpaceship |
+	self targetSpaceshipExistValidation: idOfMercenarySpaceship.
 	mercenarySpaceship := spaceships detect: [ :aSpaceship |
 		                      aSpaceship id = idOfMercenarySpaceship ].
 	actualSpaceship := spaceships detect: [ :aSpaceship |
@@ -85,6 +86,7 @@ Game >> applyMercenary: idOfMercenarySpaceship to: idOfActualSpaceship [
 Game >> applyRepeat: idOfTargetSpaceship [ 
 	
 	| affectedSpaceship index |
+	self targetSpaceshipExistValidation: idOfTargetSpaceship.
 	affectedSpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfTargetSpaceship ].
 	index := spaceships indexOf: affectedSpaceship.
 	spaceships removeAt: index.
@@ -101,11 +103,11 @@ Game >> applyRepeat: idOfTargetSpaceship [
 Game >> applySpeedWith: anIdOfSpaceship [
 
 	| affectedSpaceship |
+	self targetSpaceshipExistValidation: anIdOfSpaceship.
 	affectedSpaceship := spaceships detect: [ :aSpaceship |
-		                      aSpaceship id = anIdOfSpaceship ].
-	
-	affectedSpaceship addSpeed. 
-	lastCardPlayed := Speed.
+		                     aSpaceship id = anIdOfSpaceship ].
+	affectedSpaceship addSpeed.
+	lastCardPlayed := Speed
 ]
 
 { #category : #'as yet unclassified' }
@@ -123,9 +125,9 @@ Game >> checkPositionsOfSpaceships [
 ]
 
 { #category : #'as yet unclassified' }
-Game >> checkRankingOn: aBoard [
+Game >> checkRanking [
 	| sortedSpaceships |
-	sortedSpaceships := spaceships sort: [ :a :b | a > b ].
+	sortedSpaceships := spaceships copy sort: [ :a :b | a > b ].
 
 	^ sortedSpaceships collect: [ :spaceship | spaceship id ]
 ]
@@ -138,7 +140,7 @@ Game >> checkShieldsOfSpaceships [
 ]
 
 { #category : #'as yet unclassified' }
-Game >> checkWinnerOn: aBoard [
+Game >> checkWinner [
 
 	^ spaceships
 		  detect: [ :aSpaceship | aSpaceship lapsCompleted >= lapsToWin ]
@@ -203,10 +205,12 @@ Game >> playCard: aCardArguments [
 
 	| idOfSpaceship actualSpaceship idOfCard card |
 	idOfSpaceship := aCardArguments at: 'idSpaceship'.
+	self spaceshipExistValidation: idOfSpaceship.
+
 	actualSpaceship := spaceships detect: [ :aSpaceship |
 		                   aSpaceship id = idOfSpaceship ].
 	idOfCard := aCardArguments at: 'idCardToUse'.
-	
+
 	self validation: actualSpaceship hasTheCard: idOfCard.
 
 	card := actualSpaceship cards detect: [ :aCard | aCard id = idOfCard ].
@@ -220,24 +224,24 @@ Game >> playTurn [
 
 	| actualSpaceship boxToCheck winner |
 	actualSpaceship := spaceships removeFirst.
-	
+
 	actualSpaceship playTurn ifFalse: [ ^ self ].
-	actualSpaceship move: self throwDices + movementByAcceleration + actualSpaceship movementBySpeed.
-	
+	actualSpaceship move: self throwDices + movementByAcceleration
+		+ actualSpaceship movementBySpeed.
+
 	board normalizeOne: actualSpaceship.
-	
+
 	boxToCheck := board findBoxIn: actualSpaceship position.
 	lastBox := boxToCheck.
 	boxToCheck applyEffect: spaceships and: actualSpaceship.
 	spaceships add: actualSpaceship.
-	
-	board normalizeAll: spaceships.
-	
-	winner := self checkWinnerOn: board.
-	winner ifNotNil: [ ^ self ].
-	
-	self verifyBattleWith: actualSpaceship.
 
+	board normalizeAll: spaceships.
+
+	winner := self checkWinner.
+	winner ifNotNil: [ ^ self ].
+
+	self verifyBattleWith: actualSpaceship
 ]
 
 { #category : #removing }
@@ -271,6 +275,21 @@ Game >> removeSpeedWith: anIdOfSpaceship [
 		                      aSpaceship id = anIdOfSpaceship ].
 	
 	affectedSpaceship removeSpeed. 
+]
+
+{ #category : #'as yet unclassified' }
+Game >> spaceshipExistValidation: idOfSpaceship [
+
+	(self checkRanking includes: idOfSpaceship) ifFalse: [
+		Error signal:
+			'The spaceship that wants to play the card does not exist' ]
+]
+
+{ #category : #'as yet unclassified' }
+Game >> targetSpaceshipExistValidation: anIdOfSpaceship [
+
+	(self checkRanking includes: anIdOfSpaceship) ifFalse: [
+		Error signal: 'The target spaceship does not exist' ]
 ]
 
 { #category : #'as yet unclassified' }
