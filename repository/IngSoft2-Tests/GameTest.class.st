@@ -2129,3 +2129,91 @@ GameTest >> test047WhenASpaceshipTriesToPlayMercenaryWhenItIsNotItsTurnThenThrow
 		raise: Error
 		withMessage: 'A spaceship is trying to play a permanent card and it is not its turn'
 ]
+
+{ #category : #tests }
+GameTest >> test048WhenASpaceshipTriesToPlayMercenaryAndChooseItselfAsMercenaryThenThrowError [
+
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 1 with: 2).
+	dices := OrderedCollection with: aDie.
+
+	cards := { (1 -> Mercenary) } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 2
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 1.
+	cardArguments at: 'idCardToUse' put: 1.
+	cardArguments at: 'idTargetSpaceship' put: 1.
+
+	self
+		should: [ aGame playCard: cardArguments ]
+		raise: Error
+		withMessage: 'A spaceship can not choose itself as mercenary'
+]
+
+{ #category : #tests }
+GameTest >> test049WhenASpaceshipTriesToPlayMercenaryAndChooseOneAlreadyChosenAsMercenaryThenThrowError [
+
+	| dices aDie cards aDeck aNormalBoxOne aNormalBoxTwo aNormalBoxThree aNormalBoxFour aPath aBoard aGame cardArguments |
+	aDie := LoadedDie of: 10.
+	aDie add: (OrderedCollection with: 1 with: 2).
+	dices := OrderedCollection with: aDie.
+
+	cards := { (1 -> Mercenary) } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+
+	aNormalBoxOne := NormalBox new.
+	aNormalBoxTwo := NormalBox new.
+	aNormalBoxThree := NormalBox new.
+	aNormalBoxFour := NormalBox new.
+	aPath := OrderedCollection
+		         with: aNormalBoxOne
+		         with: aNormalBoxTwo
+		         with: aNormalBoxThree
+		         with: aNormalBoxFour.
+
+	aBoard := Board createWith: aPath.
+	aGame := Game
+		         createWithNumberOfSpaceships: 3
+		         and: dices
+		         and: aDeck
+		         and: aBoard
+		         andLapsToWin: 1.
+
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 1.
+	cardArguments at: 'idCardToUse' put: 1.
+	cardArguments at: 'idTargetSpaceship' put: 3.
+	aGame playCard: cardArguments.
+	
+	aGame playTurn.
+	
+	cardArguments := Dictionary new.
+	cardArguments at: 'idSpaceship' put: 2.
+	cardArguments at: 'idCardToUse' put: 3.
+	cardArguments at: 'idTargetSpaceship' put: 3.
+
+	self
+		should: [ aGame playCard: cardArguments ]
+		raise: Error
+		withMessage: 'A spaceship chose a mercenary already chosen'
+]

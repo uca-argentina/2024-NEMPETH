@@ -66,15 +66,19 @@ Game >> addPermanentCardPlayed: aCard [
 ]
 
 { #category : #'as yet unclassified' }
-Game >> applyMercenary: idOfMercenarySpaceship to: idOfActualSpaceship [ 
-	
+Game >> applyMercenary: idOfMercenarySpaceship to: idOfActualSpaceship [
+
 	| mercenarySpaceship actualSpaceship |
-	
-	mercenarySpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfMercenarySpaceship ].
-	actualSpaceship := spaceships detect: [ :aSpaceship | aSpaceship id = idOfActualSpaceship ].
-	
-	mercenarySpaceship isAvaliableForMercenary ifTrue: [ actualSpaceship addMercenary: mercenarySpaceship. ].
-	lastCardPlayed := Mercenary.
+	mercenarySpaceship := spaceships detect: [ :aSpaceship |
+		                      aSpaceship id = idOfMercenarySpaceship ].
+	actualSpaceship := spaceships detect: [ :aSpaceship |
+		                   aSpaceship id = idOfActualSpaceship ].
+
+	mercenarySpaceship isAvaliableForMercenary ifFalse: [
+		Error signal: 'A spaceship chose a mercenary already chosen' ].
+
+	actualSpaceship addMercenary: mercenarySpaceship.
+	lastCardPlayed := Mercenary
 ]
 
 { #category : #'as yet unclassified' }
