@@ -12,8 +12,15 @@ PathGeneratorTest >> should: anErrorBlock raise: anErrorClass withMessage: anErr
 { #category : #running }
 PathGeneratorTest >> test001WhenPathIsCreateThenTheFisrtBoxisKindOfNormalBox [
 
-	| aPathGenerator |
-	aPathGenerator := PathGenerator createWith: 10 and: 5.
+	| aPathGenerator cards aDeck |
+	
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+	
+	aPathGenerator := PathGenerator createWith: 10 and: 5 and: aDeck.
 	
 	self assert: (((aPathGenerator path) at: 1) isKindOf: NormalBox).
 ]
@@ -73,8 +80,15 @@ PathGeneratorTest >> test002VerifyCorrectDistributionsOfBoxes [
 { #category : #running }
 PathGeneratorTest >> test003WhenRatioParsecToBoxesIsEqualOrLessThanZeroThenThorwError [
 	
+	| cards aDeck |
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+	
 	self
-		should: [ PathGenerator createWith: 50 and: 0. ]
+		should: [ PathGenerator createWith: 50 and: 0 and: aDeck. ]
 		raise: Error
 		withMessage: 'Parsec to boxes ratio should be greater that zero'
 ]

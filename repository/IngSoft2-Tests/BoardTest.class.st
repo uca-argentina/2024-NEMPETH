@@ -215,9 +215,15 @@ BoardTest >> test008ForLoaded8WhenASpaceshipMovesBackThroughFirstBoxThenSubtract
 { #category : #tests }
 BoardTest >> test010TheFirstBoxOfTheBoardIsANormalBox [
 
-	| aBoard aPathGenerator|
+	| aBoard aPathGenerator cards aDeck |
 	
-	aPathGenerator := PathGenerator createWith: 10 and: 5. 
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+	
+	aPathGenerator := PathGenerator createWith: 10 and: 5 and: aDeck. 
 	
 	aBoard := Board createWith: aPathGenerator path.
 
