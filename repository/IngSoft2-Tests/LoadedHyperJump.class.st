@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'index',
 		'collectionOfParsecs',
-		'parsecsToBoxesRatio'
+		'parsecsToBoxesRatio',
+		'position'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -22,11 +23,9 @@ LoadedHyperJump >> addParsecs: aCollectionOfParsecs [
 ]
 
 { #category : #accessing }
-LoadedHyperJump >> applyEffect: spaceships and: turn [
+LoadedHyperJump >> applyEffect: spaceships and: affectedSpaceship [
 
-	| affectedSpaceship |
-	affectedSpaceship := spaceships at: turn.
-	affectedSpaceship move: (collectionOfParsecs at: index) // parsecsToBoxesRatio .
+	affectedSpaceship move: ((collectionOfParsecs at: index) toParsec) // parsecsToBoxesRatio .
 	
 	index = collectionOfParsecs size ifTrue: [
 		index := 0 ].
@@ -40,4 +39,16 @@ LoadedHyperJump >> initializeWith: listLength and: aRatio [
 	index := 1.
 	collectionOfParsecs := OrderedCollection new.
 	parsecsToBoxesRatio := aRatio
+]
+
+{ #category : #accessing }
+LoadedHyperJump >> position [
+
+	^ position
+]
+
+{ #category : #accessing }
+LoadedHyperJump >> position: anObject [
+
+	position := anObject
 ]

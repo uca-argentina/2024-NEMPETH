@@ -8,11 +8,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-PathGenerator class >> createWith: aLength and: aRatio [
-
+PathGenerator class >> createWith: aLength and: aRatio and: aDeck [ 
+	
 	self ratioValidation: aRatio.
 
-	^ self new initializeWith: aLength and: aRatio
+	^ self new initializeWith: aLength and: aRatio and: aDeck
 ]
 
 { #category : #'as yet unclassified' }
@@ -37,8 +37,7 @@ PathGenerator >> createWormhole [
 ]
 
 { #category : #initialization }
-PathGenerator >> initializeWith: aLength and: aRatio [
-
+PathGenerator >> initializeWith: aLength and: aRatio and: aDeck [ 
 	| randomGenerator randomValue |
 	path := OrderedCollection new.
 	randomGenerator := Random new.
@@ -46,7 +45,9 @@ PathGenerator >> initializeWith: aLength and: aRatio [
 	1 to: aLength - 3 do: [ :i |
 		randomValue := randomGenerator next.
 
-		randomValue <= 0.4 ifTrue: [ path add: NormalBox new ].
+		randomValue <= 0.3 ifTrue: [ path add: NormalBox new ].
+		(randomValue > 0.3 and: [ randomValue <= 0.4 ]) ifTrue: [
+			path add: (CardBox createWith: aDeck) ].
 		(randomValue > 0.4 and: [ randomValue <= 0.6 ]) ifTrue: [
 			path add: BlackHole new ].
 		(randomValue > 0.6 and: [ randomValue <= 0.8 ]) ifTrue: [

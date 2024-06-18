@@ -55,7 +55,7 @@ BoxTest >> test002WhenSpaceshipIsOnHyperSpaceJumpBoxThenSpaceshipMovesFourBoxesA
 ]
 
 { #category : #tests }
-BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMovesToPositionOneAndLosesOneShieldExceptForSpaceshipsOnSafeZone [
+BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMoveToPositionOneAndLoseOneShield [
 	
 	|spaceshipOne spaceshipTwo spaceshipThree spaceships aAtomicBomb actualSpaceship |
 	
@@ -86,7 +86,7 @@ BoxTest >> test003WhenSpaceshipIsOnAtomicBombBoxThenAllSpaceshipMovesToPositionO
 	self assert: spaceshipTwo position equals: 1.
 	self assert: spaceshipTwo shield equals: 2.
 	self assert: spaceshipThree position equals: 1.
-	self assert: spaceshipThree shield equals: 3.
+	self assert: spaceshipThree shield equals: 2.
 	
 ]
 
@@ -123,7 +123,7 @@ BoxTest >> test004WhenSpaceshipIsOnMoonWalkThenTheOtherSpaceshipsMovesBackTwoPos
 { #category : #tests }
 BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOfParsecs [
 	
-	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump|
+	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump parsecOne lightYearOne lightYearTwo |
 	
 	spaceshipOne := Spaceship createWithId: 1.
 	spaceshipTwo := Spaceship createWithId: 2.
@@ -133,7 +133,10 @@ BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOf
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
 
 	aHyperJump := LoadedHyperJump createWith: 3 andParsecsToBoxesRatio: 2.
-	aHyperJump addParsecs: (OrderedCollection with: 6 with: 4 with: 3).
+	parsecOne := Parsec createWith: 6.
+	lightYearOne := LightYear createWith: 12.
+	lightYearTwo := LightYear createWith: 9.
+	aHyperJump addParsecs: (OrderedCollection with: parsecOne with: lightYearOne with: lightYearTwo).
 
 	spaceshipOne move: 4.
 	spaceshipTwo move: 2.
@@ -141,8 +144,8 @@ BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOf
 	self assert: spaceshipOne position equals: 5.
 	self assert: spaceshipTwo position equals: 3.
 
-	aHyperJump applyEffect: spaceships and: 1.
-	aHyperJump applyEffect: spaceships and: 2.
+	aHyperJump applyEffect: spaceships and: spaceshipOne.
+	aHyperJump applyEffect: spaceships and: spaceshipTwo.
 
 	self assert: spaceshipOne position equals: 8.
 	self assert: spaceshipTwo position equals: 5.
@@ -151,7 +154,7 @@ BoxTest >> test005WhenASpaceshipIsOnHyperJumpThenSpaceshipMovesASelectedAmountOf
 { #category : #tests }
 BoxTest >> test006WhenAmountOfEffectsAppliedAreMoreThanCollectionOfParsecsThenStartFromBeginning [
 	
-	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump|
+	|spaceshipOne spaceshipTwo spaceshipThree spaceships aHyperJump parsecOne lightYearOne |
 	
 	spaceshipOne := Spaceship createWithId: 1.
 	spaceshipTwo := Spaceship createWithId: 2.
@@ -161,7 +164,9 @@ BoxTest >> test006WhenAmountOfEffectsAppliedAreMoreThanCollectionOfParsecsThenSt
 	spaceships add: spaceshipOne; add: spaceshipTwo;add:spaceshipThree.
 
 	aHyperJump := LoadedHyperJump createWith: 2 andParsecsToBoxesRatio: 2.
-	aHyperJump addParsecs: (OrderedCollection with: 4 with: 2).
+	parsecOne := Parsec createWith: 4.
+	lightYearOne := LightYear createWith: 6.
+	aHyperJump addParsecs: (OrderedCollection with: parsecOne with: lightYearOne).
 
 	spaceshipOne move: 1.
 	spaceshipTwo move: 1.
@@ -171,9 +176,9 @@ BoxTest >> test006WhenAmountOfEffectsAppliedAreMoreThanCollectionOfParsecsThenSt
 	self assert: spaceshipTwo position equals: 2.
 	self assert: spaceshipThree position equals: 2.
 
-	aHyperJump applyEffect: spaceships and: 1.
-	aHyperJump applyEffect: spaceships and: 2.
-	aHyperJump applyEffect: spaceships and: 3.
+	aHyperJump applyEffect: spaceships and: spaceshipOne.
+	aHyperJump applyEffect: spaceships and: spaceshipTwo.
+	aHyperJump applyEffect: spaceships and: spaceshipThree.
 	
 	self assert: spaceshipOne position equals: 4.
 	self assert: spaceshipTwo position equals: 3.
@@ -188,12 +193,12 @@ BoxTest >> test007VerifyCorrectCreationOfHyperJumpBox [
 	
 	aHyperJump := HyperJump createWith: 40 andParsecsToBoxesRatio: 2.
 
-	self assert: aHyperJump parsecs size <= 10.
-	self assert: (aHyperJump parsecs anySatisfy: [ :each | each <= (40 * 0.8) ]).
+	self assert: aHyperJump units size <= 10.
+	self assert: (aHyperJump units anySatisfy: [ :each | each toParsec <= (40 * 0.8) ]).
 
-	sortedColletion := aHyperJump parsecs sort: [ :a :b | a > b ].
+	sortedColletion := aHyperJump units sort: [ :a :b | a toParsec > b toParsec ].
 
-	self assert: aHyperJump parsecs equals: sortedColletion.
+	self assert: aHyperJump units equals: sortedColletion.
 ]
 
 { #category : #tests }
@@ -212,4 +217,31 @@ BoxTest >> test008WhenHyperJumpApplyEffectThenSpaceshipIsMoveBetweenOneAndTwenty
 
 	self assert: ((aSpaceship position) between: 2 and: 21).
 	self assert: anotherSpaceship position equals: 1.	
+]
+
+{ #category : #tests }
+BoxTest >> test009WhenCardBoxApplyEffectThenSpaceshipAddACardOnItsPrivateDeck [
+    
+    | cards aDeck aCardBox spaceships aSpaceship anotherSpaceship actualSpaceship |
+    
+    aSpaceship := Spaceship createWithId: 1.
+    anotherSpaceship := Spaceship createWithId: 2.
+    spaceships := OrderedCollection with: aSpaceship with: anotherSpaceship.
+    actualSpaceship := spaceships removeFirst.
+
+	cards := {
+        1 -> Acceleration.
+        2 -> Speed.
+    } asDictionary.
+	aDeck := LoadedDeck createWith: cards.
+    
+    aCardBox := CardBox createWith: aDeck.
+    aCardBox applyEffect: spaceships and: actualSpaceship. 
+    
+    self assert: (actualSpaceship cards size) equals: 1.
+    
+    aCardBox applyEffect: spaceships and: actualSpaceship. 
+    aCardBox applyEffect: spaceships and: actualSpaceship. 
+    
+    self assert: (actualSpaceship cards size) equals: 3.
 ]

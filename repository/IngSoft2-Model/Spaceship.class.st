@@ -6,7 +6,11 @@ Class {
 		'shield',
 		'lapsCompleted',
 		'state',
-		'id'
+		'id',
+		'cards',
+		'movementBySpeed',
+		'avaliableForMercenary',
+		'mercenaries'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -32,6 +36,27 @@ Spaceship >> addLap [
 	lapsCompleted := lapsCompleted + 1
 ]
 
+{ #category : #adding }
+Spaceship >> addMercenary: aSpaceship [
+	mercenaries add: aSpaceship.
+	aSpaceship changeAvailabilityForMercenary.
+]
+
+{ #category : #adding }
+Spaceship >> addSpeed [
+	movementBySpeed := movementBySpeed + 1.
+]
+
+{ #category : #'as yet unclassified' }
+Spaceship >> cards [
+	^ cards
+]
+
+{ #category : #'as yet unclassified' }
+Spaceship >> changeAvailabilityForMercenary [
+	avaliableForMercenary := avaliableForMercenary not. 
+]
+
 { #category : #'as yet unclassified' }
 Spaceship >> changeTo: anState [ 
 	state := anState.
@@ -46,10 +71,19 @@ Spaceship >> id [
 Spaceship >> initializeWith: anId [
 
 	id := anId.
+	avaliableForMercenary := true.
+	mercenaries := OrderedCollection new.
+	movementBySpeed := 0.
 	position := 1.
 	shield := 3.
 	lapsCompleted := 0.
+	cards := OrderedCollection new.
 	state := AvailableState create
+]
+
+{ #category : #testing }
+Spaceship >> isAvaliableForMercenary [
+	^ avaliableForMercenary 
 ]
 
 { #category : #accessing }
@@ -58,9 +92,26 @@ Spaceship >> lapsCompleted [
 ]
 
 { #category : #accessing }
+Spaceship >> mercenaries [
+
+	^ mercenaries
+]
+
+{ #category : #accessing }
 Spaceship >> move: positionsToMove [
 
 	position := position + positionsToMove
+]
+
+{ #category : #accessing }
+Spaceship >> movementBySpeed [
+	^ movementBySpeed
+]
+
+{ #category : #'as yet unclassified' }
+Spaceship >> obtain: aCard [
+
+	cards add: aCard
 ]
 
 { #category : #'as yet unclassified' }
@@ -79,6 +130,21 @@ Spaceship >> position [
 Spaceship >> recoverShields [
 
 	shield := 3
+]
+
+{ #category : #removing }
+Spaceship >> removeMercenary: aSpaceship [ 
+	mercenaries remove: aSpaceship.
+]
+
+{ #category : #'as yet unclassified' }
+Spaceship >> removeSpeed [
+	movementBySpeed := movementBySpeed - 1.
+]
+
+{ #category : #removing }
+Spaceship >> removeThis: aCard [
+	self cards remove: aCard.
 ]
 
 { #category : #accessing }
