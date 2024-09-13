@@ -74,9 +74,7 @@ Game >> applyMercenary: idOfMercenarySpaceship to: idOfActualSpaceship [
 		                      aSpaceship id = idOfMercenarySpaceship ].
 	actualSpaceship := spaceships detect: [ :aSpaceship |
 		                   aSpaceship id = idOfActualSpaceship ].
-
-	mercenarySpaceship isAvaliableForMercenary ifFalse: [
-		Error signal: 'A spaceship chose a mercenary already chosen' ].
+	self mercenaryAvailabilityValidation: mercenarySpaceship.
 
 	actualSpaceship addMercenary: mercenarySpaceship.
 	lastCardPlayed := Mercenary
@@ -187,6 +185,13 @@ Game >> initializeWith: numberOfSpaceships and: aCollectionOfDices and: aDeck an
 	lapsToWin := amountOfLapsToWin.
 	lastBox := NormalBox new.
 	spaceships := self createSpaceships: numberOfSpaceships.
+]
+
+{ #category : #'as yet unclassified' }
+Game >> mercenaryAvailabilityValidation: mercenarySpaceship [
+
+	mercenarySpaceship isAvaliableForMercenary ifFalse: [
+		Error signal: 'A spaceship chose a mercenary already chosen' ]
 ]
 
 { #category : #'as yet unclassified' }
