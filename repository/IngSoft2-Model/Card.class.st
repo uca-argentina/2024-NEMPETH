@@ -13,6 +13,12 @@ Card class >> createWithId: anId [
 	^ self new initializeWith: anId
 ]
 
+{ #category : #initialization }
+Card >> applyCardEffect: aCardArguments and: aGame [ 
+
+	self subclassResponsibility.
+]
+
 { #category : #accessing }
 Card >> id [
 

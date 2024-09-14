@@ -1,6 +1,6 @@
 Class {
 	#name : #Speed,
-	#superclass : #Card,
+	#superclass : #PermanentCard,
 	#instVars : [
 		'idOfAffectedSpaceship'
 	],
