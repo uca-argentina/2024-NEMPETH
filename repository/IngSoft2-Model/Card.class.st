@@ -30,11 +30,3 @@ Card >> initializeWith: anId [
 
 	id := anId.
 ]
-
-{ #category : #'as yet unclassified' }
-Card >> permanentCardValidationWith: idOfSpaceship and: idOfSpaceshipAtTurn [
-
-	idOfSpaceship ~= idOfSpaceshipAtTurn ifTrue: [
-		Error signal:
-			'A spaceship is trying to play a permanent card and it is not its turn' ]
-]
