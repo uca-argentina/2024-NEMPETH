@@ -1,6 +1,6 @@
 Class {
 	#name : #Mercenary,
-	#superclass : #Card,
+	#superclass : #PermanentCard,
 	#instVars : [
 		'idOfActualSpaceship',
 		'idOfMercenarySpaceship'

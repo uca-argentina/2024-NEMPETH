@@ -1,6 +1,6 @@
 Class {
 	#name : #Acceleration,
-	#superclass : #Card,
+	#superclass : #PermanentCard,
 	#category : #'IngSoft2-Model'
 }
 
@@ -20,6 +20,7 @@ Acceleration >> applyCardEffect: aCardArguments and: aGame [
 
 { #category : #removing }
 Acceleration >> removeCardEffect: aCardCollection and: aGame [ 
+
 	aGame removeAcceleration.
 	aGame removePermanentCardPlayed: self.
 ]

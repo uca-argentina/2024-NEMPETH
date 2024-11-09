@@ -13,6 +13,12 @@ Card class >> createWithId: anId [
 	^ self new initializeWith: anId
 ]
 
+{ #category : #initialization }
+Card >> applyCardEffect: aCardArguments and: aGame [ 
+
+	self subclassResponsibility.
+]
+
 { #category : #accessing }
 Card >> id [
 
@@ -23,12 +29,4 @@ Card >> id [
 Card >> initializeWith: anId [
 
 	id := anId.
-]
-
-{ #category : #'as yet unclassified' }
-Card >> permanentCardValidationWith: idOfSpaceship and: idOfSpaceshipAtTurn [
-
-	idOfSpaceship ~= idOfSpaceshipAtTurn ifTrue: [
-		Error signal:
-			'A spaceship is trying to play a permanent card and it is not its turn' ]
 ]
